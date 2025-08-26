@@ -1,0 +1,74 @@
+// components/blog/common/search-bar/search-bar.module.scss
+
+.searchBar {
+  border: 1px solid #716657;
+  display: flex;
+  border-radius: 0.3125rem;
+  position: relative; // 为了让清除按钮可以定位
+  width: 100%;
+  min-width: 0;
+
+  input {
+    flex: 1;
+    border: 0;
+    padding: 0 2.5rem 0 1.25rem; // 给右边留出足够空间给叉叉按钮
+    background-color: transparent;
+    color: #716657;
+    width: 100%;
+
+    &::placeholder {
+      font-family: 'Noto Serif TC';
+      font-size: 1rem;
+      color: #9e978d;
+    }
+  }
+
+  // 叉叉按钮的样式
+  .clearButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    padding: 0.5rem;
+    right: 2.625rem; // 叉叉按钮距离右侧的距离
+    top: 50%;
+    transform: translateY(-50%); // 垂直居中
+    background: transparent;
+    border: none;
+    color: #716657;
+    cursor: pointer;
+
+    &:hover {
+      color: #5a5246; // hover 状态下改变颜色
+    }
+  }
+
+  .button {
+    border: 0;
+    display: flex;
+    width: 2.625rem;
+    height: 2.5rem;
+    justify-content: center;
+    align-items: center;
+    background-color: #716657;
+    color: #fefbf6;
+    &:hover {
+      background-color: #5a5246; // hover 状态下改变颜色
+    }
+  }
+}
+
+@media (max-width: 339px) {
+  .searchBar {
+    flex-direction: row; /* 確保仍然是橫向排列 */
+  }
+
+  .clearButton {
+    right: 1rem; /* 減小叉叉按鈕距離右邊的間距 */
+    padding: 0.25rem; /* 減小叉叉按鈕的內邊距 */
+  }
+
+  .button {
+    width: 100%; /* 讓按鈕寬度佔滿整個父容器 */
+  }
+}

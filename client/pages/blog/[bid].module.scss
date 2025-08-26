@@ -1,0 +1,120 @@
+// pages/blog/[bid].module.scss
+
+@media (max-width: 1471px) {
+  .container {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  .article h1 {
+    font-size: 1.5rem;
+  }
+}
+.article h1 {
+  font-weight: 600;
+}
+.container {
+  color: #716657;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  min-height: calc(100vh - 600px);
+}
+
+.article {
+  width: 100%;
+}
+.posterAndDateAndType {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+
+  .dot {
+    width: 0.2rem;
+    height: 0.2rem;
+    border-radius: 50%;
+    background-color: #b5afa8;
+  }
+
+  p {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Serif TC';
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.04375rem;
+  }
+}
+
+.poster {
+  display: flex;
+  width: max-content;
+  color: #716657;
+  font-family: 'Noto Serif TC';
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.previousNext {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  margin-bottom: 4.06rem;
+  .previousBtn,
+  .nextBtn {
+    flex: 1;
+    color: #716657;
+    font-family: 'Noto Serif TC';
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      color: #5a5246;
+      /* 添加背景色或邊框以增強互動性 */
+      background-color: rgba(90, 82, 70, 0.1); /* 增加背景色 */
+      border-radius: 4px; /* 增加圓角 */
+    }
+  }
+  .previousBtn {
+    padding-right: 1rem;
+  }
+  .nextBtn {
+    padding-left: 1rem;
+  }
+  // .previousBtn {
+  //   border-right: 1px solid #716657;
+  // }
+  .nextBtn {
+    text-align: right;
+  }
+  .line {
+    width: 1px;
+    background-color: #716657;
+  }
+  .previous,
+  .next {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+  }
+  .next {
+    justify-content: flex-end;
+  }
+  .previous svg {
+    margin-right: 0.5rem;
+  }
+  .next svg {
+    margin-left: 0.5rem;
+  }
+  p {
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+}

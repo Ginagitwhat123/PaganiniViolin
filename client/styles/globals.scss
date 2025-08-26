@@ -1,0 +1,428 @@
+// 檔案位置: styles/global.scss
+// 變數覆蓋用 (Variable overrides)
+// 全站配色 colors
+$primary: #716657;
+$secondary: #a68e6f;
+$success: #066150;
+$danger: #a81d15;
+$colorDanger: #803d3b;
+$fontDarkBrown: #716657;
+$fontLightBrown: #a68e6f;
+$fontLight: #fefbf6;
+$fontLightOpacity: rgba(254, 251, 246, 0.7333); // #fefbf6bb 轉換為 RGBA 格式
+$backgroundDark: #5a5650;
+$backgroundLight: #e2ddd6;
+
+// 字體設定
+$font-family-base: 'Noto Serif TC', serif;
+
+// 按鈕圓角邊 button radius
+// $border-radius: 0.2em;
+// $border-radius-sm: 0.2em;
+// $border-radius-lg: 0.2em;
+$border-radius: 0.3rem;
+$border-radius-sm: 0.3rem;
+$border-radius-lg: 0.3rem;
+
+// 固定card高度
+// https://getbootstrap.com/docs/5.3/components/card/#grid-cards
+$card-height: 100%;
+
+// ↑↑↑  變數覆蓋(Variable overrides) 要寫在這行"上面"  ↑↑↑
+// 這裡導入所有 bootstrap 樣式
+// 最後營運階段(實務)可以用部份導入來進行最佳化
+// 參考: https://getbootstrap.com/docs/5.3/customize/sass/#importing
+@import '~bootstrap/scss/bootstrap';
+// ↓↓↓  其它客製樣式要寫在這行的"下面" ↓↓↓
+
+// bs5內建圖示字體
+// 如果有使用其它圖示字體可以註解不使用
+@import '~bootstrap-icons/font/bootstrap-icons';
+
+// google Noto Sans TC 字體
+@import 'https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200..900&display=swap';
+// 英文字體bodoni moda
+@import 'https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap';
+
+// fixed for __next root div
+#__next {
+  flex-direction: column;
+  height: 100%;
+  display: flex;
+}
+
+// main > .container {
+//   padding: 60px 15px 0;
+// }
+
+//container 1440px
+@media (min-width: 1400px) {
+  .container,
+  .container-xxl {
+    max-width: 1440px !important;
+  }
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  font-family: $font-family-base !important;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  background-color: $backgroundLight;
+}
+// 字體顏色
+
+.fontDarkBrown {
+  color: $fontDarkBrown !important;
+}
+
+.fontLightOpacity {
+  color: $fontLightOpacity !important;
+}
+
+.fontLight {
+  color: $fontLight !important;
+}
+
+// 標題樣式設定
+h1 {
+  font-size: 40px;
+  font-weight: 400;
+}
+
+.h1Bold {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 36px;
+  font-weight: 400;
+}
+
+.h2Bold {
+  font-size: 36px;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 32px;
+  font-weight: 400;
+}
+
+.h3Bold {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+h4 {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.h4Bold {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+h5 {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.h5Bold {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+h6 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.h6Bold {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.web-16px-light {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+}
+.web-16px-md {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.web-16px-B {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.web-16px-article {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  letter-spacing: 2pt;
+}
+
+.p-14pt-L {
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 24px;
+}
+.p-14pt-B {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.p-14pt-M {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.p-12pt-B {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.p-12pt-M {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+// 婷雅專用的價格篩選器的部分css↓
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type='range'] {
+  -moz-appearance: textfield;
+}
+
+/* chrome適用 */
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 8px solid #7a7a7a;
+  pointer-events: auto;
+  -webkit-appearance: none;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255, 255, 255, 0.7); /* 同心圓效果 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+/* firefox適用 */
+input[type='range']::-moz-range-thumb {
+  height: 17px;
+  width: 17px;
+  border: none;
+  border-radius: 50%;
+  background: #17a2b8;
+  pointer-events: auto;
+  -moz-appearance: none;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+
+// below is test only
+
+// quill
+.ql-container {
+  width: 100%;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  font-family: 'Noto Serif TC', serif !important;
+  color: #716657 !important;
+}
+
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3 {
+  margin-bottom: 0.5rem !important;
+}
+
+.ql-editor ul,
+.ql-editor ol {
+  padding-left: 1rem !important; /* 設置列表項的縮進 */
+  li {
+    margin-bottom: 0.25rem !important;
+  }
+}
+
+.ql-editor img {
+  margin: 0.5rem 0;
+  max-width: 100%; // 讓圖片的最大寬度不超過容器寬度
+  height: auto; // 自動調整高度，保持圖片比例
+  object-fit: contain; // 確保圖片不會變形並且內容不會被裁切
+}
+
+.ql-editor iframe {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100%;
+  aspect-ratio: 16 / 9; /* 保持 16:9 的比例，若你需要其他比例可調整 */
+  border: none;
+}
+
+.ql-editor {
+  width: 100%;
+  overflow-x: hidden; /* 防止编辑区产生横向滚动 */
+  word-break: break-all;
+}
+
+.quill > .ql-container > .ql-editor.ql-blank::before {
+  color: #9e978d;
+}
+
+//視窗
+
+/* 自定義 SweetAlert2 標題樣式 */
+.swal2-custom-title {
+  color: #716657 !important; /* 修改標題顏色 */
+  font-size: 20px !important; /* 修改字體大小 */
+  font-weight: bold !important; /* 設定字體加粗 */
+  padding: 0px;
+  padding-top: 40px;
+}
+.swal2-custom-text {
+  color: #716657 !important; /* 修改標題顏色 */
+}
+
+/* 自定義 SweetAlert2 確認按鈕樣式 */
+.swal2-custom-confirm-button {
+  background-color: #716657 !important; /* 按鈕背景顏色 */
+  color: #fff !important; /* 按鈕文字顏色 */
+  font-weight: bold; /* 加粗字體 */
+  border-radius: 5px !important; /* 圓角邊框 */
+  border: none; /* 去除邊框 */
+  // width: 300px;
+  margin: 0px;
+  // margin-bottom: 20px;
+}
+
+.swal2-custom-confirm-button:hover {
+  background-color: #5a5650 !important; /* 按鈕 hover 顏色 */
+}
+
+.my-confirm-btn {
+  background-color: #803d3b !important; /* 按鈕背景顏色 */
+  color: #fff !important; /* 按鈕文字顏色 */
+  font-weight: bold; /* 加粗字體 */
+  border-radius: 5px !important; /* 圓角邊框 */
+  border: none; /* 去除邊框 */
+}
+
+.my-confirm-btn:hover {
+  background-color: #66312f !important; /* 按鈕 hover 顏色 */
+}
+
+.my-cancel-btn {
+  background-color: #9e978d !important; /* 按鈕背景顏色 */
+}
+
+// customClass: {
+//   title: 'swal2-custom-title', // 自定義標題樣式
+//   htmlContainer:'swal2-custom-text',
+//   confirmButton: 'swal2-custom-confirm-button', // 自定義按鈕樣式
+// },
+
+// 部落格檢視單篇文章的內容html設定
+.prose {
+  font-size: 1rem !important; /* 設定字體大小 */
+  font-weight: 400 !important;
+  max-width: 100%; /* 使容器的最大寬度為 100% */
+  word-break: break-all;
+  p {
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+}
+
+.prose h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem; /* 標題的間距 */
+}
+.prose h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem; /* 標題的間距 */
+}
+.prose h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem; /* 標題的間距 */
+}
+
+.prose ul,
+.prose ol {
+  // li {
+  //   padding-left: 24px !important;
+  //   &::marker {
+  //     margin-left: -24px !important;
+  //   }
+  // }
+  margin-left: 1rem !important; /* 設置列表項的縮進 */
+  margin-bottom: 0 !important;
+  li {
+    margin-bottom: 0.25rem !important;
+  }
+}
+
+.prose iframe {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100%;
+  aspect-ratio: 16 / 9; /* 保持 16:9 的比例，若你需要其他比例可調整 */
+  border: none;
+}
+
+.prose video {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100%;
+  aspect-ratio: 16 / 9; /* 這也是常用的影片比例，視需求可調整 */
+  border: none;
+}
+
+.prose img {
+  max-width: 100%; /* 確保圖片不會超過容器寬度 */
+  height: auto; /* 高度自動調整 */
+  display: block; /* 使圖片顯示為區塊元素 */
+  margin: 0.5rem 0; /* 預設的圖片間距 */
+}
+
+.prose [class='ql-align-center'].ql-align-center {
+  text-align: center;
+  img {
+    margin: 0.5rem auto;
+  }
+}
+
+.prose [class='ql-align-justify'].ql-align-justify {
+  text-align: justify;
+  img {
+    margin: 0.5rem auto;
+  }
+}
+
+.prose [class='ql-align-right'].ql-align-right {
+  text-align: right;
+  img {
+    margin-right: 0.5rem;
+    margin-left: auto;
+  }
+}

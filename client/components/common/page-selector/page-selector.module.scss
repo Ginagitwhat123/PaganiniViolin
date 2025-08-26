@@ -1,0 +1,52 @@
+.pageSelectorDiv{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center; 
+    margin-inline: auto;
+    gap: 12px;
+}
+
+.pageLeft, .pageRight{
+    font-size: 1.5rem;
+    color: #716657;
+    transition: color 0.3s ease;
+
+  &:hover {
+    color: #5a5246;
+  }
+
+  &.disabled {
+    color: #9e978d;
+  }
+}
+
+.pageNumbers {
+    display: flex;
+    gap: 1rem;
+  }
+
+.pageButton{
+    font-size: 1rem;
+  color: #716657;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  transition: color 0.3s ease;
+
+  &:hover {
+    font-weight: bold;
+    color: #5a5246;
+  }
+
+  &.active {
+    font-weight: bold;
+    color: #5a5246;
+    border-bottom: 1.5px solid #5a5246;
+  }
+
+  &:disabled {
+    color: #9e978d;
+    cursor: not-allowed;
+  }
+}

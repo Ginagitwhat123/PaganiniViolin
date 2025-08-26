@@ -1,0 +1,33 @@
+// components/blog/common/user-blog-section/action-button.module.scss
+
+.button {
+  font-family: 'Noto Serif TC';
+  font-size: 1rem;
+  line-height: 1.5rem; /* 150% */
+  letter-spacing: 0.05rem;
+  color: #716657;
+  text-align: left;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer; /* 添加游標樣式 */
+  padding: 0 1rem;
+  height: 40px;
+  width: 100%;
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+  }
+
+  &:hover {
+    color: #5a5246;
+    /* 添加背景色或邊框以增強互動性 */
+    font-weight: 700;
+    // background-color: rgba(90, 82, 70, 0.1); /* 增加背景色 */
+    border-radius: 4px; /* 增加圓角 */
+  }
+}

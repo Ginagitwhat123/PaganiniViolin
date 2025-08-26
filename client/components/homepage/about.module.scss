@@ -1,0 +1,253 @@
+//-----------------------------------------------------------
+.darkBg {
+  background-color: #333;
+}
+
+/* img遮罩 */
+.mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  /* 黑色，透明度 20% */
+  z-index: 1;
+}
+
+.aboutBg {
+  position: relative;
+  padding-top: 161px;
+  padding-bottom: 400px;
+  overflow: hidden;
+}
+
+.subTitleMargin {
+  margin-top: 130px;
+  margin-bottom: 130px;
+  margin-left: 20%;
+}
+
+.aboutPBox {
+  width: 576px;
+  margin-left: 421px;
+}
+
+.aboutVideo1 {
+  height: 847px;
+  position: absolute;
+  top: 161px;
+  right: 0px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.aboutVideo2 {
+  width: 298px;
+  height: auto;
+  position: absolute;
+  top: 630px;
+  left: 0;
+  z-index: 4;
+  animation: float 3s ease-in-out infinite;
+}
+
+.aboutVideo3 {
+  width: auto;
+  height: 200px;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 0);
+}
+
+.violinImg {
+  position: absolute;
+  top: 31%;
+  left: 14%;
+  height: 200px;
+  opacity: 0.5;
+}
+//手機板影片
+.videoContainer {
+  display:  none;
+  @media (max-width: 720px) {
+  display: block;
+  position: relative; 
+  }
+}
+.overlayContent {
+  @media (max-width: 720px) {
+  position: absolute;
+  top: 25%; // 根據需求調整位置
+  left: 50%; // 根據需求調整位置
+  transform: translate(-50%,0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 50000; // 確保疊加在影片上方
+  }
+}
+
+.overlayLogo {
+  margin-bottom: 10px; // Logo 與文字之間的間距
+}
+
+.verticalText {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 20px; // 調整字體大小
+  color: white; // 根據需求調整顏色
+}
+.mask{
+
+
+  @media  (max-width: 540px){
+    background-color: #00000048 !important;
+    margin-top: 0;
+    margin-bottom: 80px;
+    
+  }
+  @media  (max-width: 390px){
+    background-color: #00000048 !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 708px;
+    z-index: 40;
+    
+  }
+}
+.aboutVideoMobile {
+  display: none; // 預設隱藏
+  @media (max-width: 720px) {
+    display: block; // 手機版顯示
+    width: 100%;
+    // height: 100vh;
+    margin-bottom: 161px;
+    margin-top: -161px;
+  }
+  @media  (max-width: 540px){
+    margin-top: 0;
+    margin-bottom: 80px;
+    
+  }
+  @media  (max-width: 390px){
+    width: 100%;
+    height: auto;
+    
+  }
+
+}
+/* 當螢幕寬度小於 720px 時，設置樣式 */
+/* 小於 540px：手機垂直模式 */
+@media (max-width: 540px) {
+  .aboutBg{
+    padding-bottom: 80px;
+    padding-top: 0;
+  }
+  .subTitleMargin{
+    margin-top: 60px;
+    margin-bottom: 60px;
+    margin-left: 0px;
+    text-align: center;
+    font-size: 16px;
+  }
+  .phoneFont{
+    font-size: 14px;
+  }
+  .aboutPBox {
+    width: 100%;
+  }
+  .aboutLogo {
+    display: block;
+    width: 80%;
+    margin: auto;
+  }
+  .aboutVideo1,
+  .aboutVideo2,
+  .aboutVideo3 {
+    display: none;
+  }
+}
+
+/* 541px - 767px：手機橫向模式 */
+@media (min-width: 541px) and (max-width: 767px) {
+  .aboutBg{
+    padding-bottom: 161px;
+  }
+  .subTitleMargin{
+    
+    margin-top: 80px;
+    margin-bottom: 80px;
+    margin-left: 20px;
+    font-size: 16px;
+  }
+  .phoneFont{
+    font-size: 14px;
+  }
+  .aboutPBox {
+    width: 90%;
+  }
+  .aboutLogo {
+    display: block;
+    width: 80%;
+    margin: auto;
+  }
+  .aboutVideo1,
+  .aboutVideo2,.aboutVideo3
+  {
+    display: none;
+  }
+
+}
+
+/* 768px - 959px：平板 */
+@media (min-width: 768px) and (max-width: 959px) {
+  .aboutPBox {
+    width: 50%;
+  }
+  .aboutLogo {
+    width: 80%;
+  }
+  .aboutVideo1,
+  .aboutVideo2 {
+    width: 25%;
+  }
+  .aboutVideo3 {
+    width: 30%;
+  }
+}
+
+/* 960px - 1139px：小型桌面 */
+@media (min-width: 960px) and (max-width: 1139px) {
+  .aboutPBox {
+    width: 50%;
+  }
+  .aboutLogo {
+    width: 80%;
+  }
+  .aboutVideo1,
+  .aboutVideo2 {
+    width: 25%;
+  }
+  .aboutVideo3 {
+    width: 30%;
+  }
+}
+
+/* 1140px - 1439px：桌面 */
+@media (min-width: 1140px) and (max-width: 1439px) {
+ 
+  .aboutLogo {
+    width: 80%;
+  }
+  .aboutVideo1,
+  .aboutVideo2 {
+    width: 25%;
+  }
+  .aboutVideo3 {
+    width: 30%;
+  }
+}
+

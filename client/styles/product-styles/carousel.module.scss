@@ -1,0 +1,147 @@
+.mySwiper2 {
+    width: 500px;
+    height: 500px;
+    border: 1px solid rgb(113, 102, 87);
+    border-radius: 5px;
+    background-color: #fff;
+
+    @media screen and (max-width: 1199px) {
+        width: 400px;
+        height: 400px;
+    }
+
+    @media screen and (max-width: 992px) {
+        width: 290px;
+        height: 290px;
+    }
+
+    @media screen and (max-width: 767px) {
+        width: 450px;
+        height: 450px;
+    }
+
+    @media screen and (max-width: 538px) {
+        width: 430px;
+        height: 430px;
+    }
+
+    @media screen and (max-width: 512px) {
+        width: 400px;
+        height: 400px;
+    }
+
+    @media screen and (max-width: 484px) {
+        width: 380px;
+        height: 380px;
+    }
+
+    @media screen and (max-width: 440px) {
+        width: 350px;
+        height: 350px;
+    }
+
+    @media screen and (max-width: 402px) {
+        width: 315px;
+        height: 315px;
+    }
+
+    @media screen and (max-width: 375px) {
+        width: 285px;
+        height: 285px;
+    }
+}
+
+.mySwiper {
+    max-width: 510px;
+    height: 200px;
+    margin-block: 25px;
+
+    @media screen and (max-width: 1199px) {
+        max-width: 410px
+    }
+
+    @media screen and (max-width: 992px) {
+        max-width: 290px
+    }
+
+    @media screen and (max-width: 767px) {
+        max-width: 455px;
+    }
+
+    @media screen and (max-width: 538px) {
+        max-width: 430px;
+    }
+
+    @media screen and (max-width: 512px) {
+        max-width: 400px;
+    }
+
+    @media screen and (max-width: 484px){
+        max-width: 380px;
+    }
+
+    @media screen and (max-width: 440px) {
+        max-width: 355px;
+    }
+
+    @media screen and (max-width: 402px){
+        max-width: 315px;
+    }
+
+    @media screen and (max-width: 375px) {
+        max-width: 285px;
+    }
+}
+
+.smallImg {
+    width: 110px;
+    height: 110px;
+    border: 1px solid rgb(113, 102, 87);
+    border-radius: 5px;
+    background-color: #fff;
+
+    @media screen and (max-width: 1199px) {
+        width: 85px;
+        height: 85px;
+    }
+
+    @media screen and (max-width: 992px) {
+        width: 65px;
+        height: 65px;
+    }
+
+    @media screen and (max-width: 767px) {
+        width: 100px;
+        height: 100px;
+    }
+
+    @media screen and (max-width: 538px) {
+        width: 100px;
+        height: 100px;
+    }
+
+    @media screen and (max-width: 512px) {
+        width: 90px;
+        height: 90px;
+    }
+
+    @media screen and (max-width: 484px){
+        width: 85px;
+        height: 85px;
+    }
+
+    @media screen and (max-width: 440px){
+        width: 75px;
+        height: 75px;
+    }
+
+    @media screen and (max-width: 402px){
+        width: 70px;
+        height: 70px;
+    }
+
+    @media screen and (max-width: 375px){
+        width: 63px;
+        height: 63px;
+    }
+}

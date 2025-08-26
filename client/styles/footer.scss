@@ -1,0 +1,35 @@
+.footer {
+  background: #5a5650;
+  color: white;
+}
+
+.icon-box {
+  border: solid 1px white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 16px;
+}
+.footerFont{
+  font-size: 13px;
+  font-weight:200;
+}
+.topOn{
+  width: 70px;
+  height: 70px;
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+  z-index: 10000;
+  &:hover{
+  border: 1px solid #ffffff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15), /* 淺灰色光暈 */
+  0 0 15px rgba(255, 255, 255, 0.3); /* 柔和的白色光暈 */
+  }
+}
+@media (max-width: 700px) {
+  .custom-flex-column {
+    flex-direction: column !important;
+  }
+}

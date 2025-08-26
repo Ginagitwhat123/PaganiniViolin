@@ -1,0 +1,94 @@
+# client 端
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+client/node_modules
+client/.pnp
+client/.pnp.js
+
+# testing
+client/coverage
+
+# next.js
+client/.next/
+client/out/
+client/dist/
+
+# production
+client/build
+
+# misc
+client/.DS_Store
+client/*.pem
+
+# debug
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+
+# local env files
+# client/.env*.local
+
+# vercel
+client/.vercel
+
+# typescript
+client/*.tsbuildinfo
+# client/next-env.d.ts
+
+# misc
+client/package-lock.json
+client/yarn.lock
+client/.temp/
+client/.html/
+clientpages/only-test-dev/
+client/localhost-key.pem
+client/localhost.pem
+client/pages/linepay-test/index-nouse.js
+
+# gitignore
+client/.gitignore
+
+# server 端
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+server/node_modules
+server/.pnp
+server/.pnp.js
+
+# testing
+server/coverage
+
+# production
+server/build
+
+# misc
+server/.DS_Store
+# server/.env.local
+# server/.env.development.local
+# server/.env.test.local
+# server/.env.production.local
+# /sessions
+
+server/npm-debug.log*
+server/yarn-debug.log*
+server/yarn-error.log*
+server/.temp
+server/seeds-tmp
+server/sessions
+
+server/package-lock.json
+server/yarn.lock
+server/data/json/faker-users.json
+server/testotp.js
+server/data/json/fake-product.json
+
+
+server/make-product-sample.js
+server/data/product-n2m.sql
+server/data/test_sql
+server/test-only
+
+
+.DS_Store

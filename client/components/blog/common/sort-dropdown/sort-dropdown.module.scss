@@ -1,0 +1,84 @@
+// components/blog/common/sort-dropdown/sort-dropdown.module.scss
+
+.sortDropdown {
+  position: relative;
+  display: inline-block;
+  min-width: fit-content;
+}
+
+.sortButton {
+  color: #716657;
+  width: auto; /* 根据内容自适应宽度 */
+  border: 1px solid #716657;
+  padding: 0.5rem 2rem 0.5rem 1rem; /* 给右侧留更多空间给箭头 */
+  background-color: transparent;
+  text-align: left;
+  position: relative;
+  white-space: nowrap;
+  display: inline-block;
+
+  &:hover {
+    border-color: #5a5246;
+    color: #5a5246;
+  }
+
+  &:focus {
+    color: #716657;
+    border-color: #716657;
+    border-bottom: transparent;
+    border-radius: 5px 5px 0 0;
+    box-shadow: none;
+  }
+
+  &.dropdown-toggle {
+    &::after {
+      margin-left: 0;
+      vertical-align: middle;
+    }
+  }
+
+  &::after {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.dropdownMenu {
+  position: absolute; /* 关键: 绝对定位 */
+  top: 100%; /* 确保菜单位于按钮下方 */
+  left: 0;
+  min-width: max-content;
+  width: 100%; /* 强制菜单宽度与按钮一致 */
+  margin-top: 0.125rem;
+  background-color: #e2ddd6;
+  border: 1px solid #716657;
+  border-top: transparent;
+  border-radius: 0 0 5px 5px;
+  padding: 0;
+  display: none; /* 默认隐藏菜单 */
+  z-index: 1000; /* 保证下拉菜单在最上层 */
+}
+
+.dropdownMenu.show {
+  display: block; /* 仅当菜单被显示时才设置为block */
+}
+
+.dropdownItem {
+  color: #716657;
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+  width: 100%;
+  display: block;
+
+  &:hover {
+    background-color: #716657;
+    color: #f8f9fa;
+  }
+
+  &:focus {
+    background-color: #5a5246;
+    color: #f8f9fa;
+  }
+}

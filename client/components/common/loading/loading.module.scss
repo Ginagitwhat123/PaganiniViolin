@@ -1,0 +1,93 @@
+.violinContainer {
+  position: relative;
+  display: flex;
+  width: 300px;
+  height: 300px;
+  margin: 80px auto 150px;
+
+  .violin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    transform: translate(-50%, -50%);
+    animation: violinSwing 2s ease-in-out infinite;
+  }
+
+  .bow {
+    position: absolute;
+    top: 60%; // 弓在小提琴上垂直居中
+    left: 50%; // 弓水平居中
+    width: 200px; // 弓的宽度
+    height: 10px; // 弓的高度
+    transform: translateX(-50%); // 初始时，弓水平居中
+    animation: bowAnimation 1.5s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+  }
+
+  .loader {
+    width: fit-content;
+    font-weight: bold;
+    font-family: 'Noto Serif TC';
+    color: #716657;
+    font-size: 20px;
+    clip-path: inset(0 1.8ch 0 0);
+    animation: l4 1s steps(4) infinite;
+    position: absolute;
+    bottom: -10px; /* 調整文字距離小提琴的距離 */
+    left: 50%;
+    transform: translateX(-50%); /* 讓文字水平居中 */
+
+    &:before {
+      content: 'Loading...';
+    }
+  }
+}
+
+@keyframes violinSwing {
+  0% {
+    transform: translate(-50%, -50%) rotate(-2deg); // 向左轻微倾斜
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(2deg); // 向右轻微倾斜
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(-2deg); // 返回左倾
+  }
+}
+
+@keyframes bowAnimation {
+  0% {
+    transform: translateX(-50%) translateX(-40px) rotate(-10deg); // 向左移动并向左下倾斜
+  }
+  25% {
+    transform: translateX(-50%) translateX(30px) rotate(7deg); // 快速向右移动并稍微向右下倾斜
+  }
+  50% {
+    transform: translateX(-50%) translateX(-20px) rotate(-8deg); // 回到左侧并明显向左下倾斜
+  }
+  75% {
+    transform: translateX(-50%) translateX(40px) rotate(10deg); // 向右移动并向右下倾斜
+  }
+  100% {
+    transform: translateX(-50%) translateX(-40px) rotate(-10deg); // 平滑回到起始位置
+  }
+}
+
+@keyframes l4 {
+  to {
+    clip-path: inset(0 -1ch 0 0);
+  }
+}
+.overlay {
+  position: fixed;            // 確保定位在螢幕的最上層
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(221, 221, 221, 0.651);  // 半透明背景
+  z-index: 9999;              // 設置為一個很高的 z-index
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

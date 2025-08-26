@@ -1,0 +1,167 @@
+.filterCard{
+    border: none;
+}
+
+
+.cardHeader{
+    background-color: #716657;
+    color: #FEFBF6;
+    text-align: center;
+    font-weight: 400;
+    padding-block: 8px;
+    border-radius: 5px;
+    position: relative;
+    font-size: 0.85rem;
+}
+
+.toggleIcon{
+    position: absolute;
+    top: 8px;
+    right: 15px;
+}
+
+.filterBody{
+    padding-block: 10px;
+}
+
+.filterBtn{
+    display:block ;
+    width: 100%;
+    text-align: left;
+    color: #716657;
+    padding-block: 8px;
+    font-size: 0.8rem;
+    &:hover{
+      color: #4D453B;
+    }
+}
+
+.filterBtn.active {
+  background-color: #71665733;
+  font-weight: 700;
+}
+
+.filterTextWrapper{
+  display: flex;
+  justify-content: space-between;
+}
+
+.price-input{
+    display: flex;
+    padding-block: 20px;
+}
+
+/* --------↓↓↓價格篩選器↓↓↓---------- */
+
+.wrapper {
+    width: 100%;
+    padding: 20px 25px 55px;
+  }
+
+  .priceInput {
+    width: 100%;
+    display: flex;
+    margin: 0 0 20px;
+    padding-inline: 14px;
+  }
+  .priceInput .field {
+    display: flex;
+    width: 100%;
+    height: 45px;
+    align-items: center;
+  }
+  .field input {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid #999;
+    -moz-appearance: textfield;
+    font-size: 0.9rem;
+  }
+
+  .inputMin, .inputMax{
+    background-color: transparent;
+    color: #5A5650;
+  }
+
+
+  .priceInput .separator {
+    width: 130px;
+    display: flex;
+    font-size: 19px;
+    align-items: center;
+    justify-content: center;
+  }
+  .slider {
+    height: 4px;
+    position: relative;
+    background: #c7c2c2;
+    border-radius: 5px;
+  }
+  .slider .progress {
+    height: 100%;
+    left: 0%;
+    right: 0%;
+    position: absolute;
+    border-radius: 5px;
+    background: #9e958a;
+  }
+
+  .priceTag{
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #646262;
+    font-size: 0.8rem;
+  }
+
+  .rangeInput {
+    position: relative;
+  }
+  .rangeInput input {
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    top: -5px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+
+  .clearFilter{
+    background-color: transparent;
+    border: 0.3px solid #716657;
+    color: #716657;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    width: 150px;
+    margin-inline: 5px;
+}
+
+  .doFilter{
+    background-color: #716657;
+    border: 0.3px solid #716657;
+    color: #FEFBF6;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    width: 150px;
+    margin-inline: 5px;
+  }
+
+  .filterActions{
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  

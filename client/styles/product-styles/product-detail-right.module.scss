@@ -1,0 +1,208 @@
+.rightArea {
+    position: sticky; 
+    top: 100px; 
+    margin-bottom: 50px; 
+  
+    @media screen and (max-width: 767px) {
+      position: static; 
+      top: auto; 
+    }
+
+    @media screen and (max-width: 375px){
+        margin-top: -100px;
+    }
+  }
+
+.innerArea{
+    position: relative;
+}
+
+.productTitleArea {
+    margin-bottom: 30px;
+}
+
+.productTitle{
+    
+    @media screen and (max-width: 1199px){
+        font-size: 1.3rem;
+    }
+
+    @media screen and (max-width: 992px) {
+        font-size: 1.3rem;
+    }
+
+    @media screen and (max-width: 767px){
+        font-size: 1.4rem;
+    }
+}
+
+.pidFavoriteIcon {
+    position: absolute;
+    top: 0px;
+    right: 140px;
+    color: #716657;
+    font-size: 1.8rem;
+    cursor: pointer;
+
+    @media screen and (max-width: 1399px) {
+        top: 0px;
+        right:60px
+    }
+
+    @media screen and (max-width: 1199px) {
+        top: -6px;
+        right:35px;
+        font-size: 1.4rem;
+    }
+
+    @media screen and (max-width: 992px) {
+        top: -5px;
+        right: 20px;
+        font-size: 1.4rem;
+    }
+
+    @media screen and (max-width: 767px){
+        top: -5px;
+        right: 3px;
+        font-size: 1.6rem;
+    }
+}
+
+.brandTitle{
+    @media screen and (max-width: 1199px) {
+        font-size: 1.3rem;
+    }
+
+    @media screen and (max-width: 992px) {
+        font-size: 1rem;
+    }
+}
+
+.sizeBtn {
+    background-color: transparent;
+    border: 1px solid #716657;
+    color: #716657;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin-right: 5px;
+}
+
+.price{
+    @media screen and (max-width: 992px) {
+        font-size: 1.4rem;
+    }
+}
+
+.discountPrice {
+    padding-top: 14px;
+    margin-left: 10px;
+    color: #969088;
+
+    text-decoration: line-through;
+    margin-bottom: 25px;
+
+    @media screen and (max-width: 992px) {
+        font-size: 0.9rem;
+        padding-top:5px
+    }
+}
+
+.amount {
+    max-width: 480px;
+    height: 48px;
+    border-radius: 0;
+    margin-bottom: 25px;
+
+    @media screen and (max-width: 1400px) {
+        max-width: 412px;
+    }
+
+    @media screen and (max-width: 1199px) {
+        max-width: 350px;
+    }
+
+    @media screen and (max-width: 992px) {
+        max-width: 235px;
+    }
+
+    @media screen and (max-width: 767px){
+        margin-inline: auto;
+        max-width: 100%;
+    }
+}
+
+.deliveryLimit {
+    color: gray;
+    max-width: 370px;
+    font-size: 14px;
+    margin-block: 35px;
+
+    @media screen and (max-width: 992px) {
+        max-width: 245px;
+    }
+
+    @media screen and (max-width: 767px){
+        max-width: 370px;
+    }
+}
+
+.cartBtn {
+    background-color: transparent;
+    padding: 14px 194px;
+    border-radius: 5px;
+    border: 1px solid #716657;
+    display: block;
+    margin-bottom: 14px;
+
+    @media screen and (max-width: 1400px) {
+        padding: 14px 160px
+    }
+
+    @media screen and (max-width: 1199px) {
+        padding: 14px 130px
+    }
+
+    @media screen and (max-width: 992px) {
+        padding: 14px 77px;
+        font-size: 1rem;
+    }
+
+    @media screen and (max-width: 767px){
+        margin-inline: auto;
+        width: 100%;
+    }
+
+    &:hover {
+        background-color: rgba(90, 82, 70, 0.1); // 增加背景色
+    }
+}
+
+.BuyBtn {
+    background-color: #716657;
+    color: #FEFBF6;
+    padding: 14px 204px;
+    border-radius: 5px;
+    border: none;
+
+    @media screen and (max-width: 1400px) {
+        padding: 14px 170px
+    }
+
+    @media screen and (max-width: 1199px) {
+        padding: 14px 140px
+    }
+
+    @media screen and (max-width: 992px) {
+        padding: 14px 86px;
+        font-size: 1rem;
+    }
+
+    @media screen and (max-width: 767px){
+        margin-inline: auto;
+        width: 100%;
+    }
+
+    &:hover {
+        background-color: #5a5246;
+    }
+}

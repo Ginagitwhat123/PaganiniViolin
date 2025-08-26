@@ -1,0 +1,50 @@
+// components/blog/common/category-section/category-radio.module.scss
+
+.category {
+  display: grid;
+  gap: 0.5rem;
+
+  .formCheck {
+    color: #716657;
+    accent-color: #5a5246;
+    display: flex;
+    cursor: pointer;
+
+    input[type='radio'] {
+      display: none;
+      padding: 0 0.5rem;
+    }
+
+    /* 简单的选中样式，适用于所有类别 */
+    input[type='radio']:checked + label {
+      padding: 0 1rem;
+      border-radius: 4px;
+      background-color: rgba(90, 82, 70, 0.1);
+      font-weight: 700;
+    }
+  }
+  .selected {
+    background-color: rgba(90, 82, 70, 0.1);
+    font-weight: 700;
+    color: #5a5246;
+  }
+
+  label {
+    padding: 0 1rem;
+    font-family: 'Noto Serif TC';
+    font-size: 1rem;
+    font-weight: 400;
+    height: 2.5rem;
+    cursor: pointer;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    &:hover {
+      color: #5a5246;
+      font-weight: 700;
+    }
+  }
+}

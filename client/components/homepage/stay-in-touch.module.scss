@@ -1,0 +1,76 @@
+.stayBg {
+  position: relative;
+  background-image: url('/homepage/violins.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.stayBg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.644); /* 40% 透明度的黑色遮罩 */
+  z-index: 1; /* 让遮罩位于内容后面 */
+}
+
+.stayContent {
+  position: relative;
+  z-index: 2; /* 确保内容位于遮罩前面 */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.stayBtn {
+  border-color: #e2ddd6 !important;
+}
+//btn
+.aboutBtn {
+  z-index: 10;
+  color: #716657;
+  border: 1px solid #e2ddd6;
+  background-color: #e2ddd6;
+  text-align: center;
+  line-height: 40px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: all 0.3s;
+  font-size: 20px;
+  font-weight: bold;
+  width: 300px;
+  @media (max-width: 540px) {
+    width: 200px;
+    height: 50px;
+  line-height: 35px;
+  font-size: 16px;
+
+
+    }
+}
+.aboutBtn:hover {
+  background-color: #5a5650;
+  color: #fff;
+  }
+
+  .formContainer{
+    position: relative ;
+    margin-top: 50px;
+  }
+  .closeButton {
+    position: absolute;
+    top: -30px;
+    right: -5px;
+    color: #fff;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    cursor: pointer;
+  }

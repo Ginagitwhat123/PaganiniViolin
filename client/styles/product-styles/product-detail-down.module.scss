@@ -1,0 +1,82 @@
+.navUnderline{
+    margin-block: 50px;
+}
+
+.navLink{
+    color: #716657 !important;
+    margin-right: 20px;
+}
+  
+
+.tabActive{
+    color: #716657 !important; 
+}
+
+.description{
+    @media screen and (max-width: 992px) {
+        font-size: 0.9rem;
+    }
+}
+
+// 商品評價
+
+.ratingDiv{
+    margin-top: 10px; 
+
+    @media screen and (max-width: 992px) {
+        font-size: 0.9rem;
+    }
+ }
+ 
+ .ratingTopArea{
+     display: flex;
+     position: relative;
+     max-width: 590px;
+ }
+ 
+ .score{
+     display: flex;
+     width: 60px;
+     height: 60px;
+     background-color: #A68E6F;
+     color: #FEFBF6;
+     align-items: center;
+     justify-content: center;
+     margin-right: 10px;
+ }
+ 
+ .scoreStar{
+     color: #BDB08A;
+ }
+ 
+ .ratingFilterArea{
+     position: absolute;
+     right: 5px;
+ }
+ 
+ .ratingSelect{
+     background-color: transparent;
+     border-radius: 0;
+     border: 0.3px solid #afa59c;
+     background-color: transparent;
+     
+     @media screen and (max-width: 992px) {
+        font-size: 0.9rem;
+    }
+ }
+ 
+ .ratingDownArea{
+     max-width: 590px;
+ }
+ 
+ .ratingComment{
+     height: auto;
+     background-color: #7166571a;
+     margin-top: 20px;
+     display: flex;
+     flex-direction: column; 
+     justify-content: space-between; 
+    //  border: 0.3px solid #afa59c;
+
+     padding: 10px 30px; 
+ }

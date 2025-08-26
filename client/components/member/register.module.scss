@@ -1,0 +1,90 @@
+/* registerForm.module.css */
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 80px;
+    padding-bottom: 130px;
+    
+  }
+  
+  .registerContainer {
+    max-width: 960px;
+    margin: 0 auto; /* 水平置中 */
+    background-image: url("/homepage/paper-bg.png");
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+  
+  .headerImage {
+    width: 100%;
+    height: 200px;
+    background-image: url('/homepage/page1-bg-img.png'); /* 替換為實際的背景圖片路徑 */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .title {
+    color: #5a5650;
+    text-align: center;
+  }
+  
+  .customInputGroup {
+    background-color: #f7f4ef;
+    border: 1px solid #a68e6f;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 50px;
+    transition: border-color 0.3s;
+    margin-bottom: 20px;
+  }
+  
+  .customInputGroup:focus-within {
+    border: 2px solid #5a5650;
+  }
+  
+  .inputGroupText {
+    background-color: #f7f4ef;
+    border: none;
+    color: #5a5650;
+    height: 50px;
+  }
+  
+  .formControl {
+    background-color: #f7f4ef;
+    border: none;
+    box-shadow: none;
+    color: #5a5650;
+    height: 50px;
+  }
+  
+  .formControl:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  
+  .submitButton {
+    display: block;
+    background-color: #5a5650;
+    border: none;
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+    color: #f7f4ef;
+    width: 300px;
+    margin: auto;
+    @media (max-width: 400px) {
+      width: 280px;
+    }
+  }
+  
+  .submitButton:hover {
+    background-color: #a68e6f;
+    color: #f7f4ef;
+  }
+  

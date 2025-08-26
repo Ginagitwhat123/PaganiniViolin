@@ -1,0 +1,10 @@
+.posi {
+  position: fixed; /* 固定位置 */
+  top: 0; /* 固定在頁面頂部 */
+  left: 0; /* 從左側開始 */
+  width: 100%; /* 滿版寬度 */
+  z-index: 10000; /* 確保在其他元素之上 */
+  // background-color: #fff; /* 背景色，可依需求調整 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 可選：添加陰影 */
+  transition: transform 0.3s ease; /* 平滑移動效果 */
+}

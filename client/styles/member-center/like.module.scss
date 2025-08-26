@@ -1,0 +1,272 @@
+.tabContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-block: 10px;
+  text-align: center;
+
+  @media screen and (max-width: 767px) {
+    padding-block: 20px;
+    padding-left: 20px;
+    padding-right: 25px;
+  }
+
+  @media screen and (max-width: 421px) {
+    padding-left: 0px;
+    padding-right: 15px;
+  }
+}
+
+.favPic {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+}
+
+.contentLg {
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+}
+
+.contentSm {
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+}
+
+.productTitleArea {
+  @media screen and (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
+}
+
+.brandName,
+.productName,
+.price {
+  font-size: 0.85rem;
+}
+
+.handleArea button {
+  display: block;
+  margin-right: 35px;
+
+  @media screen and (max-width: 767px) {
+    margin-right: 10px
+  }
+}
+
+.handleArea {
+  @media screen and (max-width: 767px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.BuyBtn {
+  background-color: transparent;
+  width: 118px;
+  padding-block: 5px;
+  border-radius: 5px;
+  border: 1px solid #716657;
+  margin-bottom: 14px;
+
+  @media screen and (max-width: 767px) {
+    font-size: 0.7rem;
+  }
+
+  @media screen and (max-width: 527) {
+    width: 80px
+  }
+
+  &:hover {
+    background-color: rgba(90, 82, 70, 0.1); // 增加背景色
+  }
+}
+
+.removeLikeBtn {
+  background-color: #716657;
+  color: #fefbf6;
+  padding-block: 5px;
+  width: 118px;
+  border-radius: 5px;
+  border: none;
+
+  @media screen and (max-width: 767px) {
+    margin-bottom: 14px;
+    font-size: 0.7rem;
+  }
+
+  @media screen and (max-width: 527) {
+    width: 80px
+  }
+
+
+
+  &:hover {
+    background-color: #5a5246;
+  }
+}
+
+.tabTitle {
+  padding-inline: 80px;
+  padding-bottom: 10px;
+}
+
+// course
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  margin: 20px 50px 20px 50px;
+}
+
+.cardSM {
+  display: none;
+}
+
+.card-img {
+  width: 150px;
+  max-height: 90px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.course-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* 垂直置中 */
+  text-align: left;
+  margin-left: 20px;
+  width: 180px;
+  
+}
+.name{
+  color: #5a5650;
+}
+
+.img-container {
+  margin-left: 50px;
+}
+
+.heart-img {
+  align-items: center;
+}
+
+.heart {
+  color: #716657;
+  font-size: 20px;
+}
+
+.course-price {
+  display: flex;
+  align-items: center;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  background-color: #716657;
+  color: #fefbf6;
+  padding: 6px 35px;
+  border-radius: 5px;
+  border: none;
+
+  &:hover {
+    background-color: #5a5246;
+    color: #fefbf6;
+  }
+}
+
+.custom-hr {
+  height: 1px;
+  margin: 10px auto;
+  /* 置中 */
+  width: 95%;
+  background-color: #716657;
+  /* 使用背景顏色 */
+  border: none;
+  /* 移除預設邊框 */
+}
+
+@media (max-width: 768px) {
+  .card {
+    display: none;
+  }
+
+  .cardSM {
+    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0 20px 0;
+  }
+
+  .img-container {
+    margin:0 0 16px 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .card-img {
+    width: 100px;
+    max-height: 70px;
+  }
+
+  .course-title {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    margin-top: 0;
+    width: 150px;
+  }
+
+  .course-price {
+
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .heart-btn {
+    border: 1px solid #716657;
+    padding: 4px 0;
+    width: 100%;
+    color: #716657;
+    &:hover {
+      background-color: #5a5246;
+      color: #fefbf6;
+    }
+  }
+
+  .button {
+    padding: 4px 0;
+    border-radius: 5px;
+    border: none;
+    width: 100%;
+    margin-left: 20px;
+
+    &:hover {
+      background-color: #5a5246;
+      color: #fefbf6;
+    }
+  }
+
+  .custom-hr {
+    margin: 10px auto;
+    /* 置中 */
+  }
+}

@@ -1,0 +1,16 @@
+// components/blog/common/titles/filter-title.module.scss
+
+.filterTitle {
+  font-family: 'Noto Serif TC';
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.05rem;
+  background-color: #716657;
+  color: #fefbf6;
+  display: flex;
+  height: 2.5rem;
+  padding: 0.25rem 0;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.3125rem;
+}

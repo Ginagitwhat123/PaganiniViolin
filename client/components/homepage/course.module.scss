@@ -1,0 +1,298 @@
+.sectionPadding {
+  position: relative;
+  padding-top: 161px;
+  padding-bottom: 161px;
+  @media (max-width: 540px) {
+  padding-top: 80px;
+    padding-bottom: 0px;
+    margin-bottom: -105px;
+  }
+}
+
+.darkBg {
+  background-color: #333;
+}
+
+.verticalText {
+  display: inline-block;
+  position: absolute;
+  font-size: 18px;
+  white-space: nowrap;
+  top: 375px;
+  left: 310px;
+  @media (max-width: 540px) {
+    display: none; // 540px 以下隱藏
+  }
+}
+
+.overlay h2 {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 128px;
+  color: rgba(255, 255, 255, 0.272);
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-color: rgba(33, 33, 33, 0.629);
+  backdrop-filter: blur(10px);
+  color: var(--font-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: bottom 0.5s ease, opacity 0.3s ease;
+  @media (max-width: 540px) {
+   display: none;
+    }
+}
+
+.card:hover .overlay {
+  bottom: 0;
+  opacity: 1;
+}
+
+.card img {
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}
+
+.courseContainer {
+  height: 700px;
+  margin-top: 75px;
+  margin-left: 530px;
+  overflow: hidden;
+}
+
+.contentSlider {
+  width: 100vw;
+  position: relative;
+  height: 25em;
+  margin: 2em 0;
+}
+
+.sliderContainer {
+  display: flex;
+  transition: transform 0.5s ease;
+  width: calc(100% * 7 / 5);
+
+}
+
+.slide {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e2ddd6;
+  border-radius: 5px;
+
+}
+
+.courseTitle{
+  text-decoration: none;
+  transition: all 0.1s;
+}
+.courseTitle:hover{
+  color: #b3b3b3 !important;
+  
+}
+
+.arrowLeft,
+.arrowRight {
+  position: absolute;
+  border: 1px solid #e2ddd6;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  top: 25%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  @media (max-width: 540px) {
+    top: 38%;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.arrowLeft {
+  left: 82%;
+  @media (max-width: 540px) {
+    top: 32%;
+    left: 141px;
+    transform: translate(0, -50%);
+  }
+}
+
+.arrowRight {
+  left: 85%;
+  @media (max-width: 540px) {
+    top: 32%;
+    left: 193px;
+    transform: translate(0, -50%);
+  }
+}
+.viewMore {
+  position: relative;
+  border: 1px solid #e2ddd6;
+  padding: 5px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 0.3s ease; /* 使過渡更平滑 */
+  color: inherit;
+}
+
+.viewMore::after {
+  content: ' >>';
+  position: relative;
+  margin-left: 10px; /* 箭頭與文字間距 */
+  display: inline-block;
+  animation: none; /* 預設無動畫 */
+}
+
+.viewMore:hover {
+  background-color: #e2ddd669;
+  box-shadow: 0px 0px 8px 3px rgba(255, 255, 255, 0.8); /* 白色光暈 */
+}
+
+.viewMore:hover::after {
+  animation: marquee 0.6s infinite linear; /* 跑馬燈動畫 */
+}
+.courseImage {
+  width: 300px; /* 設定圖片寬度 */
+  height: 450px; /* 設定圖片高度 */
+  object-fit: cover; /* 確保圖片比例適配 */
+}
+.paddingTop{
+  padding-top: 40px;
+
+  @media (max-width: 540px) {
+    padding-top: 0; /* 小螢幕移除 padding */
+  }
+}
+
+/* 跑馬燈動畫 */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px); /* 向右移動的距離 */
+  }
+  100% {
+    transform: translateX(0); /* 返回原位 */
+  }
+}
+
+/* 當螢幕寬度小於 720px 時，設置樣式 */
+/* 小於 540px：手機垂直模式 */
+@media (max-width: 540px) {
+  .phoneFont {
+    font-size: 14px;
+  }
+  .aboutLogo {
+    width: 80%;
+    height: auto;
+    margin: auto;
+  }
+  .subTitle {
+    display: none;
+  }
+  .subTitlePhone {
+    
+    text-align: center;
+  }
+  .courseContainer {
+    margin-top: 0px;
+    margin-left: 0px;
+  }
+  .contentSlider {
+    width: 350vw;
+    position: relative;
+    height: 25em;
+    margin: 2em 0;
+  }
+  .sliderContainer {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: calc(100% * 7 / 5); /* 調整比例 */
+  }
+  .slide {
+    border-right: 0px;
+    margin-left: 12px;
+  }
+  .courseImage {
+    margin-top: 120px;
+    width: 180px; /* 設定圖片寬度 */
+    height: 300px; /* 設定圖片高度 */
+    object-fit: cover; /* 確保圖片比例適配 */
+  }
+ 
+  
+}
+
+/* 541px - 767px：手機橫向模式 */
+@media (min-width: 541px) and (max-width: 767px) {
+  .phoneFont {
+    font-size: 14px;
+  }
+  .aboutLogo {
+    width: 80%;
+    height: auto;
+    margin-right: 0;
+    margin: auto;
+  }
+  .subTitle {
+    display: none;
+  }
+  .subTitlePhone {
+    text-align: center;
+  }
+}
+
+/* 768px - 959px：平板 */
+@media (min-width: 768px) and (max-width: 959px) {
+  .aboutLogo {
+    width: 500px;
+    height: auto;
+  }
+  .subTitlePhone {
+    display: none;
+  }
+}
+
+/* 960px - 1139px：小型桌面 */
+@media (min-width: 960px) and (max-width: 1139px) {
+  .aboutLogo {
+    width: 500px;
+    height: auto;
+  }
+  .subTitlePhone {
+    display: none;
+  }
+}
+
+/* 1140px - 1439px：桌面 */
+@media (min-width: 1140px) and (max-width: 2000px) {
+  .aboutLogo {
+    width: 500px;
+    height: auto;
+  }
+  .subTitlePhone {
+    display: none;
+  }
+}

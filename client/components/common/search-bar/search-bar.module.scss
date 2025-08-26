@@ -1,0 +1,28 @@
+.searchBar {
+  border: 1px solid #716657;
+  display: flex;
+  border-radius: 0.3125rem;
+
+  input {
+    flex: 1 0 0;
+    border: 0;
+    padding: 0 1.25rem;
+    background-color: transparent;
+
+    &::placeholder {
+      font-family: 'Noto Serif TC';
+      font-size: 1rem;
+    }
+  }
+
+  button {
+    border: 0;
+    display: flex;
+    width: 2.625rem;
+    height: 2.5rem;
+    justify-content: center;
+    align-items: center;
+    background-color: #716657;
+    color: #fefbf6;
+  }
+}

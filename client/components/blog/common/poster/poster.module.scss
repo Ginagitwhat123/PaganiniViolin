@@ -1,0 +1,30 @@
+// components/blog/common/poster/poster.module.scss
+
+$border-color: #716657;
+
+.circleBorder {
+  border-radius: 50%;
+  border: 1px solid #716657;
+  width: 1.25rem; // 圓圈的寬度
+  height: 1.25rem; // 圓圈的高度
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.5rem;
+  overflow: hidden;
+  font-size: 1rem;
+  padding-top: 0.2rem;
+  svg {
+    width: 100%;
+  }
+}
+
+.poster {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $border-color;
+  font-family: 'Noto Serif TC';
+  font-size: 0.875rem;
+  font-weight: 600;
+}

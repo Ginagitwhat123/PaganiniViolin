@@ -1,0 +1,174 @@
+.recommendTitle {
+  margin-block: 50px;
+  border-bottom: 0.2px solid #a7a199;
+  padding-bottom: 40px;
+  padding-right: 30px;
+  max-width: 560px;
+
+  @media screen and (max-width: 992px) {
+    font-size: 0.9rem;
+  }
+}
+
+.recommendDiv {
+  max-width: 550px;
+}
+
+.recommenCard {
+  background-color: transparent;
+  border: none;
+  margin-bottom: 45px;
+}
+
+.recommendCardImg {
+  background-color: #fff;
+  border: 1px solid #716657;
+  border-radius: 5px;
+  height: 251px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+
+  @media screen and (max-width: 991px) {
+    height: 150px;
+  }
+
+  @media screen and (max-width: 768px) {
+    height: 234px;
+  }
+
+  @media screen and (max-width: 512px) {
+    height: 220px;
+  }
+
+
+  @media screen and (max-width: 484px) {
+    height: 200px
+  }
+
+  @media screen and (max-width: 440px) {
+    height: 180px
+  }
+
+  @media screen and (max-width: 375px) {
+    height: 151px
+  }
+}
+
+.productName {
+
+    font-size: 1.1rem;
+
+  @media screen and (max-width: 992px) {
+    font-size: 0.9rem;
+  }
+}
+
+.recommendCardImg:hover{
+  transform: scale(1.03);
+}
+
+
+.brandName {
+  
+  font-size: 1rem;
+  
+
+  @media screen and (max-width: 992px) {
+    font-size: 0.9rem;
+  }
+}
+
+.textArea {
+  height: 60px;
+}
+
+.cardBody {
+  padding-inline: 1px;
+  color: #716657;
+}
+
+.cardText {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 1px;
+}
+
+.recommendFavoriteIconLg {
+  position: absolute;
+  top: -4px;
+  right: 2px;
+  color: #716657;
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  @media screen and (max-width: 1199px) {
+    top: -2px;
+    font-size: 1rem;
+  }
+
+  @media screen and (max-width: 991px) {
+    display: none;
+  }
+}
+
+.recommendFavoriteIconSm {
+  position: absolute;
+  top: 3px;
+  right: 7px;
+  color: #716657;
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  @media screen and (min-width: 992px) {
+    display: none;
+  }
+}
+
+.priceDiv {
+  display: flex;
+  position: relative;
+  min-height: 24px;
+
+  @media screen and (max-width: 992px) {
+    min-height: 40px;
+  }
+}
+
+.recommendCardPrice {
+  margin-right: 10px;
+  position: absolute;
+  top: 5px;
+  left: 1px;
+}
+
+.recommendCardDiscountPrice {
+  color: gray;
+  position: absolute;
+  top: 5px;
+  left: 95px;
+  text-decoration: line-through;
+
+  @media screen and (max-width: 992px) {
+    top: 27px;
+    left: 0;
+    font-size: 0.8rem;
+  }
+}
+
+.cartBtnSm {
+  background-color: #716657;
+  color: #fefbf6;
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 12px;
+
+  @media screen and (max-width: 992px) {
+    font-size: 0.9rem;
+  }
+
+  &:hover {
+    background-color: #5a5246;
+    color: #fff;
+  }
+}

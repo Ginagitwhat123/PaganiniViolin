@@ -1,0 +1,87 @@
+.wrapper {
+  background-color: #e2ddd6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+.memberCenter {
+  width: 100%;
+  height: 700px;
+  background-image: url('/member-center/paper-bg.png');
+  display: flex;
+  padding-top: 20px;
+}
+
+.memberNav {
+  border-right: 1px solid #716657; /* 右側的垂直線 */
+  padding-left: 45px;
+  padding-right: 45px;
+}
+
+
+//文字跳動
+
+.active {
+  position: relative;
+  animation: textBounce 0.4s ease; // 文字的跳動動畫
+}
+
+.active::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: #716657;
+  border-radius: 50%;
+  animation: bounceDotToLine 0.3s ease forwards; // 點點跳動後變成線
+}
+
+@keyframes textBounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px); // 上升效果
+  }
+  100% {
+    transform: translateY(0); // 回到原位
+  }
+}
+
+@keyframes bounceDotToLine {
+  0% {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%; // 保持點點形狀
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-5px); // 上升效果
+  }
+  100% {
+    width: 80px; // 展開成線
+    height: 1px;
+    border-radius: 0; // 移除圓角形成直線
+    transform: translateX(-50%) translateY(0); // 回到原位
+  }
+}
+
+
+
+
+.contentArea {
+  // border-top: 1px solid #716657;
+  // margin-top: 95px;
+  padding-left: 20px;
+  height: 100%;
+  // overflow-y: auto;
+
+}
+
+.memberBtn:hover{
+  color: #fff !important;
+}

@@ -1,0 +1,234 @@
+.paperBg {
+  background-image: url('/homepage/paper-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+}
+
+.sectionPadding {
+  position: relative;
+  padding-top: 161px;
+  padding-bottom: 161px;
+}
+
+.carouselItem {
+  display: flex;
+  justify-content: center;
+}
+
+.image {
+  height: 500px;
+  transition: transform 0.3s ease;
+  margin: 0 10px;
+  @media (max-width:500px) {
+    width: 150px;
+    height: auto;
+    margin-bottom: 50px;
+  }
+}
+
+.image:hover {
+  transform: scale(1.2);
+  z-index: 1;
+}
+
+.violinMx {
+  margin-left: 100px;
+  margin-right: 100px;
+  @media (max-width: 500px) {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}
+
+/* 按鈕樣式 */
+
+.carouselControlPrev {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15%;
+  padding: 0;
+  text-align: center;
+  background: none;
+  border: 0;
+  transition: opacity 0.15s ease;
+}
+
+.carouselControlNext {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15%;
+  padding: 0;
+  text-align: center;
+  background: none;
+  border: 0;
+  transition: opacity 0.15s ease;
+}
+
+.carouselControlPrevIcon,
+.carouselControlNextIcon {
+  background-image: none !important;
+  border: 2px solid #716657;
+  background-color: transparent;
+  border-radius: 50%;
+  width: 40px !important;
+  height: 40px !important;
+  @media (max-width: 540px) {
+    width: 36px !important;
+     height: 36px !important;
+  }
+}
+
+/* 自定義左箭頭 */
+.carouselControlPrevIcon::after {
+  content: '←';
+  color: #716657;
+  font-size: 24px;
+  line-height: 33px;
+  @media (max-width: 540px) {
+    line-height: 30px;
+  }
+}
+
+/* 自定義右箭頭 */
+.carouselControlNextIcon::after {
+  content: '→';
+  color: #716657;
+  font-size: 24px;
+  line-height: 33px;
+  @media (max-width: 540px) {
+    line-height: 30px;
+  }
+}
+//btn
+.aboutBtn {
+  z-index: 10;
+  color: #716657;
+  border: 1px solid #716657;
+  text-align: center;
+  line-height: 40px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: all 0.3s;
+  font-size: 20px;
+  font-weight: bold;
+}
+.aboutBtn:hover {
+  background-color: #5a5650;
+  color: #fff;
+}
+
+//手機板
+
+/* 當螢幕寬度小於 720px 時，設置樣式 */
+/* 小於 540px：手機垂直模式 */
+@media (max-width: 540px) {
+  .aboutBg {
+    padding-bottom: 80px;
+    padding-top: 0;
+  }
+  .phoneFont {
+    font-size: 14px;
+  }
+  .aboutLogo {
+    width: 80%;
+    height: auto;
+    margin: auto;
+  }
+  .subTitle {
+    display: none;
+  }
+  .subTitlePhone {
+    text-align: center;
+  }
+  .carouselControlPrev {
+    position: absolute;
+    top: 385px !important;
+    right: 50%;
+  }
+  .carouselControlNext {
+    position: absolute;
+    top: 385px !important;
+    left: 50%;
+  } 
+  .sectionPadding {
+    position: relative;
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+}
+
+/* 541px - 767px：手機橫向模式 */
+@media (min-width: 541px) and (max-width: 767px) {
+  .aboutBg {
+    padding-bottom: 161px;
+  }
+  .phoneFont {
+    font-size: 14px;
+  }
+  .aboutLogo {
+    width: 80%;
+    height: auto;
+    margin-right: 0;
+    margin: auto;
+  }
+  .subTitle {
+    display: none;
+  }
+  .subTitlePhone {
+    text-align: center;
+  }
+}
+
+/* 768px - 959px：平板 */
+@media (min-width: 768px) and (max-width: 959px) {
+  .aboutLogo {
+    width: 500px;
+    height: auto;
+  }
+  .subTitlePhone {
+    display: none;
+  }
+}
+
+/* 960px - 1139px：小型桌面 */
+@media (min-width: 960px) and (max-width: 1139px) {
+  .aboutLogo {
+    width: 500px;
+    height: auto;
+  }
+  .subTitlePhone {
+    display: none;
+  }
+}
+
+/* 1140px - 1439px：桌面 */
+@media (min-width: 1140px) and (max-width: 2000px) {
+  .aboutLogo {
+    width: 500px;
+    height: auto;
+  }
+  .subTitlePhone {
+    display: none;
+  }
+}
+.responsiveTitle {
+  @media (max-width: 1400px) {
+    font-size: 1.5rem; // 與 h4 相同的大小
+    font-weight: bold;
+  }
+}
+
+

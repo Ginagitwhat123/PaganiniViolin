@@ -1,0 +1,17 @@
+.wrapper {
+    background-color: #e2ddd6;
+    $font-family-base: 'Noto Serif TC', serif !important;
+}
+
+.leftArea{
+    border-right: 0.2px solid #a7a199;
+
+    @media screen and (max-width: 767px){
+        border:none
+    }
+}
+
+.rightArea{
+    
+    padding-left: 80px;
+}

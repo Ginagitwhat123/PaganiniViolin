@@ -1,0 +1,72 @@
+/* registerForm.module.css */
+.customInputGroup .form-control {
+  display: flex;
+  align-items: center;
+}
+.labelAccount{
+  background: #d8d8d8 !important;
+}
+.title {
+  color: #5a5650;
+  text-align: center;
+}
+
+.customInputGroup {
+  background-color: #f7f4ef;
+  border: 1px solid #a68e6f;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 50px;
+  transition: border-color 0.3s;
+}
+
+.customInputGroup:focus-within {
+  border: 2px solid #5a5650;
+}
+
+.inputGroupText {
+  background-color: #f7f4ef;
+  border: none;
+  color: #5a5650;
+  height: 50px;
+}
+
+.formControl {
+  background-color: #f7f4ef;
+  border: none;
+  box-shadow: none;
+  color: #5a5650;
+  height: 50px;
+  line-height: 38px;
+}
+
+.formControl:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.submitButton {
+  display: block;
+  // background-color:  #a68e6f;
+  border: 1px solid #5a5650 !important;
+  border: none;
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  color: #5a5650;
+  width: 300px;
+  margin: auto;
+}
+
+.submitButton:hover {
+  background-color: #5a5650;
+  color: #f7f4ef !important;
+}
+
+.contentArea{
+  // margin-right: -40px;
+  // margin-left: -30px;
+  // padding-right: 20px;
+  overflow-y: auto; overflow-y: auto;
+  overflow-x: hidden;
+}

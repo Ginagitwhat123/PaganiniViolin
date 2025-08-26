@@ -1,0 +1,94 @@
+.minHeight{
+  min-height: 50vh;
+}
+
+// 步驟列
+.step {
+  border: #716657 solid 1px;
+  border-radius: 5px;
+  margin-right: 5px;
+  padding: 5px;
+}
+// 所在步驟
+.focus {
+  background: #716657;
+  color: #fefbf6;
+}
+
+/* 手機螢幕大小的樣式 */
+@media screen and (max-width: 768px) {
+  .step {
+    display: none; /* 隱藏所有步驟 */
+  }
+
+  .focus {
+    display: inline-block; /* 僅顯示 focus */
+  }
+  .disabled{
+    display: none; /* 隱藏所有步驟 */
+  }
+}
+
+// 區塊
+.bg {
+  background-image: url('/homepage/paper-bg.png');
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+  /* x偏移, y偏移, 模糊半徑, 顏色 */
+  border-radius: 5px;
+  padding: 20px;
+  max-height: fit-content;
+  margin-bottom: 10px;
+}
+
+// 每一列商品
+.box {
+  width: 100%;
+}
+
+// 圖片外層
+.imgArea {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  margin: 10px;
+}
+
+// 圖片本身
+.img {
+  width: 150px;
+}
+
+// 加/減號、刪除按鈕
+.btn {
+  background-color: #716657;
+  color: #fefbf6;
+  border-radius: 3px;
+  text-align: center;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+// 移到收藏、前往結帳按鈕
+.btnLike {
+  background-color: #a68e6f;
+  // max-width: fit-content;
+}
+
+// 刪除按鈕
+.btnDel {
+  background-color: #803d3b;
+}
+
+// 調整輸入框大小
+.form-control {
+  width: 50px;
+  text-align: center;
+}
+
+// radio 按鈕樣式
+.radioLabel {
+  margin-right: 15px; /* 設定間距 */
+}
+.radioLabel input {
+  margin-right: 8px; /* 調整 input 和文字之間的距離 */
+}

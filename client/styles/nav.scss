@@ -1,0 +1,250 @@
+:root {
+  --English-font: 'Bodoni Moda';
+}
+
+body {
+  font-family: 'Noto Serif TC', serif;
+}
+
+.navbar {
+  background-color: rgba(45, 44, 44, 0.8);
+}
+
+.navbar-brand {
+  // border: 1px solid #fff;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-size: 20px;
+  color: #fefbf6;
+  width: 150px;
+  padding: 0;
+  // line-height: 52px;
+
+  img {
+    max-height: 42px;
+    padding-right: 10px;    
+  }
+  p{
+    display: inline-block;
+    margin: 0;
+    line-height: 42px;
+  }
+  
+}
+.navbar-brand:hover{
+  color: #fefbf6;
+}
+
+.navbar-function {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.nav-link {
+  font-weight: 500;
+  font-size: 16px;
+  // color: #fefbf6 !important;
+}
+
+
+.nav-cart {
+  padding: 7px;
+  border: 1px solid #fefbf6;
+  border-radius: 50%;
+  font-size: 36px;
+}
+
+.nav-person {
+  padding: 7px;
+  border: 1px solid #fefbf6;
+  border-radius: 50%;
+  font-size: 36px;
+}
+
+.nav-login {
+  margin-top: 5px;
+  font-family: 'Bodoni Moda';
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  
+}
+
+.nav-line {
+  width: 0.5px;
+  height: 10px;
+  color: #fefbf6;
+}
+
+/* 手機版canvas */
+.offcanvas {
+  background-color: #333;
+  min-height: 100vh;
+  color: #fefbf6;
+}
+
+.custom-offcanvas .btn-close {
+  position: absolute;
+  top: 30px;
+  right: 20px;
+  color: #fefbf6 !important;
+  filter: invert(1) !important; /* 強制為白色 */
+  
+}
+
+.offcanvas-body .nav-link {
+  color: #fefbf6;
+  padding: 0.5rem 0;
+}
+
+.offcanvas-body hr {
+  border-color: #fefbf6;
+}
+
+.store-info {
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+
+.store-button {
+  background-color: transparent;
+  border: 1px solid #fefbf6;
+  color: #fefbf6;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+}
+
+.cartNumOutline {
+  position: absolute;
+  top: 5px; /* 根據圖標調整 */
+  right: 140px; /* 根據圖標調整 */
+  width: 25px;
+  height: 25px;
+  background: #a81d15;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* 確保數字在圖標上方 */
+}
+
+.cartNum {
+  color: #fefbf6;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 18px;
+}
+
+@media (max-width: 991px) {
+  .navbar{
+    height: 80px;
+  }
+
+  .navbar-brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .navbar-toggler {
+    order: -1;
+    border-color:  rgba(254, 251, 246, 0);
+  }
+
+  .hamburger{
+    font-size: 32px;
+
+  }
+
+  .navbar-cart {
+    position: absolute;
+    right: 15px;
+    font-size: 24px;
+    line-height: 24px;
+  }
+
+  .cartNumOutline {
+    position: absolute;
+    top: -12px; /* 根據圖標調整 */
+    right: -10px; /* 根據圖標調整 */
+    width: 25px;
+    height: 25px;
+    background: #a81d15;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* 確保數字在圖標上方 */
+  }
+  
+  .cartNum {
+    color: #fefbf6;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 18px;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-nav {
+    margin-left: auto;
+  }
+
+  .navbar-function {
+    width: 595px;
+  }
+}
+//nav-hover 彈跳點點
+.navItem{
+  position: relative;
+  color: #fff;
+}
+
+.navHover:hover{
+  padding-top: 5px; /* 懸停時增加高度 */
+  padding-bottom: 10px;
+  color:#fff;
+}
+
+.navHover::after {
+  content: '';
+  position: absolute;
+  bottom: 0px; /* 調整點點的位置 */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px; /* 點點的寬度 */
+  height: 5px; /* 點點的高度 */
+  background-color: #fff; /* 點點的顏色 */
+  border-radius: 50%; /* 使點點變成圓形 */
+  opacity: 0; /* 初始狀態下點點隱藏 */
+  transition: opacity 0.3s ease; /* 增加過渡效果 */
+}
+.navHover:hover::after {
+  opacity: 1; /* 懸停時顯示點點 */
+}
+
+// //關閉按鈕
+.offcanvas-header .btn-close {
+  color: #fefbf6 !important;
+}
+//三條線的邊框
+  .navbar-toggler {
+    box-shadow: none !important; /* 移除點擊時的陰影 */
+    outline: none !important; /* 移除點擊時的外框 */
+  }
+
+  .loginBtn{
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+   
+  }
+  .loginBtn:hover{
+    background-color: #e2ddd6;
+    color: #5a5650;
+  }
+
+  .iconHover:hover{
+    color: #fff ;
+  }

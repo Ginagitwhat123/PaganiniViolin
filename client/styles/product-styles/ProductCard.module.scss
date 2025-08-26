@@ -1,0 +1,193 @@
+.productCard {
+  background: transparent;
+  border: none;
+  margin-bottom: 45px;
+  position: relative;
+
+}
+
+.cardPic {
+  opacity: 1;
+  transition: transform 0.3s ease;
+  height: 330px;
+
+  @media screen and (max-width: 1399px) {
+    height: 254px;
+  }
+
+  @media screen and (max-width: 1199px) {
+    height: 210px;
+  }
+
+  @media screen and (max-width: 767px) {
+    height: 234px;
+  }
+
+  @media screen and (max-width: 575px) {
+    height: 251px;
+  }
+
+  @media screen and (max-width: 471px) {
+    height: 200px;
+  }
+
+  @media screen and (max-width: 396px) {
+    height: 162px;
+  }
+}
+
+.cardPic:hover {
+  transform: scale(1.03);
+}
+
+.cardBody {
+  padding-inline: 1px;
+  padding-top: 12px;
+  color: #716657;
+  width: 100%
+}
+
+.cardText {
+  display: flex;
+  padding-inline: 4px;
+  width: 100%; // 確保父容器佔滿寬度
+
+  @media screen and (max-width: 412px) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%
+  }
+}
+
+
+.productName {
+  white-space: nowrap; 
+  overflow: hidden;    
+  text-overflow: ellipsis; 
+  width: 100%; 
+  max-width: 100%; 
+  display: block; 
+  @media screen and (max-width: 1199px) {
+    font-size: 1rem;
+  }
+
+  @media screen and (max-width: 450px) {
+    font-size: 0.8rem;
+  }
+}
+
+.modelName {
+  font-size: 14px;
+
+  @media screen and (max-width: 450px) {
+    font-size: 0.8rem;
+  }
+}
+
+.FavoriteIconLg {
+  position: absolute;
+    top: -4px;
+    right: 0px;
+    color: #716657;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-right: 5px;
+  @media screen and (max-width: 1400px) {
+    display: none;
+  }
+}
+
+.FavoriteIconMd{
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 1.3rem;
+  color: #716657;
+  cursor: pointer;
+  @media screen and (min-width: 1400px) {
+    display: none;
+  }
+}
+
+.FavoriteIconSm {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 1.3rem;
+  color: #716657;
+  cursor: pointer;
+
+  @media screen and (min-width: 526px) {
+    display: none;
+  }
+}
+
+.priceDiv {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+
+  @media screen and (max-width: 442px) {
+    display: block;
+    height: 55px;
+  }
+}
+
+.price {
+  @media screen and (max-width: 476px) {
+    font-size: 0.9rem;
+  }
+}
+
+.discountPrice {
+  color: gray;
+  text-decoration: line-through;
+  margin-left: 15px;
+
+  @media screen and (max-width: 1200px) {
+    margin-left: 8px;
+    font-size: 0.9rem;
+  }
+
+  @media screen and (max-width: 502px) {
+    margin-left: 7px;
+    font-size: 0.8rem;
+  }
+
+  @media screen and (max-width: 442px) {
+    margin-left: 0
+  }
+}
+
+
+.cartBtn {
+  background-color: #716657;
+  color: #FEFBF6;
+  width: 100%;
+  height: 44px;
+  border-radius: 5px;
+  margin-top: 5px;
+  padding-top: 9px;
+  font-family: 'Noto Serif TC', sans-serif !important;
+
+  @media screen and (max-width: 1199px) {
+    font-size: 1rem;
+  }
+
+  @media screen and (max-width: 450px) {
+    font-size: 0.9rem;
+  }
+
+  @media screen and (max-width: 412px) {
+    font-size: 0.8rem;
+    padding-top: 4.5px;
+    height: 35px;
+  }
+
+  &:hover {
+    background-color: #5A5246;
+    color: #FEFBF6;
+  }
+
+}

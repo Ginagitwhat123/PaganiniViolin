@@ -1,0 +1,138 @@
+.coupon-item {
+  background-image: url('/images/coupon/coupon-background.svg');
+  background-size: contain; // 或者使用 cover
+  height: 200px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.coupon-left {
+  position: absolute;
+  width: 50%;
+  left: 15%;
+  top: 25%;
+}
+.coupon-info {
+  margin: 0 0 8px 0;
+  line-height: 20px;
+  white-space: nowrap; /* 防止文字換行 */
+  overflow: hidden; /* 隱藏超出部分 */
+  text-overflow: ellipsis; /* 超出部分顯示省略號 */
+}
+.exp-date {
+  color: #5a5650;
+  margin: 0 0 15px 0;
+}
+
+.coupon-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 10%;
+  top: 30%;
+}
+
+.collect-btn {
+  position: absolute;
+  left: 15%;
+  border: 1px solid #716657;
+  color: #716657;
+  border-radius: 5px;
+  padding: 2px 36px;
+  font-size: 14px;
+  font-weight: 500;
+
+  &:hover {
+    background-color: #716657;
+    color: #fefbf6;
+  }
+}
+.discount {
+  color: #71614b;
+}
+
+@media (max-width: 1399px) and (min-width: 1199px) {
+  .coupon-item {
+    margin-bottom: 20px;
+  }
+  .coupon-left {
+  }
+  .coupon-right {
+    right: 12%;
+  }
+}
+
+@media (max-width: 991px) and (min-width: 768px) {
+  .coupon-item {
+    height: 200px;
+  }
+  .coupon-left {
+    top:60px;
+    left: 12%;
+  }
+  .coupon-title {
+    font-size: 16px;
+    line-height: 10px;
+  }
+  .coupon-info {
+    font-size: 14px;
+  }
+  .coupon-right {
+  }
+  .exp-date{
+    font-size: 14px;
+    line-height: 10px;
+  }
+  .collect-btn {
+    font-size: 12px;
+    
+  }
+  .discount{
+    font-size: 18px;
+  }
+  .code{
+    font-size: 14px;
+  }
+}
+@media (max-width: 450px) {
+  .coupon-item {
+    height: 200px;
+    margin: -20px 0 -20px 0;
+  }
+  .coupon-left {
+    top:60px;
+    left: 12%;
+  }
+  .coupon-title {
+    font-size: 16px;
+    line-height: 10px;
+  }
+  .coupon-info {
+    font-size: 14px;
+  }
+  .coupon-right {
+    right: 9%;
+  }
+  .exp-date{
+    font-size: 14px;
+    line-height: 10px;
+  }
+  .collect-btn {
+    font-size: 12px;
+    
+  }
+  .discount{
+    font-size: 17px;
+    padding-bottom: 8px;
+  }
+  .discount-code{
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .code{
+    font-size: 13px;
+  }
+}

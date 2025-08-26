@@ -1,0 +1,14 @@
+.cardFavoriteIcon {
+    position: absolute;
+    top: -4px;
+    right: 0px;
+    color: #716657;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-right: 5px;
+
+    @media screen and (max-width: 450px) {
+      font-size: 0.9rem;
+      top: -3px;
+    }
+  }

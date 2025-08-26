@@ -1,0 +1,45 @@
+.search {
+  border: 1px solid ;
+  border-color: #716657;
+  border-radius: 5px;
+  input {
+    padding-left: 20px;
+    background-color: transparent;
+    color: #716657;
+    &::placeholder {
+      font-family: 'Noto Serif TC';
+      font-size: 1rem;
+      color: #9e978d;
+      background-color: transparent;
+    }
+  }
+}
+
+.search-bar {
+  background-color: transparent;
+  padding: 7px 10px 7px 10px;
+}
+
+.btn-search {
+  background-color: #716657;
+  color: #f8f9fa;
+  border-radius: 0;
+  &:hover {
+    background-color: #5a5246;
+    color: #f8f9fa;
+  }
+}
+
+@media (max-width: 575px) {
+  .search {
+    background-color: transparent;
+    input {
+      background-color: transparent;
+      &::placeholder {
+        font-family: 'Noto Serif TC';
+        font-size: 14px;
+        background-color: transparent;
+      }
+    }
+  }
+}

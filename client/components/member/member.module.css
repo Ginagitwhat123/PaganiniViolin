@@ -1,0 +1,158 @@
+.wrapper {
+  padding-top: 80px;
+  padding-bottom: 130px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  border-bottom: 1px solid #fefbf6;
+}
+
+.backgroundContainer {
+  background-image: url('/homepage/paper-bg.png'); /* 確保圖片在 public/homepage 目錄 */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginContainer {
+  margin: auto;
+  width: 100%;
+  max-width: 1000px;
+  height: 600px;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.formSection {
+  width: 100%;
+  height: 100%;
+  background-color: #e2ddd6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.formGroup {
+  width: 100%;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.formGroup input {
+  width: 100%;
+  padding: 0.75rem 2.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f7f4ef;
+}
+
+.faIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #5a5650;
+}
+
+.loginButton {
+  border: 1px solid #a68e6f;
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background-color: #a68e6f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  background-color: #5a5650;
+}
+
+.registerButton {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background-color: transparent;
+  color: #5a5650;
+  border: 1px solid #5a5650;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.registerButton:hover {
+  background-color: #5a5650;
+  color: #fff;
+  border: 1px solid transparent;
+}
+.registerButton:hover .registerBtnStyle {
+  color: #fff;
+}
+.registerBtnStyle{
+  width: 100%;
+  display: block;
+  height: 100%;
+  text-decoration: none;
+  color: #5a5650;
+}
+
+.forgotPassword {
+  margin-top: 0;
+  font-size: 0.9rem;
+  color: #5a5650;
+  text-align: right;
+  cursor: pointer;
+}
+
+.forgotPassword:hover {
+  text-decoration: underline;
+}
+
+.imageSection {
+  background-image: url('/homepage/page1-bg-img.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.logoOverlay {
+  position: absolute;
+  top: 50%; /* 調整這裡的數值來控制向下移動的距離 */
+  width: 150px;
+  height: 150px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoOverlay img {
+  width: 100%;
+  height: auto;
+}
+
+.loginFont {
+  position: absolute;
+  top: 30%; /* 調整這裡的數值來控制向下移動的距離 */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+}
+
+.loginSize {
+  font-size: 0.9rem;
+  color: #5a5650;
+}

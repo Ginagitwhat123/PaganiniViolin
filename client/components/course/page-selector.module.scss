@@ -1,0 +1,34 @@
+.pageSelectorDiv {
+    display: flex;
+    justify-content: center;
+    margin-inline: auto;
+    gap: 15px;
+  }
+  .pageRight {
+    font-size: 1.3rem;
+    color: #716657;
+  }
+  .pageLeft {
+    font-size: 1.3rem;
+    color: #716657;
+  }
+  .disabledBtn {
+    background-color: transparent;
+    &.disabled {
+      color: #7e2222;
+    }
+  }
+.active {
+    color: #5a5650;
+    position: relative;
+    font-weight: 900
+  }
+  .active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1.5px; /* 調整底線與文字的距離 */
+    height: 2px; /* 底線的厚度 */
+    background-color: #5a5650; /* 底線的顏色 */
+  }

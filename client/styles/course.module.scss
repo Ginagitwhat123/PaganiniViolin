@@ -1,0 +1,141 @@
+/* filter */
+  .course-type {
+    margin-bottom: 16px;
+    background: #716657;
+    border-radius: 4px;
+    color: #f8f9fa;
+    
+    h6 {
+      padding: 8px 12px;
+      text-align: center;
+    }
+  }
+
+  .type {
+    height: 40px;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: #716657;
+    text-decoration: none;
+    padding: 0px 10px 0px 10px;
+    margin: 0;
+    cursor: pointer;
+    &:hover {
+      color: #5A5246;
+      font-weight: 700;
+    }
+    &.active {
+      background-color: #71665746;
+      color: #5A5246;
+      font-weight: 700;
+      border-radius: 5px;
+    }
+  }
+.sort-dropdown{
+  width: 80%;
+  margin-left: auto;
+}
+
+
+/* 手機板filter */
+.filter-dropdown {
+  display: none;
+}
+
+// 手機板total
+.total-mb{
+  display: none;
+}
+
+.total-sm{
+  display: none;
+}
+
+.filter-dropdown-mb{
+  display: none;
+}
+
+.sort-dropdown-mb{
+  display: none;
+}
+
+
+@media (max-width: 991px) {
+  .course-filter {
+    display: none;
+  }
+
+  // .filter-dropdown {
+  //   display: block;
+  // }
+
+  .dropdown-menu {
+    width: 100%;
+  }
+
+  .filter-dropdown-mb {
+    display: block;
+  }
+
+  .sort-dropdown{
+    display: none;
+  }
+  .sort-dropdown-mb{
+    display: block;
+  }
+
+  .total{
+    display: none;
+  }
+  .total-sm{
+    display: block;
+  }
+}
+
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+
+  &:hover {
+    background-color: #f8f9fa;
+  }
+}
+
+@media (max-width: 767px) {
+  .total-sm-container {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .total-sm {
+    p{text-align: center;
+      justify-content: center;
+    }
+    
+  }
+
+}
+
+@media (max-width: 575px) {
+  .total{
+    display: none;
+  }
+  .total-sm{
+    display: none;
+  }
+  .total-mb{
+    display: block;
+    font-size: 14px
+  }
+  .sort-dropdown-mb{
+    margin-left: 1rem;
+  }
+  .total-sm-container {
+    justify-content: initial;
+    align-items: initial;
+    margin-bottom: 10px;
+  }
+}
+
