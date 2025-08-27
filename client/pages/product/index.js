@@ -149,42 +149,14 @@ export default function List() {
     setCurrentPage(1)
   }, [selectedCategory, selectedBrand, searchTerm, selectedSortOption])
 
-  // 修改處理篩選條件變化的函數
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category)
-    setCurrentPage(1) // 重置頁數
-  }
-
-  const handleBrandChange = (brand) => {
-    setSelectedBrand(brand)
-    setCurrentPage(1) // 重置頁數
-  }
-
-  const handleSearchChange = (search) => {
-    setSearchTerm(search)
-    setCurrentPage(1) // 重置頁數
-  }
-
   const handleSortChange = (option) => {
     setSelectedSortOption(option)
     setCurrentPage(1)
     // 重置頁數
   }
 
-  const handleMinPriceChange = (value) => {
-    const newMinPrice = parseInt(value) || 0
-    setMinPrice(newMinPrice)
-    setCurrentPage(1)
-  }
-
-  const handleMaxPriceChange = (value) => {
-    const newMaxPrice = parseInt(value) || 1000000
-    setMaxPrice(newMaxPrice)
-    setCurrentPage(1)
-  }
-
+  //小尺寸時的篩選視窗開關控制
   const [showOffcanvas, setShowOffcanvas] = useState(false)
-
   const handleShow = () => setShowOffcanvas(true)
   const handleClose = () => setShowOffcanvas(false)
 
