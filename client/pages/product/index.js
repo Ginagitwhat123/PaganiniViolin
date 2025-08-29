@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Offcanvas, Button } from 'react-bootstrap'
 import ProductCard from '@/components/product/product-card'
 import ProductFilter from '@/components/product/product-filter'
 import styles from '@/styles/product-styles/list.module.scss'
@@ -9,13 +8,6 @@ import { IoSearch } from 'react-icons/io5'
 import FilterOffcanvas from '@/components/product/filter-offcanvas'
 
 export default function List() {
-  const router = useRouter()
-
-  const handleCardClick = (id) => {
-    // 點擊卡片後導向商品詳細頁
-    router.push(`/product/${id}`)
-  }
-
   const [products, setProducts] = useState([])
   const [overallTotal, setOverallTotal] = useState(0) // 添加總商品數狀態
   const [filteredTotal, setFilteredTotal] = useState(0) // 篩選後的總數量
@@ -31,21 +23,20 @@ export default function List() {
   const [selectedBrand, setSelectedBrand] = useState('')
   const [selectedSortOption, setSelectedSortOption] = useState('default')
   const [searchTerm, setSearchTerm] = useState('')
-  const [isPriceInitialized, setIsPriceInitialized] = useState(false)
   const [searchInput, setSearchInput] = useState('')
   const [typingTimeout, setTypingTimeout] = useState(null)
-
-  // 呼叫 API 取得所有資料
+  
+  const router = useRouter()
+  // 點擊卡片後導向商品詳細頁
+  const handleCardClick = (id) => {
+    router.push(`/product/${id}`)
+  }
+  // 取得商品資料
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // 只有在價格範圍已初始化後才加入價格參數
-        const priceParams = isPriceInitialized
-          ? `&minPrice=${minPrice}&maxPrice=${maxPrice}`
-          : ''
-
         const response = await fetch(
-          `http://localhost:3005/api/products?page=${currentPage}&limit=9&search=${searchTerm}&category=${selectedCategory}&brand=${selectedBrand}&sort=${selectedSortOption}${priceParams}`
+          `http://localhost:3005/api/products?page=${currentPage}&limit=9&search=${searchTerm}&category=${selectedCategory}&brand=${selectedBrand}&sort=${selectedSortOption}&minPrice=${minPrice}&maxPrice=${maxPrice}`
         )
         const result = await response.json()
         if (result.status === 'success') {
@@ -69,8 +60,9 @@ export default function List() {
     maxPrice,
   ])
 
+  // 取得初始類別品牌價格資訊
   useEffect(() => {
-    const fetchCategoriesAndBrands = async () => {
+    const initializeFiltersData = async () => {
       try {
         const response = await fetch(
           'http://localhost:3005/api/products/categories-and-brands'
@@ -80,21 +72,19 @@ export default function List() {
           setCategories(result.data.categories)
           setBrands(result.data.brands)
 
-          // 只在價格還沒初始化時設定價格範圍
-          if (!isPriceInitialized && result.data.priceRange) {
-            const { min_price, max_price } = result.data.priceRange
-            setInitialMinPrice(min_price) // 儲存初始最小價格
-            setInitialMaxPrice(max_price) // 儲存初始最大價格
-            setMinPrice(min_price)
-            setMaxPrice(max_price)
-            setIsPriceInitialized(true)
-          }
+        if (result.data.priceRange) {
+          const { min_price, max_price } = result.data.priceRange
+          setInitialMinPrice(min_price) // 儲存初始最小價格
+          setInitialMaxPrice(max_price) // 儲存初始最大價格
+          setMinPrice(min_price)
+          setMaxPrice(max_price)
         }
+      }
       } catch (error) {
         console.error('無法取得類別和品牌資料:', error)
       }
     }
-    fetchCategoriesAndBrands()
+    initializeFiltersData()
   }, [])
 
   const handleSearch = (input) => {
@@ -193,19 +183,12 @@ export default function List() {
                 maxPrice={maxPrice || 1000000}
                 initialMinPrice={initialMinPrice || 0} // 新增傳遞初始最小價格
                 initialMaxPrice={initialMaxPrice || 1000000} // 新增傳遞初始最大價格
-                setMinPrice={(value) => {
-                  setMinPrice(value)
-                  setIsPriceInitialized(true)
-                }}
-                setMaxPrice={(value) => {
-                  setMaxPrice(value)
-                  setIsPriceInitialized(true)
-                }}
+                setMinPrice={setMinPrice}
+                setMaxPrice={setMaxPrice}
                 setSelectedCategory={setSelectedCategory}
                 setSelectedBrand={setSelectedBrand}
                 selectedCategory={selectedCategory}
                 selectedBrand={selectedBrand}
-                setSearchTerm={setSearchTerm}
               />
             </div>
           </div>
@@ -234,21 +217,14 @@ export default function List() {
                 }, {})}
                 minPrice={minPrice || 0}
                 maxPrice={maxPrice || 1000000}
-                initialMinPrice={initialMinPrice || 0} // 新增傳遞初始最小價格
-                initialMaxPrice={initialMaxPrice || 1000000} // 新增傳遞初始最大價格
-                setMinPrice={(value) => {
-                  setMinPrice(value)
-                  setIsPriceInitialized(true)
-                }}
-                setMaxPrice={(value) => {
-                  setMaxPrice(value)
-                  setIsPriceInitialized(true)
-                }}
+                initialMinPrice={initialMinPrice || 0} 
+                initialMaxPrice={initialMaxPrice || 1000000} 
+                setMinPrice={setMinPrice}
+                setMaxPrice={setMaxPrice}
                 setSelectedCategory={setSelectedCategory}
                 setSelectedBrand={setSelectedBrand}
                 selectedCategory={selectedCategory}
                 selectedBrand={selectedBrand}
-                setSearchTerm={setSearchTerm}
               />
 
               <div className={styles.searchBarSm}>
