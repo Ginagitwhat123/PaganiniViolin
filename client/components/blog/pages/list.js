@@ -66,7 +66,7 @@ export default function List() {
       category,
     })
     try {
-      const response = await fetch(`http://localhost:3005/api/blog?${params}`)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/blog?${params}`)
       const data = await response.json()
       setBlogs(data.blogs)
       setTotalBlogs(data.total_count)

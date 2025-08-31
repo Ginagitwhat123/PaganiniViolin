@@ -28,7 +28,7 @@ export default function Detail() {
   const [isMobile, setIsMobile] = useState(false);
 
   const getProduct = async (id) => {
-    const url = `http://localhost:3005/api/products/${id}`
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/products/${id}`
 
     try {
       const res = await fetch(url)

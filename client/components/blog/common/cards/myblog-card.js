@@ -44,7 +44,7 @@ const Card = ({
 
     try {
       if (url.startsWith('blog_cover')) {
-        return `http://localhost:3005/blog/${url}` // 從後端服務器加載
+        return `${process.env.NEXT_PUBLIC_API_URL}/blog/${url}` // 從後端服務器加載
       }
       return `/blog/${url.replace(/^\/+/, '')}` // 移除 URL 開頭的多餘斜線
     } catch (error) {

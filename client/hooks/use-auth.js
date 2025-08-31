@@ -103,7 +103,7 @@ export function AuthProvider({ children }) {
   }
 
   const getMember = async () => {
-    const res = await fetch('http://localhost:3005/api/users', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users`, {
       credentials: 'include',
       headers: {
         Accept: 'application/json',
@@ -122,7 +122,7 @@ export function AuthProvider({ children }) {
   }
 
   const register = async (user) => {
-    const res = await fetch('http://localhost:3005/api/users', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users`, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -149,7 +149,7 @@ export function AuthProvider({ children }) {
   }
 
   const update = async (user) => {
-    const res = await fetch('http://localhost:3005/api/users', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users`, {
       credentials: 'include',
       headers: {
         Accept: 'application/json',
@@ -169,7 +169,7 @@ export function AuthProvider({ children }) {
   }
 
   const login = async (account, password) => {
-    const res = await fetch('http://localhost:3005/api/users/login', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/login`, {
       credentials: 'include',
       headers: {
         Accept: 'application/json',
@@ -228,7 +228,7 @@ export function AuthProvider({ children }) {
   }
 
   const logout = async () => {
-    const res = await fetch('http://localhost:3005/api/users/logout', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/logout`, {
       credentials: 'include',
       headers: {
         Accept: 'application/json',
@@ -285,7 +285,7 @@ export function AuthProvider({ children }) {
 
   const refreshSession = async () => {
     try {
-      const res = await fetch('http://localhost:3005/api/users/refresh-token', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/refresh-token`, {
         credentials: 'include',
         headers: {
           Accept: 'application/json',

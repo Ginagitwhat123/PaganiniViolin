@@ -57,7 +57,7 @@ function ProductDetails({
       try {
         const encodedSize = encodeURIComponent(size) // 編碼 size
         const response = await fetch(
-          `http://localhost:3005/api/comments/check/${product_id}/${encodedSize}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/comments/check/${product_id}/${encodedSize}`,
           {
             method: 'GET',
             credentials: 'include',
@@ -89,7 +89,7 @@ function ProductDetails({
       }
 
       // 發送評價至後端
-      const response = await fetch(`http://localhost:3005/api/comments/add`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/comments/add`, {
         credentials: 'include',
         method: 'POST',
         headers: {
@@ -245,7 +245,7 @@ function TabContent1() {
   const [endDate, setEndDate] = useState('')
   const fetchOngoingOrders = async (start = '', end = '') => {
     try {
-      const response = await fetch(`http://localhost:3005/api/orders/ongoing`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/ongoing`, {
         credentials: 'include',
         method: 'GET',
         headers: {
@@ -276,7 +276,7 @@ function TabContent1() {
   const fetchOrderItems = async (orderId) => {
     try {
       const response = await fetch(
-        `http://localhost:3005/api/orders/${orderId}/items`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/orders/${orderId}/items`,
         {
           credentials: 'include',
           method: 'GET',
@@ -368,7 +368,7 @@ function TabContent2() {
   const [endDate, setEndDate] = useState('')
   const fetchHistoryOrders = async (start = '', end = '') => {
     try {
-      const response = await fetch(`http://localhost:3005/api/orders/history`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/history`, {
         credentials: 'include',
         method: 'GET',
         headers: {
@@ -399,7 +399,7 @@ function TabContent2() {
   const fetchOrderItems = async (orderId) => {
     try {
       const response = await fetch(
-        `http://localhost:3005/api/orders/${orderId}/items`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/orders/${orderId}/items`,
         {
           credentials: 'include',
           method: 'GET',

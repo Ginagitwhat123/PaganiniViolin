@@ -32,7 +32,7 @@ const CouponPage = () => {
   // 加載所有優惠券資料
   const fetchAllCoupons = async () => {
     try {
-      const response = await fetch('http://localhost:3005/api/coupon')
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/coupon`)
       const result = await response.json()
       if (result.status === 'success') {
         setData(result.data.coupon)
@@ -45,7 +45,7 @@ const CouponPage = () => {
   // 獲取會員已領取的優惠券
   const fetchClaimedCoupons = async () => {
     try {
-      const response = await fetch('http://localhost:3005/api/mycoupons', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/mycoupons`, {
         credentials: 'include',
        
       })
@@ -88,7 +88,7 @@ const handleClaimClick = async () => {
     return;
   }
   try {
-    const response = await fetch('http://localhost:3005/api/mycoupons/search', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/mycoupons/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

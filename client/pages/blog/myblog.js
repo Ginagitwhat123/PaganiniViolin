@@ -66,7 +66,7 @@ export default function List() {
   useEffect(() => {
     async function fetchBlogs() {
       try {
-        let url = `http://localhost:3005/api/blog/myblog/${userID}?limit=${blogsPerPage}&page=${
+        let url = `${process.env.NEXT_PUBLIC_API_URL}/api/blog/myblog/${userID}?limit=${blogsPerPage}&page=${
           currentPage + 1
         }` // 添加分页参数
         if (selectedCategory && selectedCategory !== '所有類別') {
@@ -163,7 +163,7 @@ export default function List() {
       if (result.isConfirmed) {
         try {
           const res = await fetch(
-            `http://localhost:3005/api/blog/myblog/${userID}/${blogID}/softdelete`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/blog/myblog/${userID}/${blogID}/softdelete`,
             {
               method: 'PUT',
             }

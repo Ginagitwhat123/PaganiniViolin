@@ -78,7 +78,7 @@ export default function CartIndex() {
   // API-GET(cart)-取得會員購物車內容
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:3005/api/cart`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cart`, {
         credentials: 'include', // 帶入會員id用
         method: 'GET',
         headers: {
@@ -147,7 +147,7 @@ export default function CartIndex() {
   const updateAllCheckedStatus = async (selectAll) => {
     try {
       const response = await fetch(
-        `http://localhost:3005/api/cart/updateAllChecked`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/cart/updateAllChecked`,
         {
           credentials: 'include',
           method: 'PUT',
@@ -181,7 +181,7 @@ export default function CartIndex() {
   const updateCheckedStatus = async (product_id, size, newChecked) => {
     try {
       const response = await fetch(
-        `http://localhost:3005/api/cart/updateChecked`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/cart/updateChecked`,
         {
           credentials: 'include',
           method: 'PUT',
@@ -250,7 +250,7 @@ export default function CartIndex() {
     if (showCouponModal) {
       const fetchValidCoupons = async () => {
         try {
-          const response = await fetch('http://localhost:3005/api/mycoupons', {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/mycoupons`, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -309,7 +309,7 @@ export default function CartIndex() {
 
     try {
       const response = await fetch(
-        'http://localhost:3005/api/mycoupons/search',
+        `${process.env.NEXT_PUBLIC_API_URL}/api/mycoupons/search`,
         {
           credentials: 'include',
           method: 'POST',

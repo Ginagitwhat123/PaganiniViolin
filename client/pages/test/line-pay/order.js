@@ -31,7 +31,7 @@ export default function Order() {
   const goLinePay = () => {
     if (window.confirm('確認要導向至LINE Pay進行付款?')) {
       // 先連到node伺服器後，導向至LINE Pay付款頁面
-      window.location.href = `http://localhost:3005/api/line-pay/reserve?orderId=${order.orderId}`
+      window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/line-pay/reserve?orderId=${order.orderId}`
     }
   }
 

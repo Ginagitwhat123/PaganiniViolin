@@ -42,7 +42,7 @@ const Edit = () => {
   useEffect(() => {
     if (bid) {
       axios
-        .get(`http://localhost:3005/api/blog/myblog/edit/${bid}`)
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/api/blog/myblog/edit/${bid}`)
         .then((response) => {
           const { blog } = response.data
           setTitle(blog.title)
@@ -53,7 +53,7 @@ const Edit = () => {
 
           const imageUrl = blog.cover_img_url.startsWith('http')
             ? blog.cover_img_url
-            : `http://localhost:3005/blog/${blog.cover_img_url}`
+            : `${process.env.NEXT_PUBLIC_API_URL}/blog/${blog.cover_img_url}`
 
           setImagePreview(imageUrl)
         })
@@ -181,7 +181,7 @@ const Edit = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:3005/api/blog/myblog/edit/${bid}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/blog/myblog/edit/${bid}`,
         formData,
         {
           headers: {

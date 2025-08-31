@@ -54,7 +54,7 @@ const CategorySection = ({ selectedCategory, onCategoryChange }) => {
     const fetchCategoryCounts = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3005/api/blog/myblog/${userID}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/blog/myblog/${userID}`
         )
         const data = await response.json()
 

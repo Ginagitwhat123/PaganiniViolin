@@ -44,7 +44,7 @@ export default function ProductQueryList() {
     const searchParams = new URLSearchParams(params)
 
     const res = await axios.get(
-      `http://localhost:3005/api/products?${searchParams.toString()}`
+      `${process.env.NEXT_PUBLIC_API_URL}/api/products?${searchParams.toString()}`
     )
 
     //console.log(res.data)

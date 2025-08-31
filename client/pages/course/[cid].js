@@ -34,7 +34,7 @@ const Course = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3005/api/course/${cid}`)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/course/${cid}`)
         const result = await response.json()
         if (result.status === 'success') {
           setData(result.data.course)
@@ -57,7 +57,7 @@ const Course = () => {
   useEffect(() => {
     const fetchAllCourse = async () => {
       try {
-        const response = await fetch('http://localhost:3005/api/course')
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/course`)
         const result = await response.json()
         if (result.status === 'success') {
           const sortedCourse = result.data.course.sort(
@@ -80,7 +80,7 @@ const Course = () => {
 
     const fetchRelatedCourses = async () => {
       try {
-        const response = await fetch('http://localhost:3005/api/course') // 確認 API 路徑是否正確
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/course`) // 確認 API 路徑是否正確
         const result = await response.json()
 
         if (result.status === 'success' && Array.isArray(result.data.course)) {

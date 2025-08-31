@@ -18,7 +18,7 @@ function Products() {
     const fetchFavorites = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3005/api/product-favorites`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/product-favorites`,
           { credentials: 'include' }
         )
         const data = await response.json()
@@ -192,7 +192,7 @@ function Courses() {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await fetch(`http://localhost:3005/api/course-like`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/course-like`, {
           credentials: 'include',
         })
         const data = await response.json()

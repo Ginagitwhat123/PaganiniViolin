@@ -26,7 +26,7 @@ function Tabs() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3005/api/shop')
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/shop`)
         const result = await response.json()
         if (result.status === 'success') {
           setData(result.data.shop)

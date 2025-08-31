@@ -39,7 +39,7 @@ const Coupon = ({ coupons, onCouponClaimed }) => {
       return;
   }
     try {
-      const response = await fetch('http://localhost:3005/api/mycoupons', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/mycoupons`, {
         credentials: 'include',
         method: 'POST',
         headers: {

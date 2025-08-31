@@ -74,7 +74,7 @@ function Tabs() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3005/api/mycoupons`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/mycoupons`, {
           credentials: 'include',
           method: 'GET',
           headers: {
@@ -103,7 +103,7 @@ function Tabs() {
   const handleClaimClick = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3005/api/mycoupons/search',
+        `${process.env.NEXT_PUBLIC_API_URL}/api/mycoupons/search`,
         {
           method: 'POST',
           headers: {

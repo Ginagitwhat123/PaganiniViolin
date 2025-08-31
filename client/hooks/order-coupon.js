@@ -15,7 +15,7 @@ export const OrderCouponProvider = ({ children }) => {
   // 取得購物車勾選商品數的函式
   const fetchCheckedCount = async () => {
     try {
-      const response = await fetch('http://localhost:3005/api/cart/checkedCount', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cart/checkedCount`, {
         method: 'GET',
         credentials: 'include',
         headers: {

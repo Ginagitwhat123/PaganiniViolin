@@ -13,7 +13,7 @@ export default function Recommend({ product_id }) {
       if (!router.query.pid) return;
 
       try {
-        const response = await fetch(`http://localhost:3005/api/products/recommend/${router.query.pid}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/recommend/${router.query.pid}`);
         const data = await response.json();
 
         if (data.status === 'success') {

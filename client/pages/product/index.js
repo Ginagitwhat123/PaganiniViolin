@@ -36,7 +36,7 @@ export default function List() {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3005/api/products?page=${currentPage}&limit=9&search=${searchTerm}&category=${selectedCategory}&brand=${selectedBrand}&sort=${selectedSortOption}&minPrice=${minPrice}&maxPrice=${maxPrice}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/products?page=${currentPage}&limit=9&search=${searchTerm}&category=${selectedCategory}&brand=${selectedBrand}&sort=${selectedSortOption}&minPrice=${minPrice}&maxPrice=${maxPrice}`
         )
         const result = await response.json()
         if (result.status === 'success') {
@@ -65,7 +65,7 @@ export default function List() {
     const initializeFiltersData = async () => {
       try {
         const response = await fetch(
-          'http://localhost:3005/api/products/categories-and-brands'
+          `${process.env.NEXT_PUBLIC_API_URL}/api/products/categories-and-brands`
         )
         const result = await response.json()
         if (result.status === 'success') {

@@ -20,7 +20,7 @@ const CourseList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3005/api/course')
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/course`)
         const result = await response.json()
         if (result.status === 'success') {
           setData(result.data.course)

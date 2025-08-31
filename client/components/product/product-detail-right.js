@@ -128,7 +128,7 @@ export default function ProductDetailRight({
 
     try {
       // 發送請求以檢查購物車中該產品及尺寸的現有數量
-      const cartResponse = await fetch(`http://localhost:3005/api/cart/check`, {
+      const cartResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cart/check`, {
         credentials: 'include',
         method: 'POST',
         headers: {
@@ -164,7 +164,7 @@ export default function ProductDetailRight({
       }
 
       // 發送請求將商品加入購物車
-      const addResponse = await fetch('http://localhost:3005/api/cart/add', {
+      const addResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cart/add`, {
         credentials: 'include',
         method: 'POST',
         headers: {

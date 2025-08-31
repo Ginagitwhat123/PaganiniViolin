@@ -15,7 +15,7 @@ import {
   FaChevronRight,
 } from 'react-icons/fa'
 
-const API_URL = 'http://localhost:3005/api/blog'
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/blog`
 
 const Blog = () => {
   const router = useRouter()

@@ -13,7 +13,7 @@ export default function ProductDetailDown({ description, product_id }) {
     const fetchReviews = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3005/api/comments/product/${product_id}?sort=${sortOption}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/comments/product/${product_id}?sort=${sortOption}`
         );
         const result = await response.json();
 

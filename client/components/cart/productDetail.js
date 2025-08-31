@@ -35,7 +35,7 @@ function ProductDetails({
   const updateQuantity = async (newQuantity) => {
     try {
       const response = await fetch(
-        'http://localhost:3005/api/cart/updateQuantity',
+        `${process.env.NEXT_PUBLIC_API_URL}/api/cart/updateQuantity`,
         {
           credentials: 'include',
           method: 'PUT',
@@ -73,7 +73,7 @@ function ProductDetails({
     const fetchFavorites = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3005/api/product-favorites`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/product-favorites`,
           { credentials: 'include' }
         )
         const data = await response.json()
@@ -137,7 +137,7 @@ function ProductDetails({
         if (result.isConfirmed) {
           try {
             const response = await fetch(
-              `http://localhost:3005/api/product-favorites/${product_id}`,
+              `${process.env.NEXT_PUBLIC_API_URL}/api/product-favorites/${product_id}`,
               {
                 method: 'PUT',
                 credentials: 'include',
@@ -260,8 +260,7 @@ function ProductDetails({
   const removeItem = async () => {
     try {
       const response = await fetch(
-        `
-        http://localhost:3005/api/cart/remove`,
+       `${process.env.NEXT_PUBLIC_API_URL}/api/cart/remove`,
         {
           credentials: 'include',
           method: 'DELETE',

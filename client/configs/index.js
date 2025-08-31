@@ -2,8 +2,8 @@ export const PORT = 3000
 export const DEV = true
 
 // express 的位置
-export const apiBaseUrl = 'http://localhost:3005/api'
-export const avatarBaseUrl = 'http://localhost:3005/avatar'
+export const apiBaseUrl = `${process.env.NEXT_PUBLIC_API_URL}/api`
+export const avatarBaseUrl = `${process.env.NEXT_PUBLIC_API_URL}/avatar`
 
 // breadcrumb面包屑使用
 // 用pathname英文對照中文的名稱(類似關聯陣列的物件)

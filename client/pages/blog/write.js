@@ -231,7 +231,7 @@ const Write = () => {
     console.log(title, category, value, image, userID, new Date().toISOString())
 
     try {
-      const response = await fetch('http://localhost:3005/api/blog/write', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog/write`, {
         method: 'POST',
         body: formData,
         credentials: 'include', // Ensure that cookies/session data are included

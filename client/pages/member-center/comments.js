@@ -17,7 +17,7 @@ const swalOptions = {
 }
 
 // 常量：API 路徑
-const API_BASE_URL = 'http://localhost:3005/api/comments'
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/comments`
 
 // ReviewCard Component
 function ReviewCard({ review, openModal, isCompleted }) {
