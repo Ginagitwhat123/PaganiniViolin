@@ -11,6 +11,8 @@
   width: 20rem;
   padding: 0;
   transition: transform 0.3s ease;
+  border: none;
+  text-align: left;
   &:hover {
     transform: translateY(-10px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

@@ -205,15 +205,15 @@ const CourseList = () => {
               <h6 className="web-16px-md">課程分類</h6>
             </div>
             <div className={styles['course-type-list']}>
-              <div
+              <button
                 className={`d-flex justify-content-between ${styles['type']} `}
                 onClick={() => setSelectedType(null)}
               >
                 <div className={`${styles['title']}`}>全部</div>
                 <div className={styles['num']}>{data.length}</div>
-              </div>
+              </button>
               {Object.keys(typeNames).map((key) => (
-                <div
+                <button
                   key={key}
                   className={`d-flex justify-content-between ${
                     styles['type']
@@ -222,7 +222,7 @@ const CourseList = () => {
                 >
                   <div className={`${styles['title']}`}>{typeNames[key]}</div>
                   <div className={styles['num']}>{typeCounts[key]}</div>
-                </div>
+                </button>
               ))}
             </div>
           </div>

@@ -60,7 +60,11 @@ function Details() {
   const [paymentOption, setPaymentOption] = useState('信用卡')
 
   // 信用卡號的輸入框參考，使用 useRef 管理
-  const inputRefs = Array.from({ length: 4 }, () => useRef(null))
+  const inputRef1 = useRef(null)
+  const inputRef2 = useRef(null)
+  const inputRef3 = useRef(null)
+  const inputRef4 = useRef(null)
+  const inputRefs = [inputRef1, inputRef2, inputRef3, inputRef4]
 
   // ----- API 請求 -----
   // 抓取會員資料並更新表單

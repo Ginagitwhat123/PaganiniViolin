@@ -131,7 +131,7 @@ const handleClaimClick = async () => {
     handleCouponClaimed(result.coupon.id);
     Swal.fire({
       icon: 'success',
-      title: '領取成功\^ ^/',
+      title: '領取成功',
       text: '優惠券領取成功，將跳轉至會員中心！',
       customClass: {
         title: 'swal2-custom-title', // 自定義標題樣式

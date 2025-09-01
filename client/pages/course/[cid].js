@@ -224,7 +224,7 @@ const Course = () => {
           {relatedCourses.map((course) => (
             //   <CourseCard key={course.id} course={course} />
             <div key={course.id} className="m-3">
-              <div
+              <button
                 className={` ${styles['course-card']} `}
                 onClick={() => handleCardClick(course.id)}
                 style={{ cursor: 'pointer' }}
@@ -276,7 +276,7 @@ const Course = () => {
                       立即報名
                     </button>                 
                 </div>
-              </div>
+              </button>
             </div>
           ))}
            </div>

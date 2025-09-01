@@ -80,6 +80,7 @@ function Tabs() {
                   style={{ border: "2px solid #A68E6F" }}
                   allowFullScreen
                   loading="lazy"
+                  title={`${item.shop_name} 地圖`}
                 />
               </div>
               {/* 商店資訊 */}

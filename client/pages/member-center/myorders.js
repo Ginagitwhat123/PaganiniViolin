@@ -312,11 +312,11 @@ function TabContent1() {
 
   return (
     <div className={`${tabStyle.tabContent}`}>
-      <div className="row align-items-center m-1 gap-1">
+      <fieldset className="row align-items-center m-1 gap-1">
         <div className="col-md-2">
-          <label className="col-form-label fontDarkBrown web-16px-B">
+          <legend className="col-form-label fontDarkBrown web-16px-B">
             訂購日期
-          </label>
+          </legend>
         </div>
         <div className="col-md-3">
           <input
@@ -342,7 +342,7 @@ function TabContent1() {
             查詢
           </button>
         </div>
-      </div>
+      </fieldset>
       <hr />
       <div className={`${tabStyle.scroll}`}>
         {(!ongoingData || ongoingData.length === 0) && (
@@ -423,7 +423,7 @@ function TabContent2() {
 
   const handleSearch = () => {
     if (!startDate || !endDate) {
-      swal.fire({
+      Swal.fire({
         icon: 'error',
         title: '錯誤',
         text: '請輸入查詢範圍',
@@ -431,7 +431,7 @@ function TabContent2() {
       return
     }
     if (endDate && startDate && endDate < startDate) {
-      swal.fire({
+      Swal.fire({
         icon: 'error',
         title: '錯誤',
         text: '結束日期不能小於開始日期',
@@ -442,11 +442,11 @@ function TabContent2() {
   }
   return (
     <div className={`${tabStyle.tabContent}`}>
-      <div className="row align-items-center m-1 gap-1">
+      <fieldset className="row align-items-center m-1 gap-1">
         <div className="col-md-2">
-          <label className="col-form-label fontDarkBrown web-16px-B">
+          <legend className="col-form-label fontDarkBrown web-16px-B">
             訂購日期
-          </label>
+          </legend>
         </div>
         <div className="col-md-3">
           <input
@@ -472,7 +472,7 @@ function TabContent2() {
             查詢
           </button>
         </div>
-      </div>
+      </fieldset>
       <hr />
       <div className={`${tabStyle.scroll}`}>
         {(!historyData || historyData.length === 0) && (

@@ -83,7 +83,7 @@ function Products() {
             {/* 大尺寸時 */}
             <div className={styles.contentLg}>
               {favorites.map((product) => (
-                <div
+                <button
                   key={product.product_id}
                   className={styles.tabContent}
                   onClick={() => handleCardClick(product.product_id)}
@@ -95,7 +95,6 @@ function Products() {
                     width={130}
                     height={130}
                     alt={product.product_name}
-                    onClick={() => handleCardClick(product.product_id)}
                     style={{ cursor: 'pointer', backgroundColor: '#fff' }}
                   />
 
@@ -124,7 +123,7 @@ function Products() {
                       移除收藏
                     </button>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
 
@@ -132,7 +131,7 @@ function Products() {
             {/* 小尺寸時 */}
             <div className={styles.contentSm}>
               {favorites.map((product) => (
-                <div
+                <button
                   key={product.product_id}
                   className={styles.tabContent}
                   onClick={() => handleCardClick(product.product_id)}
@@ -144,7 +143,6 @@ function Products() {
                     width={130}
                     height={130}
                     alt={product.product_name}
-                    onClick={() => handleCardClick(product.product_id)}
                     style={{ cursor: 'pointer', backgroundColor: '#fff' }}
                   />
 
@@ -176,7 +174,7 @@ function Products() {
                       </button>
                     </div>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -287,7 +285,7 @@ function Courses() {
                 {`NT$ ${course.course_price.toLocaleString()} /期`}
               </div>
               <div className={`${styles['button-container']}`}>
-                <div
+                <button
                   className={`btn web-16px-md ${styles['button']}`}
                   onClick={(e) => {
                     e.stopPropagation()
@@ -295,7 +293,7 @@ function Courses() {
                   }}
                 >
                   立即報名
-                </div>
+                </button>
               </div>
             </div>
             <div
@@ -326,14 +324,14 @@ function Courses() {
                 </div>
               </div>
               <div className={`mx-1 ${styles['button-container']}`}>
-                <div className={`btn p-14pt-M  ${styles['heart-btn']}`}
+                <button className={`btn p-14pt-M  ${styles['heart-btn']}`}
                   onClick={(e) => {
                     e.stopPropagation()
                     handleRemoveFav(course.course_id)
                   }}>
                   移除收藏
-                </div>
-                <div
+                </button>
+                <button
                   className={`btn p-14pt-M ${styles['button']}`}
                   onClick={(e) => {
                     e.stopPropagation()
@@ -341,7 +339,7 @@ function Courses() {
                   }}
                 >
                   立即報名
-                </div>
+                </button>
 
               </div>
             </div>
