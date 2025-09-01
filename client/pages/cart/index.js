@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import styles from './cart.module.scss'
-import ProductDetails from 'components/cart/productDetail'
+import ProductDetails from '@/components/cart/productDetail'
 import Modal from 'react-bootstrap/Modal' // 使用 react-bootstrap 的 Modal 元件
 import Button from 'react-bootstrap/Button' // 使用 react-bootstrap 的 Button 元件
 import { useOrderCoupon } from '@/hooks/order-coupon'
@@ -495,12 +495,12 @@ export default function CartIndex() {
               <div className="text-end h3Bold">
                 NT${discountedPrice.toLocaleString()}
               </div>
-              <div
+              <button
                 className={`${styles.btn} ${styles.btnLike} web-16px-md`}
                 onClick={gotoDetails}
               >
                 前往結帳
-              </div>
+              </button>
             </>
           ) : (
             <div className="web-16px-md">請先選擇商品</div>

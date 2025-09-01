@@ -4,7 +4,7 @@ import styles from './cart.module.scss'
 import { useRouter } from 'next/router'
 import { useOrderCoupon } from '@/hooks/order-coupon'
 
-function details() {
+function Details() {
   const router = useRouter()
 
   const handleReturnToShoppingList = () => {
@@ -494,10 +494,11 @@ function details() {
                 </label>
               </div>
               <div className="mb-2">
-                <label>姓名</label>
+                <label htmlFor='name'>姓名</label>
                 <input
                   type="text"
                   className="form-control"
+                  id='name'
                   name="name"
                   value={formFields.name}
                   onChange={handleInputChange}
@@ -507,10 +508,11 @@ function details() {
                 )}
               </div>
               <div className="mb-2">
-                <label>電話</label>
+                <label htmlFor='phone'>電話</label>
                 <input
                   type="text"
                   className="form-control"
+                  id='phone'
                   name="phone"
                   value={formFields.phone}
                   onChange={handleInputChange}
@@ -522,10 +524,11 @@ function details() {
               {deliveryOption === '宅配' ? (
                 <div className="row">
                   <div className="col-12">
-                    <label>地址</label>
+                    <label htmlFor='address'>地址</label>
                     <input
                       type="text"
                       className="form-control"
+                      id='address'
                       name="address"
                       value={formFields.address}
                       onChange={handleInputChange}
@@ -539,8 +542,9 @@ function details() {
                 <div className="row">
                   {/* 區域選擇 */}
                   <div className="col-12 col-md-3">
-                    <label>區域</label>
+                    <label htmlFor="areaSelect">區域</label>
                     <select
+                      id='areaSelect'
                       className="form-control"
                       onChange={handleAreaChange}
                     >
@@ -558,8 +562,9 @@ function details() {
 
                   {/* 門市選擇 */}
                   <div className="col-12 col-md-5 mt-3 mt-md-0">
-                    <label>門市</label>
+                    <label htmlFor='shop'>門市</label>
                     <select
+                      id='shop'
                       className="form-control"
                       value={selectedShop}
                       onChange={handleShopChange}
@@ -583,8 +588,9 @@ function details() {
 
                   {/* 預計取貨日 */}
                   <div className="col-12 col-md-4 mt-3 mt-md-0">
-                    <label>預計取貨日</label>
+                    <label htmlFor='pickupDate'>預計取貨日</label>
                     <input
+                      id='pickupDate'
                       type="date"
                       className="form-control"
                       value={pickupDate}
@@ -633,10 +639,11 @@ function details() {
                   {/* 信用卡號碼輸入區域 */}
                   <div className="row mb-2">
                     <div className="col-12 col-md-10">
-                      <label>信用卡號碼</label>
+                      <label htmlFor='creditCard'>信用卡號碼</label>
                       <div className="d-flex flex-wrap">
                         {[0, 1, 2, 3].map((index) => (
                           <input
+                            id='creditCard'
                             key={index}
                             type="text"
                             className="card form-control me-2 mb-2 mb-md-0"
@@ -672,8 +679,9 @@ function details() {
                   {/* 有效日期與安全驗證碼 */}
                   <div className="row mb-2">
                     <div className="col-12 col-md-6">
-                      <label>有效日期(MM/YY)</label>
+                      <label htmlFor='expiryDate'>有效日期(MM/YY)</label>
                       <input
+                        id='expiryDate'
                         type="text"
                         className="form-control"
                         maxLength="5"
@@ -688,11 +696,12 @@ function details() {
                       )}
                     </div>
                     <div className="col-12 col-md-6">
-                      <label>安全驗證碼</label>
+                      <label htmlFor='securityCode'>安全驗證碼</label>
                       <input
                         type="text"
                         className="form-control"
                         maxLength="3"
+                        id='securityCode'
                         name="securityCode"
                         value={formFields.securityCode}
                         onChange={handleInputChange}
@@ -708,10 +717,11 @@ function details() {
                   {/* 持卡人姓名 */}
                   <div className="row">
                     <div className="col-12">
-                      <label>持卡人姓名</label>
+                      <label htmlFor='cardHolder'>持卡人姓名</label>
                       <input
                         type="text"
                         className="form-control"
+                        id='cardHolder'
                         name="cardHolder"
                         value={formFields.cardHolder}
                         onChange={handleInputChange}
@@ -751,9 +761,9 @@ function details() {
               <div className="text-end h3Bold">
                 總計：NT${(discountedPrice + deliveryFee).toLocaleString()}
               </div>
-              <div className={`${styles.btn} p-2`} onClick={handleSubmit}>
+              <button className={`${styles.SendBtn} p-2`} onClick={handleSubmit}>
                 確認送出訂單
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -762,4 +772,4 @@ function details() {
   )
 }
 
-export default details
+export default Details

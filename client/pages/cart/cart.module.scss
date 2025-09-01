@@ -71,6 +71,9 @@
 // 移到收藏、前往結帳按鈕
 .btnLike {
   background-color: #a68e6f;
+  border: none;
+  display: inline-block;
+  width: 100%;
   // max-width: fit-content;
 }
 
@@ -91,4 +94,16 @@
 }
 .radioLabel input {
   margin-right: 8px; /* 調整 input 和文字之間的距離 */
+}
+
+.SendBtn {
+  background-color: #716657;
+  color: #fefbf6;
+  border-radius: 3px;
+  text-align: center;
+  padding: 5px 10px;
+  border: none;
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
 }
