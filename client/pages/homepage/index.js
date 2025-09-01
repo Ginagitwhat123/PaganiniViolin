@@ -4,7 +4,6 @@ import Page1 from '@/components/homepage/page1'
 import Page2 from '@/components/homepage/page2'
 import Page3 from '@/components/homepage/page3'
 import Page4 from '@/components/homepage/page4'
-import Page5 from '@/components/homepage/page5'
 import StayInTouch from '@/components/homepage/page6'
 import MyNavbar from '@/components/layout/default-layout/my-navbar/index'
 import MyFooter from '@/components/layout/default-layout/my-footer'
@@ -107,7 +106,6 @@ export default function Home({ title = 'Paganini' }) {
       <div style={{ marginTop: isSmallScreen ? '0' : '-670px' }}>
         <Page4 />
       </div>
-      <Page5 />
       <StayInTouch />
       <BackToTopButton />
       <MyFooter />

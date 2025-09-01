@@ -13,7 +13,6 @@ export default function DefaultLayout({ title = 'Paganini', children }) {
   const showHeader = [
     '/product',
     '/course',
-    '/blog',
     '/coupon',
     '/shop',
   ].includes(router.pathname)

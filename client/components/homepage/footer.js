@@ -50,7 +50,6 @@ export default function Footer() {
               <ul className="nav flex-column">
                 <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-white">提琴專區</a></li>
                 <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-white">專業課程</a></li>
-                <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-white">部落格</a></li>
               </ul>
             </div>
   

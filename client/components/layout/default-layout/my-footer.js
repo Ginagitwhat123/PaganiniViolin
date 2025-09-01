@@ -35,11 +35,6 @@ const DefaultFooter = () => (
                 專業課程報名
               </a>
             </li>
-            <li className="nav-item mb-3">
-              <a href="/blog" className="nav-link p-0 text-white text-center">
-                部落格
-              </a>
-            </li>
           </ul>
         </div>
         <div className="col custom-flex-column">
@@ -162,15 +157,6 @@ const PhoneFooter = () => (
               style={{ fontSize: '13px' }}
             >
               專業課程報名
-            </a>
-          </li>
-          <li className="nav-item mb-3">
-            <a
-              href="/blog"
-              className="nav-link p-0 text-white text-center"
-              style={{ fontSize: '13px' }}
-            >
-              部落格
             </a>
           </li>
         </ul>

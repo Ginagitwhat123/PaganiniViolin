@@ -34,7 +34,6 @@ export default function MyNavbar() {
   const showHeader = [
     '/product',
     '/course',
-    '/blog',
     '/coupon',
     '/shop',
   ].includes(router.pathname)
@@ -115,11 +114,6 @@ export default function MyNavbar() {
                 <li className="nav-item navItem">
                   <Link href="/course" className="nav-link navHover fontLight">
                     音樂課程
-                  </Link>
-                </li>
-                <li className="nav-item navItem">
-                  <Link href="/blog" className="nav-link navHover fontLight">
-                    部落格
                   </Link>
                 </li>
                 <li className="nav-item navItem">
@@ -248,11 +242,6 @@ export default function MyNavbar() {
             <li className="nav-item my-2">
               <Link href="/course" className="nav-link" onClick={handleClose}>
                 音樂課程
-              </Link>
-            </li>
-            <li className="nav-item my-2">
-              <Link href="/blog" className="nav-link" onClick={handleClose}>
-                部落格
               </Link>
             </li>
             <li className="nav-item my-2">

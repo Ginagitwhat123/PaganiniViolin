@@ -89,11 +89,6 @@ export default function Page1(props) {
                 </a>
               </li>
               <li className={`nav-item mb-4 h6Bold ${styles.navHover} `}>
-                <a href="/blog" className={`${styles.navLink} fontDarkBrown`}>
-                  部落格 BLOG
-                </a>
-              </li>
-              <li className={`nav-item mb-4 h6Bold ${styles.navHover} `}>
                 <a href="/coupon" className={`${styles.navLink} fontDarkBrown`}>
                   優惠券 COUPON
                 </a>

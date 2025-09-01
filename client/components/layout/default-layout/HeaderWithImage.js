@@ -16,11 +16,6 @@ const HeaderWithImage = () => {
     title = '課程'
     engTitle = 'Course'
     introduce = null
-  } else if (router.pathname === '/blog') {
-    backgroundImage = '/homepage/blog-img3.png'
-    title = '部落格'
-    engTitle = 'Blog'
-    introduce = null
   } else if (router.pathname === '/shop') {
     backgroundImage = '/homepage/shop.png'
     title = '門市據點'
