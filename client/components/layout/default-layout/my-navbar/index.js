@@ -6,11 +6,6 @@ import { IoPerson } from 'react-icons/io5'
 import { IoMdCart } from 'react-icons/io'
 import { BsList } from 'react-icons/bs'
 import Swal from 'sweetalert2'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faSignInAlt,
-  faRightFromBracket,
-} from '@fortawesome/free-solid-svg-icons'
 import Button from 'react-bootstrap/Button'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import style from './position.module.scss'
@@ -101,7 +96,7 @@ export default function MyNavbar() {
               <BsList className="hamburger fontLight" />
             </Button>
             <Link href="/homepage" className="navbar-brand logo">
-              <img src="/images/Logo/logo-white.svg" alt="PAGANINI_LOGO" />
+              <img src="/images/logo/logo-white.svg" alt="PAGANINI_LOGO" />
               <p className="fontLight">PAGANINI</p>
             </Link>
             <div className="collapse navbar-collapse" id="navbarNav">
