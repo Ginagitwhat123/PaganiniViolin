@@ -41,7 +41,7 @@ export default function MemberProfileForm({ memberData, isEditing, handleChange,
 
                 {/* 會員姓名 */}
                 <div className="col-md-6 mb-3">
-                  <label className={`fontDarkBrown ${styles.label}`} id='member-name-label'>會員姓名</label>
+                  <label className={`fontDarkBrown ${styles.label}`} htmlFor='member-name-label'>會員姓名</label>
                   <div className={`input-group ${styles.customInputGroup}`}>
                     <span className={`input-group-text ${styles.inputGroupText}`}>
                       <FontAwesomeIcon icon={faUser} />
@@ -53,10 +53,10 @@ export default function MemberProfileForm({ memberData, isEditing, handleChange,
                         name="member_name"
                         value={memberData.member_name}
                         onChange={handleChange}
-                        aria-labelledby="member-name-label"
+                        id="member-name-label"
                       />
                     ) : (
-                      <div className={`form-control ${styles.formControl}`} aria-labelledby="member-name-label">{memberData.member_name}</div>
+                      <div className={`form-control ${styles.formControl}`}>{memberData.member_name}</div>
                     )}
                   </div>
                 </div>
@@ -65,7 +65,7 @@ export default function MemberProfileForm({ memberData, isEditing, handleChange,
               <div className="row">
                 {/* 電子郵件 */}
                 <div className="col-md-6 mb-3">
-                  <label className={`fontDarkBrown ${styles.label}`} id='member-email-label'>電子郵件</label>
+                  <label className={`fontDarkBrown ${styles.label}`} htmlFor='member-email-label'>電子郵件</label>
                   <div className={`input-group ${styles.customInputGroup}`}>
                     <span className={`input-group-text ${styles.inputGroupText}`}>
                       <FontAwesomeIcon icon={faEnvelope} />
@@ -77,17 +77,17 @@ export default function MemberProfileForm({ memberData, isEditing, handleChange,
                         name="email"
                         value={memberData.email}
                         onChange={handleChange}
-                        aria-labelledby="member-email-label"
+                        id="member-email-label"
                       />
                     ) : (
-                      <div className={`form-control ${styles.formControl}`} aria-labelledby="member-email-label">{memberData.email}</div>
+                      <div className={`form-control ${styles.formControl}`}>{memberData.email}</div>
                     )}
                   </div>
                 </div>
 
                 {/* 性別 */}
                 <div className="col-md-6 mb-3">
-                  <label className={`fontDarkBrown ${styles.label}`} id='member-gender-label'>性別</label>
+                  <label className={`fontDarkBrown ${styles.label}`} htmlFor='member-gender-label'>性別</label>
                   <div className={`input-group ${styles.customInputGroup}`}>
                     <span className={`input-group-text ${styles.inputGroupText}`}>
                       <FontAwesomeIcon icon={faVenusMars} />
@@ -98,14 +98,14 @@ export default function MemberProfileForm({ memberData, isEditing, handleChange,
                         name="gender"
                         value={memberData.gender || ''}
                         onChange={handleChange}
-                        aria-labelledby="member-gender-label"
+                        id="member-gender-label"
                       >
                         <option value="">未指定</option>
                         <option value="男性">男性</option>
                         <option value="女性">女性</option>
                       </select>
                     ) : (
-                      <div className={`form-control ${styles.formControl}`} aria-labelledby="member-gender-label">{memberData.gender}</div>
+                      <div className={`form-control ${styles.formControl}`}>{memberData.gender}</div>
                     )}
                   </div>
                 </div>
@@ -114,7 +114,7 @@ export default function MemberProfileForm({ memberData, isEditing, handleChange,
               <div className="row">
                 {/* 會員生日 */}
                 <div className="col-md-6 mb-3">
-                  <label className={`fontDarkBrown ${styles.label}`} id='member-birthdate-label'>會員生日</label>
+                  <label className={`fontDarkBrown ${styles.label}`} htmlFor='member-birthdate-label'>會員生日</label>
                   <div className={`input-group ${styles.customInputGroup}`}>
                     <span className={`input-group-text ${styles.inputGroupText}`}>
                       <FontAwesomeIcon icon={faCakeCandles} />
@@ -126,17 +126,17 @@ export default function MemberProfileForm({ memberData, isEditing, handleChange,
                         name="birthdate"
                         value={memberData.birthdate}
                         onChange={handleChange}
-                        aria-labelledby="member-birthdate-label"
+                        id="member-birthdate-label"
                       />
                     ) : (
-                      <div className={`form-control ${styles.formControl}`} aria-labelledby="member-birthdate-label">{memberData.birthdate}</div>
+                      <div className={`form-control ${styles.formControl}`}>{memberData.birthdate}</div>
                     )}
                   </div>
                 </div>
 
                 {/* 聯絡電話 */}
                 <div className="col-md-6 mb-3">
-                  <label className={`fontDarkBrown ${styles.label}`} id='member-phone-label'>聯絡電話</label>
+                  <label className={`fontDarkBrown ${styles.label}`} htmlFor='member-phone-label'>聯絡電話</label>
                   <div className={`input-group ${styles.customInputGroup}`}>
                     <span className={`input-group-text ${styles.inputGroupText}`}>
                       <FontAwesomeIcon icon={faPhone} />
@@ -148,10 +148,10 @@ export default function MemberProfileForm({ memberData, isEditing, handleChange,
                         name="phone"
                         value={memberData.phone}
                         onChange={handleChange}
-                        aria-labelledby="member-phone-label"
+                        id="member-phone-label"
                       />
                     ) : (
-                      <div className={`form-control ${styles.formControl}`} aria-labelledby="member-phone-label">{memberData.phone}</div>
+                      <div className={`form-control ${styles.formControl}`}>{memberData.phone}</div>
                     )}
                   </div>
                 </div>
@@ -159,7 +159,7 @@ export default function MemberProfileForm({ memberData, isEditing, handleChange,
 
               <div className="mb-5">
                 {/* 會員寄送地址 */}
-                <label className={`fontDarkBrown ${styles.label}`} id='member-address-label'>會員寄送地址</label>
+                <label className={`fontDarkBrown ${styles.label}`} htmlFor='member-address-label'>會員寄送地址</label>
                 <div className={`input-group ${styles.customInputGroup}`}>
                   <span className={`input-group-text ${styles.inputGroupText}`}>
                     <FontAwesomeIcon icon={faMapLocation} />
@@ -171,10 +171,10 @@ export default function MemberProfileForm({ memberData, isEditing, handleChange,
                       name="address"
                       value={memberData.address}
                       onChange={handleChange}
-                      aria-labelledby="member-address-label"
+                      id="member-address-label"
                     />
                   ) : (
-                    <div className={`form-control ${styles.formControl}`} aria-labelledby="member-address-label">{memberData.address}</div>
+                    <div className={`form-control ${styles.formControl}`}>{memberData.address}</div>
                   )}
                 </div>
               </div>
