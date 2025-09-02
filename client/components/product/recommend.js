@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styles from '@/styles/product-styles/recommend.module.scss'
 import { useRouter } from 'next/router'
 import ProductLikeIcon from '@/components/product-like/like-icon'
+import Link from 'next/link'
 
 export default function Recommend({ product_id }) {
   const router = useRouter()
@@ -29,12 +30,6 @@ export default function Recommend({ product_id }) {
     }
   }, [router.isReady, router.query.pid]);
 
-  const handleCardClick = (id) => {
-    // 點擊卡片後導向商品詳細頁
-    router.push(`/product/${id}`);
-  };
-
-
   return (
     <>
       <div className={`${styles.recommendTitle} fontDarkBrown web-16px-B`}>其他相似商品</div>
@@ -51,6 +46,7 @@ export default function Recommend({ product_id }) {
                 className={`${styles.recommenCard} card`}
                 
               >
+              <Link href={`/product/${product.id}`}>
                 <img
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId(null)}
@@ -61,19 +57,21 @@ export default function Recommend({ product_id }) {
                   }
                 className={`${styles.recommendCardImg} card-img-top`}
                 alt={product.product_name}
-                onClick={() => handleCardClick(product.id)}
                 style={{
                   cursor: 'pointer',
                 }}
               />
+              </Link>
               <ProductLikeIcon product_id={product.id} className={styles.recommendFavoriteIconSm} />
               <div className={`${styles.cardBody} card-body`}>
                 <div className={`${styles.cardText} card-text position-relative`}>
                   <div className={styles.textArea}>
-                    <h5 className={`${styles.productName} card-title`} onClick={() => handleCardClick(product.id)}
+                    <Link 
+                      href={`/product/${product.id}`}
+                      className={`${styles.productName} card-title`} 
                       style={{
-                        cursor: 'pointer',
-                      }}>{product.product_name}</h5>
+                        cursor: 'pointer', textDecoration: 'none'
+                      }}>{product.product_name}</Link>
                       <h6 className={`${styles.brandName} product-model`}>{product.brand_name}</h6>
                       <ProductLikeIcon product_id={product.id} className={styles.recommendFavoriteIconLg} />
                   </div>

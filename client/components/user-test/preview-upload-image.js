@@ -48,11 +48,11 @@ export default function PreviewUploadImage({
 
   return (
     <div className="image-upload">
-      <label for="file-input">
-        <img src={showImg()} alt="" width="200" height="200" />
+      <label htmlFor="file">
+        <img src={showImg()} alt="上傳圖片" width="200" height="200" />
       </label>
       <input
-        id="file-input"
+        id="file"
         type="file"
         name="file"
         onChange={handleFileChang}

@@ -73,30 +73,30 @@ export default function Page1(props) {
 
             <ul className="nav flex-column text-center">
               <li className={`nav-item mb-4 h6Bold ${styles.navHover} `}>
-                <a
+                <Link
                   href="/product"
                   className={`${styles.navLink} fontDarkBrown`}
                 >
                   提琴商城 PRODUCTS
-                </a>
+                </Link>
               </li>
               <li className={`nav-item mb-4 h6Bold ${styles.navHover} `}>
-                <a
+                <Link
                   href="/course"
                   className={`${styles.navLink} fontDarkBrown `}
                 >
                   音樂課程 COURSE
-                </a>
+                </Link>
               </li>
               <li className={`nav-item mb-4 h6Bold ${styles.navHover} `}>
-                <a href="/coupon" className={`${styles.navLink} fontDarkBrown`}>
+                <Link href="/coupon" className={`${styles.navLink} fontDarkBrown`}>
                   優惠券 COUPON
-                </a>
+                </Link>
               </li>
               <li className={`nav-item h6Bold ${styles.navHover} `}>
-                <a href="/shop" className={`${styles.navLink} fontDarkBrown`}>
+                <Link href="/shop" className={`${styles.navLink} fontDarkBrown`}>
                   門市據點 LOCATIONS
-                </a>
+                </Link>
               </li>
             </ul>
 
@@ -108,7 +108,7 @@ export default function Page1(props) {
             {/* icon */}
             <div className="mx-auto d-flex justify-content-center">
               {/* [購物車按鈕] 添加登入檢查 */}
-              <a
+              <Link
                 href="/cart"
                 className="text-decoration-none"
                 onClick={handleCartClick}
@@ -119,10 +119,10 @@ export default function Page1(props) {
                     className={styles.iconHover}
                   />
                 </div>
-              </a>
+              </Link>
 
               {/* [會員中心按鈕] 添加登入檢查 */}
-              <a
+              <Link
                 href="/member-center"
                 className="text-decoration-none"
                 onClick={handleMemberCenterClick}
@@ -130,7 +130,7 @@ export default function Page1(props) {
                 <div className={`${styles.iconBox} mx-2 fontDarkBrown`}>
                   <FontAwesomeIcon icon={faUser} className={styles.iconHover} />
                 </div>
-              </a>
+              </Link>
             </div>
 
             {/* 登入名稱和登入/登出按鈕 */}
@@ -182,9 +182,9 @@ export default function Page1(props) {
                 <button
                   className={`btn w-100 ${styles.page1Btn} web-16px-B ${styles.btnHover}`}
                 >
-                  <a href="/shop" className="text-decoration-none">
+                  <Link href="/shop" className="text-decoration-none">
                     門市據點
-                  </a>
+                  </Link>
                 </button>
               </div>
             </div>

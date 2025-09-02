@@ -154,12 +154,12 @@ export default function FilterOffcanvas({
           {/* 類別篩選 */}
 
           <div className={`${styles.filterCard} mb-0`}>
-            <div className={styles.cardHeader} onClick={toggleCategory}>
+            <button className={styles.cardHeader} onClick={toggleCategory}>
               類別
               <span className={styles.toggleIcon}>
                 {isCategoryOpen ? <FaChevronDown /> : <FaChevronUp />}
               </span>
-            </div>
+            </button>
             {isCategoryOpen && (
               <div className={styles.filterBody}>
                 <button
@@ -189,12 +189,12 @@ export default function FilterOffcanvas({
           </div>
 
           <div className={`${styles.filterCard} mb-0`}>
-            <div className={styles.cardHeader} onClick={togglePrice}>
+            <button className={styles.cardHeader} onClick={togglePrice}>
               價格區間
               <span className={styles.toggleIcon}>
                 {isPriceOpen ? <FaChevronDown /> : <FaChevronUp />}
               </span>
-            </div>
+            </button>
             {isPriceOpen && (
               <div className={styles.wrapper}>
                 <div className={styles.priceInput}>
@@ -259,12 +259,12 @@ export default function FilterOffcanvas({
             )}
           </div>
           <div className={`${styles.filterCard} mb-0`}>
-            <div className={styles.cardHeader} onClick={toggleBrand}>
+            <button className={styles.cardHeader} onClick={toggleBrand}>
               品牌
               <span className={styles.toggleIcon}>
                 {isBrandOpen ? <FaChevronDown /> : <FaChevronUp />}
               </span>
-            </div>
+            </button>
             {isBrandOpen && (
               <div className={styles.filterBody}>
                 <button

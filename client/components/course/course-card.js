@@ -39,7 +39,7 @@ const CourseCard = ({ course, searchTerm }) => {
   return (
     <>
       <div className="col-lg-4 col-md-4 col-sm-6">
-        <div
+        <button
           className={`${styles['course-card']} `}
           onClick={() => handleCardClick(course.id)}
           style={{ cursor: 'pointer' }}
@@ -111,7 +111,7 @@ const CourseCard = ({ course, searchTerm }) => {
                     />
             </div> */}
           </div>
-        </div>
+        </button>
       </div>
     </>
   )

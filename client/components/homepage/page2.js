@@ -77,7 +77,7 @@ export default function Page2() {
             />
           </div>
           <h5 className={`${styles.subTitleMargin} fontLight `}>
-            "關於帕格尼尼，用心詮釋音樂中的每一絲美好"
+          &quot;關於帕格尼尼，用心詮釋音樂中的每一絲美好&quot;
           </h5>
 
           <div className={`${styles.aboutPBox} mx-auto`}>

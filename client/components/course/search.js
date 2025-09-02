@@ -14,20 +14,20 @@ const SearchBar = ({ search, onSearchChange, onSearchClick, onClearSearch }) => 
         onChange={onSearchChange}
       />
       {search && (
-        <span
+        <button
           className={`btn ${styles['btn-clear']}`}
           onClick={onClearSearch}
         >
           <IoCloseCircleOutline size={20} />
-        </span>
+        </button>
       )}
-      <span
+      <button
         className={`btn input-group-text ${styles['btn-search']}`}
         id="basic-addon2"
         onClick={onSearchClick}
       >
         <IoSearchSharp size={20} />
-      </span>
+      </button>
     </div>
   );
 };

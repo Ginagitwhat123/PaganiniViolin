@@ -42,6 +42,7 @@ export default function StayInTouch() {
                 sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
                 width="100%"
                 height="600px"
+                title='surveycake'
                 src="https://www.surveycake.com/s/7ZmBn"
                 style={{ border: '#ddd 1px solid' }}
                 allowTransparency="true"

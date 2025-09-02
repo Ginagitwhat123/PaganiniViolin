@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styles from '@/styles/product-styles/ProductCard.module.scss'
 import Image from 'next/image'
 import ProductLikeIcon from '@/components/product-like/like-icon'
@@ -51,13 +51,13 @@ export default function ProductCard({
         <div className={styles.cardBody}>
           <div className={`${styles.cardText} card-text position-relative`}>
             <div className="text">
-              <h5
+              <button
                 className={`${styles.productName} card-title`}
                 onClick={handleCardClick}
                 style={{ cursor: 'pointer' }}
               >
                 {product_name}
-              </h5>
+              </button>
 
               <h6 className={styles.modelName}>{brand_name}</h6>
             </div>
@@ -84,12 +84,12 @@ export default function ProductCard({
               </p>
             )}
           </div>
-          <div
+          <button
             className={`${styles.cartBtn} btn web-16px-md`}
             onClick={handleCardClick}
           >
             前往選購商品
-          </div>
+          </button>
         </div>
       </div>
     </>

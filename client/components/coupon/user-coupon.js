@@ -16,9 +16,8 @@ const Coupon = ({ coupons }) => {
   return (
     <>
       {coupons.map((coupon, index) => (
-        <div className={`col-md-6 fontDarkBrown ${styles['coupon']}`}>
+        <div key={index} className={`col-md-6 fontDarkBrown ${styles['coupon']}`}>
           <div
-            key={index}
             className={`${styles['coupon-item']}  position-relative `}
           >
             <div className={styles['coupon-left']}>

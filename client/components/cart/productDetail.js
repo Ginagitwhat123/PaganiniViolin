@@ -1,8 +1,7 @@
 // client/components/cart/productDetail.js
 import React, { useState, useEffect } from 'react'
 import Swal from 'sweetalert2' // 導入 SweetAlert2
-import styles from 'pages/cart/cart.module.scss'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 function ProductDetails({
   card_id,
@@ -344,12 +343,6 @@ function ProductDetails({
     })
   }
 
-  const router = useRouter()
-  // 點擊後導向商品詳細頁
-  const handleCardClick = (id) => {
-    router.push(`/product/${id}`)
-  }
-
   return (
     <>
       <div className="row border-bottom py-3 align-items-center">
@@ -367,13 +360,14 @@ function ProductDetails({
         <div className="col-4 col-sm-3">
           {/* 圖片 */}
           <div className="d-flex justify-content-center mb-3 mb-sm-0">
+          <Link href={`/product/${product_id}`}>
             <img
               src={`/product-pics/${brand_name}/${productPics}`}
               alt={product_name}
               className="img-fluid bg-light mb-1"
               style={{ maxWidth: '80px', cursor: 'pointer' }}
-              onClick={() => handleCardClick(product_id)}
             />
+            </Link>
           </div>
           {/* 商品數量 */}
           <div className="d-flex justify-content-center align-items-center">
@@ -400,20 +394,14 @@ function ProductDetails({
         </div>
 
         {/* 商品名稱和品牌名稱 */}
-        <div
-          className="col-6 col-sm-3"
-          onClick={() => handleCardClick(product_id)}
-          style={{ cursor: 'pointer' }}
-        >
+        <Link href={`/product/${product_id}`} className="col-6 col-sm-3" style={{ cursor: 'pointer' ,textDecoration: 'none' }}>
           <p className="mb-1 fw-bold">{product_name}</p>
           <p className="mb-1 text-muted">{brand_name}</p>
           <p className="mb-0">尺寸: {size}</p>
-        </div>
+        </Link>
 
         {/* 商品單價和總價 */}
-        <div className="col-12 col-sm-3"
-        onClick={() => handleCardClick(product_id)}
-        style={{ cursor: 'pointer' }}>
+        <Link href={`/product/${product_id}`} className="col-12 col-sm-3" style={{ cursor: 'pointer' ,textDecoration: 'none'}}>
           {/* 商品單價 */}
           <div className="text-end mb-2">
             {discount_price === '' || discount_price === null ? (
@@ -439,7 +427,7 @@ function ProductDetails({
               ).toLocaleString()}
             </p>
           </div>
-        </div>
+        </Link>
 
         {/* 商品功能 */}
         <div className="col-12 col-sm-2 d-flex flex-column align-items-center mt-2 mt-sm-0">

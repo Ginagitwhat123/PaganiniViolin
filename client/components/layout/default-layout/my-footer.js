@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faFacebookF,
-  faInstagram,
-  faLine,
-} from '@fortawesome/free-brands-svg-icons'
+import Link from 'next/link'
 
 const DefaultFooter = () => (
   <footer className="footer">
@@ -23,17 +18,17 @@ const DefaultFooter = () => (
           <h5 className="pb-3 h6Bold text-center">Services</h5>
           <ul className="nav flex-column">
             <li className="nav-item mb-3">
-              <a
+              <Link
                 href="/product"
                 className="nav-link p-0 text-white text-center"
               >
                 提琴專區
-              </a>
+              </Link>
             </li>
             <li className="nav-item mb-3">
-              <a href="/course" className="nav-link p-0 text-white text-center">
+              <Link href="/course" className="nav-link p-0 text-white text-center">
                 專業課程報名
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -41,14 +36,14 @@ const DefaultFooter = () => (
           <h5 className="pb-3 text-center h6Bold">About us</h5>
           <ul className="nav flex-column">
             <li className="nav-item mb-3">
-              <a href="/#" className="text-center nav-link p-0 text-white">
+              <Link href="/#" className="text-center nav-link p-0 text-white">
                 關於帕格尼尼
-              </a>
+              </Link>
             </li>
             <li className="nav-item mb-3">
-              <a href="/shop" className="text-center nav-link p-0 text-white">
+              <Link href="/shop" className="text-center nav-link p-0 text-white">
                 門市資訊
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -142,22 +137,22 @@ const PhoneFooter = () => (
         </h5>
         <ul className="nav flex-column">
           <li className="nav-item mb-3">
-            <a
+            <Link
               href="/product"
               className="nav-link p-0 text-white text-center"
               style={{ fontSize: '13px' }}
             >
               提琴專區
-            </a>
+            </Link>
           </li>
           <li className="nav-item mb-3">
-            <a
+            <Link
               href="/course"
               className="nav-link p-0 text-white text-center"
               style={{ fontSize: '13px' }}
             >
               專業課程報名
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
@@ -169,22 +164,22 @@ const PhoneFooter = () => (
         </h5>
         <ul className="nav flex-column">
           <li className="nav-item mb-3">
-            <a
+            <Link
               href="/#"
               className="text-center nav-link p-0 text-white"
               style={{ fontSize: '13px' }}
             >
               關於帕格尼尼
-            </a>
+            </Link>
           </li>
           <li className="nav-item mb-3">
-            <a
+            <Link
               href="/shop"
               className="text-center nav-link p-0 text-white"
               style={{ fontSize: '13px' }}
             >
               門市資訊
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

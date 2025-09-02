@@ -6,7 +6,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/use-auth'
 import { useRouter } from 'next/router'
-import GoogleLoginButton from '@/components/member/google-login'
 
 
 export default function LoginForm() {
@@ -101,7 +100,6 @@ export default function LoginForm() {
                         註冊
                       </Link>
                     </button>
-                    <GoogleLoginButton />
                   </>
                 )}
               </div>

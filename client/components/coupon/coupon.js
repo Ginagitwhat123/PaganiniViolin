@@ -53,7 +53,7 @@ const Coupon = ({ coupons, onCouponClaimed }) => {
        if (data.status === 'success') {
         Swal.fire({
           icon: 'success',
-          title: '領取成功\^ ^/',
+          title: '領取成功',
           text: '已發送至您的會員中心 > 優惠券專區',
           customClass: {
             title: 'swal2-custom-title', // 自定義標題樣式
@@ -105,9 +105,9 @@ const Coupon = ({ coupons, onCouponClaimed }) => {
   return (
     <>
       {coupons.map((coupon, index) => (
-        <div className='col-xxl-4 col-lg-6 col-md-6 fontDarkBrown'>
+        <div key={index} className='col-xxl-4 col-lg-6 col-md-6 fontDarkBrown'>
         <div
-        key={index} className={`${styles['coupon-item']} d-flex justify-content-between position-relative`}
+        className={`${styles['coupon-item']} d-flex justify-content-between position-relative`}
         >
           <div className={styles['coupon-left']}>
             <h6 className={`h6Bold ${styles['coupon-title']}`}>{coupon.name}</h6>
