@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./bin/www",
-    "seed": "node ./cli/db-init.js",
     "backup": "node ./cli/db-backup.js",
     "debug": "DEBUG=express:* node ./bin/www",
-    "debug-win": "set DEBUG=express:* & node ./bin/www"
+    "debug-win": "set DEBUG=express:* & node ./bin/www",
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "app-root-path": "^3.1.0",
@@ -24,7 +24,6 @@
     "express-session": "^1.18.0",
     "http-errors": "~2.0.0",
     "jsonwebtoken": "^9.0.2",
-    "line-pay-merchant": "^0.9.0",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.46",
@@ -34,6 +33,7 @@
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.13",
     "otpauth": "^9.2.4",
+    "pg": "^8.16.3",
     "pug": "^3.0.2",
     "request": "^2.88.2",
     "secure-compare": "^3.0.1",

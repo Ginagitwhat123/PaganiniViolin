@@ -16,9 +16,9 @@ export default async function (sequelize) {
         allowNull: false,
       },
       gender: {
-        type: DataTypes.ENUM('男性', '女性'), // 指定性別為 ENUM 類型
-        allowNull: false, // 是否允許為 NULL
-        defaultValue: '未指定', // 預設值（可選）
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: '未指定',
       },
       account: {
         type: DataTypes.STRING,
