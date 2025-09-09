@@ -58,15 +58,5 @@ sequelize
     console.error(error)
   })
 
-// 載入models中的各檔案
-await applyModels(sequelize)
-
-await sequelize.sync({})
-
-console.log(
-  'INFO - 所有模型已載入完成(如果表不存在建立該表) All models were synchronized successfully.'
-    .bgGreen
-)
-
 // 輸出模組
 export default sequelize
