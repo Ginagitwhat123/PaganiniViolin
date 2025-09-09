@@ -6,7 +6,7 @@ import authenticate from '#middlewares/authenticate.js'
 import moment from 'moment-timezone'
 
 // 更新 delivery_status 的邏輯封裝成函數
-const updateDeliveryStatus = async () => {
+const updateDeliveryStatus = async (user_id) => {
   try {
     await sequelize.query(
       `
@@ -15,11 +15,12 @@ const updateDeliveryStatus = async () => {
           delivery_status = 1,
           payment_status = 1
       WHERE 
-          come_date < CURDATE() 
-          AND (delivery_status != 1 OR payment_status != 1);
-
+          come_date < CURRENT_DATE
+          AND (delivery_status != 1 OR payment_status != 1)
+      AND user_id = :user_id;
       `,
       {
+        replacements: { user_id },
         type: sequelize.QueryTypes.UPDATE,
       }
     )
@@ -35,7 +36,7 @@ router.get('/', authenticate, async (req, res) => {
     // 首先更新符合條件的訂單狀態
     await updateDeliveryStatus(user_id)
 
-    const orders = await sequelize.query(
+    const [orders] = await sequelize.query(
       `
       SELECT orders.*, 
        shop.shop_name, 
@@ -73,7 +74,7 @@ router.get('/', authenticate, async (req, res) => {
 router.get('/last', authenticate, async (req, res) => {
   const user_id = req.user.id
   try {
-    const orders = await sequelize.query(
+    const [orders] = await sequelize.query(
       `
       SELECT orders.*, 
         shop.shop_name, 
@@ -117,7 +118,7 @@ router.get('/ongoing', authenticate, async (req, res) => {
     // 首先更新符合條件的訂單狀態
     await updateDeliveryStatus(user_id)
 
-    const orders = await sequelize.query(
+    const [orders] = await sequelize.query(
       `
       SELECT orders.*, 
        shop.shop_name, 
@@ -128,7 +129,7 @@ router.get('/ongoing', authenticate, async (req, res) => {
        shop.shop_opentime
       FROM orders
       LEFT JOIN shop ON orders.shop_id = shop.id
-      WHERE orders.user_id = :user_id && delivery_status = 0
+      WHERE orders.user_id = :user_id AND delivery_status = 0
       ORDER BY orders.order_id DESC; -- 降序排序
     `,
       {
@@ -159,7 +160,7 @@ router.get('/history', authenticate, async (req, res) => {
     // 首先更新符合條件的訂單狀態
     await updateDeliveryStatus(user_id)
 
-    const orders = await sequelize.query(
+    const [orders] = await sequelize.query(
       `
       SELECT orders.*, 
        shop.shop_name, 
@@ -170,7 +171,7 @@ router.get('/history', authenticate, async (req, res) => {
        shop.shop_opentime
       FROM orders
       LEFT JOIN shop ON orders.shop_id = shop.id
-      WHERE orders.user_id = :user_id  && delivery_status = 1
+      WHERE orders.user_id = :user_id  AND delivery_status = 1
       ORDER BY orders.order_id DESC; -- 降序排序
     `,
       {
@@ -263,7 +264,7 @@ router.post('/add', authenticate, async (req, res) => {
        JOIN 
           product ON cart.product_id = product.id
        WHERE 
-          cart.user_id = ? 
+          cart.user_id = $1 
           AND cart.checked = 1;`,
       {
         replacements: [user_id],
@@ -337,7 +338,7 @@ router.post('/add', authenticate, async (req, res) => {
     (user_id, coupon_id, total_amount, shipping_person, shipping_phone, delivery_method, 
     delivery_address, shop_id, come_date, payment_method, card_number, card_holder, 
     expiry_date, security_code, payment_status) 
-  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING order_id`,
       {
         replacements: [
           user_id,
@@ -362,10 +363,7 @@ router.post('/add', authenticate, async (req, res) => {
     if (orderInsertResult === 0) throw new Error('訂單資料插入失敗')
 
     // Step 6: 取得剛才插入的 order_id
-    const [orderResult] = await sequelize.query(
-      `SELECT LAST_INSERT_ID() AS order_id`
-    )
-    const order_id = orderResult[0]?.order_id
+    const order_id = orderInsertResult[0]?.order_id
     if (!order_id) throw new Error('無法取得新訂單的 order_id')
     console.log('Order ID:', order_id)
 
@@ -401,7 +399,7 @@ router.post('/add', authenticate, async (req, res) => {
   JOIN 
       product ON cart.product_id = product.id
   WHERE 
-      cart.user_id = ? AND cart.checked = 1`,
+      cart.user_id = $1 AND cart.checked = 1`,
       {
         replacements: [user_id],
         type: sequelize.QueryTypes.SELECT,
@@ -437,8 +435,11 @@ router.post('/add', authenticate, async (req, res) => {
 
     // 批量插入到 order_items 表
     await sequelize.query(
-      `INSERT INTO order_items (order_id, product_id,user_id, size, quantity, price, discount_price)
-   VALUES ${items.map(() => '(?, ?, ?, ?, ?,?, ?)').join(', ')}`,
+      `INSERT INTO order_items (order_id, product_id, user_id, size, quantity, price, discount_price)
+       VALUES ${items.map((_, index) => {
+          const base = index * 7
+          return `($${base + 1}, $${base + 2}, $${base + 3}, $${base + 4}, $${base + 5}, $${base + 6}, $${base + 7})`
+       }).join(', ')}`,
       {
         replacements, // 使用手動展平的 replacements 陣列
         type: sequelize.QueryTypes.INSERT,
@@ -447,7 +448,7 @@ router.post('/add', authenticate, async (req, res) => {
 
     // Step 9: 清除購物車中該會員ID有勾選的項目
     await sequelize.query(
-      `DELETE FROM cart WHERE user_id = ? AND checked = 1;`,
+      `DELETE FROM cart WHERE user_id = $1 AND checked = 1;`,
       {
         replacements: [user_id],
         type: sequelize.QueryTypes.DELETE,

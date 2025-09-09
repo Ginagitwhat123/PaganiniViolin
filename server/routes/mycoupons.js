@@ -16,13 +16,13 @@ router.get('/', authenticate, async function (req, res) {
       UPDATE member_coupon
       SET status = 4
       WHERE ((expiration_date < CURRENT_DATE OR coupon_id IN (
-        SELECT id FROM coupon WHERE end_date < CURRENT_DATE AND end_date != '0000-00-00'
-       ))) AND status != 4 AND status != 3 AND user_id = ?
+        SELECT id FROM coupon WHERE end_date < CURRENT_DATE AND end_date IS NOT NULL
+       ))) AND status != 4 AND status != 3 AND user_id = $1
     `, {
       replacements: [userId]
     });
 
-    const memberCoupons = await sequelize.query(
+    const [memberCoupons] = await sequelize.query(
     `
     SELECT
     mc.id AS member_coupon_id,
@@ -79,7 +79,7 @@ router.post('/', authenticate, async function (req, res) {
 
     // 檢查會員是否已經擁有該優惠券
     const [existingCoupons] = await sequelize.query(`
-      SELECT * FROM member_coupon WHERE user_id = ? AND coupon_id = ?
+      SELECT * FROM member_coupon WHERE user_id = $1 AND coupon_id = $2
     `, {
       replacements: [userId, couponId]
     })
@@ -93,11 +93,11 @@ router.post('/', authenticate, async function (req, res) {
     const claimedAt = new Date();
 
     // 使用原生 SQL 新增會員的優惠券資料
-    await sequelize.query(`
-      INSERT INTO member_coupon (user_id, coupon_id, status, claimed_at) VALUES (?, ?, ?, ?)
+     await sequelize.query(`
+      INSERT INTO member_coupon (user_id, coupon_id, status, claimed_at) VALUES ($1, $2, $3, $4)
     `, {
       replacements: [userId, couponId, status, claimedAt],
-      // type: sequelize.QueryTypes.SELECT,
+      type: sequelize.QueryTypes.INSERT,
     })
 
     // 標準回傳 JSON
@@ -124,7 +124,7 @@ router.post('/search', authenticate, async function (req, res) {
 
     // 檢查優惠券是否存在於 coupon 資料表中
     const [coupon] = await sequelize.query(`
-      SELECT * FROM coupon WHERE sid = ?
+      SELECT * FROM coupon WHERE sid = $1
     `, {
       
       replacements: [code]
@@ -137,7 +137,7 @@ router.post('/search', authenticate, async function (req, res) {
 
     // 檢查會員是否已經擁有該優惠券
     const [existingCoupons] = await sequelize.query(`
-      SELECT * FROM member_coupon WHERE user_id = ? AND coupon_id = ?
+      SELECT * FROM member_coupon WHERE user_id = $1 AND coupon_id = $2
     `, {
       replacements: [userId, coupon[0].id]
     });
@@ -148,7 +148,7 @@ router.post('/search', authenticate, async function (req, res) {
 
     // 如果用戶還沒有領取過此優惠券，則新增領取紀錄
     await sequelize.query(`
-      INSERT INTO member_coupon (user_id, coupon_id, status, claimed_at) VALUES (?, ?, 2, NOW())
+      INSERT INTO member_coupon (user_id, coupon_id, status, claimed_at) VALUES ($1, $2, 2, NOW())
     `, {
       replacements: [userId, coupon[0].id]
     });

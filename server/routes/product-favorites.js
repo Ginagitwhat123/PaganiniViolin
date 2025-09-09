@@ -16,7 +16,7 @@ router.get('/', authenticate, async (req, res) => {
     const favorites = await sequelize.query(
       `SELECT p.id AS product_id, 
        p.product_name, 
-       IFNULL(p.discount_price, p.price) AS display_price,
+       COALESCE(p.discount_price, p.price) AS display_price,
        pb.name AS brand_name, 
        product_picture.picture_url AS first_picture
       FROM product_like AS pl
@@ -81,7 +81,7 @@ router.delete('/:id', authenticate, async (req, res, next) => {
 
   try {
     // 執行刪除
-    const result = await sequelize.query(
+    const [affectedRows] = await sequelize.query(
       `DELETE FROM product_like WHERE user_id = :uid AND product_id = :pid`,
       {
         replacements: { uid, pid },
@@ -90,7 +90,7 @@ router.delete('/:id', authenticate, async (req, res, next) => {
     );
 
     // 修改這裡的判斷條件
-    if (!result || result[0].affectedRows === 0) {
+    if (affectedRows === 0) {
       return res.json({
         status: 'success', // 即使沒有刪除任何資料也回傳成功
         data: null,

@@ -14,7 +14,7 @@ router.get('/', authenticate, async (req, res) => {
 
   try {
     const [favorites] = await sequelize.query(
-      `SELECT course_id FROM course_like WHERE uid = ?`,
+      `SELECT course_id FROM course_like WHERE uid = $1`,
       { replacements: [uid], type: sequelize.QueryTypes.SELECT }
     )
 
@@ -33,7 +33,7 @@ router.put('/:id', authenticate, async (req, res) => {
   try {
     // 檢查資料是否已存在
     const [existLike] = await sequelize.query(
-      `SELECT * FROM course_like WHERE course_id = ? AND uid = ?`,
+      `SELECT * FROM course_like WHERE course_id = $1 AND uid = $2`,
       { replacements: [course_id, uid], type: sequelize.QueryTypes.SELECT }
     )
 
@@ -43,11 +43,11 @@ router.put('/:id', authenticate, async (req, res) => {
 
     // 新增資料到 course_like
     const [result] = await sequelize.query(
-      `INSERT INTO course_like (course_id, uid) VALUES (?, ?)`,
+      `INSERT INTO course_like (course_id, uid) VALUES ($1, $2) RETURNING *`,
       { replacements: [course_id, uid] }
     )
 
-    if (!result) {
+    if (result.length === 0) {
       return res.json({
         status: 'error',
         message: '新增失敗',
@@ -68,11 +68,11 @@ router.delete('/:id', authenticate, async (req, res) => {
 
   try {
     const [result] = await sequelize.query(
-      `DELETE FROM course_like WHERE course_id = ? AND uid = ?`,
+      `DELETE FROM course_like WHERE course_id = $1 AND uid = $2`,
       { replacements: [course_id, uid] }
     )
 
-    if (result.affectedRows === 0) {
+    if (result === 0) {
       return res.json({
         status: 'error',
         message: '刪除失敗',

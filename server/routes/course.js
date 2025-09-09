@@ -35,7 +35,7 @@ router.get('/:cid', async function (req, res) {
   try {
     // 使用原生 SQL 查詢特定課程資料
     const [course] = await sequelize.query(`
-      SELECT * FROM course WHERE id = ?
+      SELECT * FROM course WHERE id = $1
     `, {
       replacements: [cid]
     })
@@ -46,7 +46,7 @@ router.get('/:cid', async function (req, res) {
 
      // 更新點擊次數
      await sequelize.query(`
-      UPDATE course SET click_count = click_count + 1 WHERE id = ?
+      UPDATE course SET click_count = click_count + 1 WHERE id = $1
     `, {
       replacements: [cid]
     })

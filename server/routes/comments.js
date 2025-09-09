@@ -23,13 +23,14 @@ router.get('/pending', authenticate, async (req, res) => {
     product_brand.name AS product_brand_name,
     product_category.name AS category_name,
     (
-        SELECT
-            product_picture.picture_url
-        FROM
-            product_picture
-        WHERE
-            product_picture.product_id = product.id AND product_picture.picture_url LIKE '%-1.%'
-        LIMIT 1
+          SELECT
+          product_picture.picture_url
+      FROM
+          product_picture
+      WHERE
+          product_picture.product_id = product.id AND product_picture.picture_url LIKE '%-1.%'
+      ORDER BY product_picture.id -- 加入排序
+      LIMIT 1
     ) AS picture_url
 FROM
     order_items
@@ -86,12 +87,13 @@ router.get('/list', authenticate, async (req, res) => {
           order_items.price,
           order_items.discount_price,
           (
-          SELECT
+                SELECT
               product_picture.picture_url
           FROM
               product_picture
           WHERE
               product_picture.product_id = product.id AND product_picture.picture_url LIKE '%-1.%'
+          ORDER BY product_picture.id -- 加入排序
           LIMIT 1
           ) AS picture_url
       FROM
@@ -107,7 +109,17 @@ router.get('/list', authenticate, async (req, res) => {
           AND orders.delivery_status = 1 
       AND orders.payment_status = 1 
       GROUP BY
-          member_comment.id
+          member_comment.id,
+          member_comment.product_id,
+          member_comment.rating,
+          member_comment.comment,
+          product.product_name,
+          product_brand.name,
+          product_category.name,
+          order_items.size,
+          orders.order_date,
+          order_items.price,
+          order_items.discount_price
       ORDER BY
           member_comment.id DESC
 
@@ -324,7 +336,7 @@ router.get('/product/:product_id', async (req, res) => {
         mc.comment, 
         mc.created_at
       FROM member_comment mc
-      JOIN user u ON mc.user_id = u.id
+      JOIN users u ON mc.user_id = u.id
       WHERE mc.product_id = :product_id
       ${orderBy}
       `,

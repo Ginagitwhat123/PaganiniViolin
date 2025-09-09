@@ -100,7 +100,7 @@ router.delete('/:id', authenticate, async (req, res) => {
   const uid = req.user.id;
 
   try {
-      const result = await sequelize.query(
+    const [affectedRows] = await sequelize.query(
           `DELETE FROM course_like WHERE user_id = :uid AND course_id = :cid`,
           {
               replacements: { uid, cid },
@@ -108,7 +108,7 @@ router.delete('/:id', authenticate, async (req, res) => {
           }
       );
 
-      if (!result || result[0].affectedRows === 0) {
+      if (affectedRows === 0) {
           return res.json({
               status: 'success',
               data: null,
