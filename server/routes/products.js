@@ -28,7 +28,7 @@ router.get('/', async function (req, res) {
       product_brand.name AS brand_name,
       STRING_AGG(product_picture.picture_url::text, ',' ORDER BY product_picture.id) AS pictures,
       CASE 
-        WHEN COUNT(product_size.size) = 0 THEN MAX(product_size.stock)  
+        WHEN COUNT(product_size.size) = 0 THEN MAX(product_size.stock)::text  
         ELSE STRING_AGG(DISTINCT product_size.size || ':' || product_size.stock::text, ',')
       END AS sizes
     FROM product
@@ -265,7 +265,7 @@ router.get('/recommend/:id', async (req, res) => {
           product.price, 
           product.discount_price,
           product_brand.name AS brand_name,
-          STRING_AGG(DISTINCT product_picture.picture_url::text, ',' ORDER BY product_picture.id) AS pictures
+          STRING_AGG(product_picture.picture_url::text, ',' ORDER BY product_picture.id) AS pictures
         FROM product
         JOIN product_brand ON product.brand_id = product_brand.id
         LEFT JOIN product_picture ON product.id = product_picture.product_id
@@ -285,7 +285,7 @@ router.get('/recommend/:id', async (req, res) => {
           product.price, 
           product.discount_price,
           product_brand.name AS brand_name,
-          STRING_AGG(DISTINCT product_picture.picture_url::text, ',' ORDER BY product_picture.id) AS pictures
+          STRING_AGG(product_picture.picture_url::text, ',' ORDER BY product_picture.id) AS pictures
         FROM product
         JOIN product_brand ON product.brand_id = product_brand.id
         LEFT JOIN product_picture ON product.id = product_picture.product_id
