@@ -28,7 +28,7 @@ router.get('/', async function (req, res) {
       product_brand.name AS brand_name,
       STRING_AGG(product_picture.picture_url::text, ',' ORDER BY product_picture.id) AS pictures,
       CASE 
-        WHEN COUNT(product_size.size) = 0 THEN MAX(product_size.stock)::text  
+        WHEN COUNT(product_size.size) = 0 THEN MAX(product_size.stock)::text
         ELSE STRING_AGG(DISTINCT product_size.size || ':' || product_size.stock::text, ',')
       END AS sizes
     FROM product
@@ -75,8 +75,15 @@ router.get('/', async function (req, res) {
     baseQuery += ` WHERE ` + conditions.join(' AND ')
   }
 
-  // 加入 GROUP BY 和 ORDER BY 條件
-  baseQuery += ` GROUP BY product.id`
+  // 修正 GROUP BY 語句，加入所有非聚合欄位
+  baseQuery += ` GROUP BY 
+    product.id, 
+    product.product_name, 
+    product.price, 
+    product.discount_price, 
+    product.description,
+    product_category.name,
+    product_brand.name`
   if (sort === 'priceAsc') baseQuery += ` ORDER BY COALESCE(product.discount_price, product.price) ASC`
   else if (sort === 'priceDesc') baseQuery += ` ORDER BY COALESCE(product.discount_price, product.price) DESC`
   else if (sort === 'newest') baseQuery += ` ORDER BY product.id DESC`
@@ -210,8 +217,8 @@ router.get('/:id', async (req, res) => {
       JOIN product_category ON product.category_id = product_category.id
       LEFT JOIN product_picture ON product.id = product_picture.product_id
       LEFT JOIN product_size ON product.id = product_size.product_id
-      WHERE product.id = $1
-      GROUP BY product.id;
+      WHERE product.id = :id
+      GROUP BY product.id, product_category.name, product_brand.name;
 `,
       {
         replacements: [id], // 用戶輸入的 id 替換進查詢語句中
@@ -242,10 +249,10 @@ router.get('/recommend/:id', async (req, res) => {
         product.category_id,
         product.brand_id
       FROM product
-      WHERE product.id = $1
+      WHERE product.id = :id
     `,
       {
-        replacements: [id],
+        replacements: { id },
         type: sequelize.QueryTypes.SELECT,
       }
     )
@@ -272,11 +279,11 @@ router.get('/recommend/:id', async (req, res) => {
         WHERE product.category_id = :category_id 
         AND product.brand_id = :brand_id
         AND product.id != :product_id
-        GROUP BY product.id
+        GROUP BY product.id, product.product_name, product.price, product.discount_price, product_brand.name
         ORDER BY RANDOM()
         LIMIT 4
       )
-      UNION
+      UNION ALL
       (
         -- 第二順位：相同類別的其他品牌商品
         SELECT 
@@ -292,7 +299,7 @@ router.get('/recommend/:id', async (req, res) => {
         WHERE product.category_id = :category_id 
         AND product.brand_id != :brand_id
         AND product.id != :product_id
-        GROUP BY product.id
+        GROUP BY product.id, product.product_name, product.price, product.discount_price, product_brand.name
         ORDER BY RANDOM()
       )
       LIMIT 4
