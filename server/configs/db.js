@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize'
-import 'dotenv/config.js'
+// import 'dotenv/config.js'
 
 // 資料庫連結資訊
 // 建立 Sequelize 連線
