@@ -7,13 +7,6 @@ import logger from 'morgan'
 import path from 'path'
 import session from 'express-session'
 
-// 允許特定來源的CORS 如Vercel
-const corsOptions = {
-  origin: 'https://paganini-violin.vercel.app', 
-  optionsSuccessStatus: 200 
-};
-app.use(cors(corsOptions));
-
 // 使用檔案的session store，存在sessions資料夾
 import sessionFileStore from 'session-file-store'
 const FileStore = sessionFileStore(session)
@@ -39,6 +32,14 @@ app.use(
     credentials: true,
   })
 )
+
+// 允許特定來源的CORS 如Vercel
+const corsOptions = {
+  origin: 'https://paganini-violin.vercel.app', 
+  optionsSuccessStatus: 200 
+};
+app.use(cors(corsOptions));
+
 
 // 視圖引擎設定
 app.set('views', path.join(__dirname, 'views'))
