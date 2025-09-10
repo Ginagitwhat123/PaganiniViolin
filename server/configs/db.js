@@ -17,6 +17,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     charset: 'utf8',
     collate: 'utf8_general_ci',
   },
+  host: 'db.wfxwxepppycexgfabhng.supabase.co',
 })
 
 // 啟動時測試連線
