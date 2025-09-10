@@ -1,24 +1,27 @@
 import { Sequelize } from 'sequelize'
-// import 'dotenv/config.js'
 
-// 資料庫連結資訊
 // 建立 Sequelize 連線
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: 'postgres',
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false, // Supabase 預設需要這個
+const sequelize = new Sequelize(
+  process.env.DB_DATABASE,
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, 
+      },
     },
-  },
-  logging: false,
-  define: {
-    freezeTableName: true,
-    charset: 'utf8',
-    collate: 'utf8_general_ci',
-  },
-  host: 'db.wfxwxepppycexgfabhng.supabase.co',
-})
+    logging: false,
+    define: {
+      freezeTableName: true,
+      charset: 'utf8',
+      collate: 'utf8_general_ci',
+    },
+  }
+)
 
 // 啟動時測試連線
 sequelize
