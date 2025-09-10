@@ -26,7 +26,7 @@ router.get('/', async function (req, res) {
       product.description, 
       product_category.name AS category_name, 
       product_brand.name AS brand_name,
-      STRING_AGG(DISTINCT product_picture.picture_url::text, ',' ORDER BY product_picture.id ASC) AS pictures,
+      STRING_AGG(product_picture.picture_url::text, ',' ORDER BY product_picture.id) AS pictures,
       CASE 
         WHEN COUNT(product_size.size) = 0 THEN MAX(product_size.stock)  
         ELSE STRING_AGG(DISTINCT product_size.size || ':' || product_size.stock::text, ',')
@@ -60,12 +60,13 @@ router.get('/', async function (req, res) {
     replacements.search = `%${search}%`
   }
 
-  if (req.query.minPrice) {
+   // 處理 minPrice 和 maxPrice
+  if (req.query.minPrice && !isNaN(parseInt(req.query.minPrice, 10))) {
     conditions.push(`COALESCE(product.discount_price, product.price) >= :minPrice`)
     replacements.minPrice = parseInt(req.query.minPrice, 10)
   }
   
-  if (req.query.maxPrice) {
+  if (req.query.maxPrice && !isNaN(parseInt(req.query.maxPrice, 10))) {
     conditions.push(`COALESCE(product.discount_price, product.price) <= :maxPrice`)
     replacements.maxPrice = parseInt(req.query.maxPrice, 10)
   }
@@ -197,9 +198,8 @@ router.get('/:id', async (req, res) => {
         product.description, 
         product_category.name AS category_name, 
         product_brand.name AS brand_name,
-        STRING_AGG(DISTINCT product_picture.picture_url::text, ',' ORDER BY product_picture.id ASC) AS pictures,
-        GROUP_CONCAT(
-          STRING_AGG(
+        STRING_AGG(product_picture.picture_url::text, ',' ORDER BY product_picture.id) AS pictures,
+        STRING_AGG(
           DISTINCT CASE 
             WHEN product_size.size IS NOT NULL AND product_size.size != '' THEN product_size.size || ':' || product_size.stock::text
             ELSE product_size.stock::text
@@ -265,7 +265,7 @@ router.get('/recommend/:id', async (req, res) => {
           product.price, 
           product.discount_price,
           product_brand.name AS brand_name,
-          STRING_AGG(DISTINCT product_picture.picture_url::text, ',' ORDER BY product_picture.id ASC) AS pictures
+          STRING_AGG(DISTINCT product_picture.picture_url::text, ',' ORDER BY product_picture.id) AS pictures
         FROM product
         JOIN product_brand ON product.brand_id = product_brand.id
         LEFT JOIN product_picture ON product.id = product_picture.product_id
@@ -285,7 +285,7 @@ router.get('/recommend/:id', async (req, res) => {
           product.price, 
           product.discount_price,
           product_brand.name AS brand_name,
-          GROUP_CONCAT(DISTINCT product_picture.picture_url ORDER BY product_picture.id ASC) AS pictures
+          STRING_AGG(DISTINCT product_picture.picture_url::text, ',' ORDER BY product_picture.id) AS pictures
         FROM product
         JOIN product_brand ON product.brand_id = product_brand.id
         LEFT JOIN product_picture ON product.id = product_picture.product_id
