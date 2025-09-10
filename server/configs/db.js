@@ -2,11 +2,8 @@ import { Sequelize } from 'sequelize'
 
 // 建立 Sequelize 連線
 const sequelize = new Sequelize(
-  process.env.DB_DATABASE,
-  process.env.DB_USERNAME,
-  process.env.DB_PASSWORD,
+    process.env.DATABASE_URL,
   {
-    host: process.env.DB_HOST,
     dialect: 'postgres',
     dialectOptions: {
       ssl: {
