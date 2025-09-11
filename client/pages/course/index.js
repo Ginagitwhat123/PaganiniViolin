@@ -14,18 +14,24 @@ const CourseList = () => {
   const [selectedOption, setSelectedOption] = useState('熱門課程')
   const [typeCounts, setTypeCounts] = useState({ 1: 0, 2: 0, 3: 0 })
   const [currentPage, setCurrentPage] = useState(1)
-  const [search, setSearch] = useState('') // 搜尋內容
-  const ITEMS_PER_PAGE = 9 //每頁顯示課程數量
+  const [search, setSearch] = useState('')
+  const ITEMS_PER_PAGE = 9
 
+  // 取得資料
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/course`)
         const result = await response.json()
         if (result.status === 'success') {
-          setData(result.data.course)
-          setFilteredData(result.data.course)
-          setTypeCounts(calculateTypeCounts(result.data.course))
+          // 🚩 確保 course_type 是數字
+          const courses = result.data.course.map(c => ({
+            ...c,
+            course_type: Number(c.course_type),
+          }))
+          setData(courses)
+          setFilteredData(courses)
+          setTypeCounts(calculateTypeCounts(courses))
         }
       } catch (error) {
         console.error('無法取得資料:', error)
@@ -34,28 +40,37 @@ const CourseList = () => {
     fetchData()
   }, [])
 
+  // 篩選 + 排序 + 分頁
   useEffect(() => {
-    // 處理篩選和排序
-    const filteredAndSortedData = sortContent(filterByType(data, selectedType))
-    setFilteredData(filteredAndSortedData)
+    let filtered = filterByType(data, selectedType)
 
-    // 分頁處理
+    // 搜尋
+    if (search) {
+      filtered = filtered.filter(
+        (course) =>
+          course.course_name.toLowerCase().includes(search.toLowerCase()) ||
+          course.course_summary.toLowerCase().includes(search.toLowerCase())
+      )
+    }
+
+    // 排序
+    const sorted = sortContent(filtered)
+    setFilteredData(sorted)
+
+    // 分頁
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-    const paginated = filteredAndSortedData.slice(
-      startIndex,
-      startIndex + ITEMS_PER_PAGE
-    )
+    const paginated = sorted.slice(startIndex, startIndex + ITEMS_PER_PAGE)
     setPaginatedData(paginated)
-  }, [data, selectedType, selectedOption, currentPage])
+  }, [data, selectedType, selectedOption, currentPage, search])
 
-  // 處理篩選
+  // 篩選
   const filterByType = (data, type) => {
     return type !== null
-      ? data.filter((item) => item.course_type === type)
+      ? data.filter((item) => item.course_type === Number(type))
       : data
   }
 
-  // 處理排序
+  // 排序
   const sortContent = (data) => {
     let sorted = [...data]
     switch (selectedOption) {
@@ -68,8 +83,7 @@ const CourseList = () => {
         break
       case '最新課程':
         sorted.sort(
-          (a, b) =>
-            new Date(b.course_create_day) - new Date(a.course_create_day)
+          (a, b) => new Date(b.course_create_day) - new Date(a.course_create_day)
         )
         break
       case '價格由高到低':
@@ -84,24 +98,20 @@ const CourseList = () => {
     return sorted
   }
 
-  // 計算每種類型的總數量
+  // 計算分類數量
   const calculateTypeCounts = (data) => {
     return data.reduce(
       (acc, item) => {
-        if (item.course_type === 1) {
-          acc[1] += 1
-        } else if (item.course_type === 2) {
-          acc[2] += 1
-        } else if (item.course_type === 3) {
-          acc[3] += 1
-        }
+        const type = Number(item.course_type)
+        if (type === 1) acc[1] += 1
+        else if (type === 2) acc[2] += 1
+        else if (type === 3) acc[3] += 1
         return acc
       },
       { 1: 0, 2: 0, 3: 0 }
     )
   }
 
-  // 顯示對應的種類名稱
   const typeNames = {
     1: '小提琴',
     2: '中提琴',
@@ -113,7 +123,6 @@ const CourseList = () => {
     setCurrentPage(1)
   }
 
-  // 處理類型變更
   const handleTypeChange = (type) => {
     const typeMap = {
       所有商品: null,
@@ -125,46 +134,26 @@ const CourseList = () => {
     setCurrentPage(1)
   }
 
-  // 搜尋的內容改變
   const handleSearchChange = (event) => {
     setSearch(event.target.value)
   }
-  // 處理搜尋
+
   const handleSearchClick = () => {
-    const filteredAndSortedData = sortContent(
-      filterByType(data, selectedType)
-    ).filter(
-      (course) =>
-        course.course_name.toLowerCase().includes(search.toLowerCase()) ||
-        course.course_summary.toLowerCase().includes(search.toLowerCase())
-    )
-    setFilteredData(filteredAndSortedData)
-
-    // 分頁處理
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
-    const paginated = filteredAndSortedData.slice(
-      startIndex,
-      startIndex + ITEMS_PER_PAGE
-    )
-    setPaginatedData(paginated)
-
-    setCurrentPage(1) // 重置到第一頁
+    setCurrentPage(1)
   }
-  // 清除搜尋
+
   const handleClearSearch = () => {
     setSearch('')
-    setFilteredData(data)
-    setPaginatedData(data.slice(0, ITEMS_PER_PAGE))
-    setCurrentPage(1) // 重置到第一頁
+    setCurrentPage(1)
   }
 
-  // 計算總頁數
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE)
 
   const handlePageChange = (page) => {
     setCurrentPage(page)
-    window.scrollTo(0, 0) // 滾動至頂部
+    window.scrollTo(0, 0)
   }
+
 
   return (
     <div className="container">
