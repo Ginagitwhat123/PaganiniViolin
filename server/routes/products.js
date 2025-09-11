@@ -221,7 +221,7 @@ router.get('/:id', async (req, res) => {
       GROUP BY product.id, product_category.name, product_brand.name;
 `,
       {
-        replacements: [id], // 用戶輸入的 id 替換進查詢語句中
+        replacements: { id }, // 用戶輸入的 id 替換進查詢語句中
         type: sequelize.QueryTypes.SELECT, // 指定查詢類型
       }
     )
