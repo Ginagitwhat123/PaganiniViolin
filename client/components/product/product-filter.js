@@ -27,7 +27,7 @@ export default function ProductFilter({
 
   // 當 minPrice 和 maxPrice prop 更新時，更新初始值
   useEffect(() => {
-    if (minPrice && maxPrice) {
+    if (minPrice !== null && maxPrice !== null) {
       setCurrentMinPrice(minPrice)
       setCurrentMaxPrice(maxPrice)
     }
@@ -35,7 +35,7 @@ export default function ProductFilter({
 
 
   useEffect(() => {
-    if (initialMinPrice !== undefined && initialMaxPrice !== undefined) {
+    if (initialMinPrice !== null && initialMaxPrice !== null && (initialMaxPrice - initialMinPrice) > 0) {
       setMinValue(((currentMinPrice - initialMinPrice) / (initialMaxPrice - initialMinPrice)) * 100)
       setMaxValue(((currentMaxPrice - initialMinPrice) / (initialMaxPrice - initialMinPrice)) * 100)
     }
@@ -91,6 +91,11 @@ export default function ProductFilter({
     const min = initialMinPrice || minPrice
     const max = initialMaxPrice || maxPrice
 
+    if ((max - min) <= 0) {
+      console.error('價格範圍無效')
+      return
+    }
+    
     if (type === 'min') {
       const newMinPrice = Math.max(value, min)
       setCurrentMinPrice(newMinPrice)

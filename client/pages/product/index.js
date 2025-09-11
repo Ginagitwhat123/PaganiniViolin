@@ -168,6 +168,7 @@ export default function List() {
                   <IoSearch size={20} />
                 </button>
               </div>
+              {initialMinPrice !== null && initialMaxPrice !== null && (
               <ProductFilter
                 brandNames={brands.map((b) => b.name)}
                 brandCounts={brands.reduce((acc, b) => {
@@ -190,6 +191,7 @@ export default function List() {
                 selectedCategory={selectedCategory}
                 selectedBrand={selectedBrand}
               />
+              )}
             </div>
           </div>
           <div className={`${styles.productContainer} col-md-9`}>
@@ -202,6 +204,7 @@ export default function List() {
                 <i class="bi bi-funnel-fill"></i>
               </button>
               {/* 小尺寸時的 Offcanvas 篩選視窗 */}
+              {initialMinPrice !== null && initialMaxPrice !== null && (
               <FilterOffcanvas
                 show={showOffcanvas}
                 handleClose={handleClose}
@@ -226,7 +229,7 @@ export default function List() {
                 selectedCategory={selectedCategory}
                 selectedBrand={selectedBrand}
               />
-
+              )}
               <div className={styles.searchBarSm}>
                 <input
                   type="text"

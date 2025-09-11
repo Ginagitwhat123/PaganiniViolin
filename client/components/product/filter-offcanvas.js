@@ -39,26 +39,19 @@ export default function FilterOffcanvas({
 
   // 當 minPrice 和 maxPrice prop 更新時，更新初始值
   useEffect(() => {
-    if (minPrice && maxPrice) {
-      setCurrentMinPrice(minPrice)
-      setCurrentMaxPrice(maxPrice)
-    }
-  }, [minPrice, maxPrice])
+      if (minPrice !== null && maxPrice !== null) {
+        setCurrentMinPrice(minPrice)
+        setCurrentMaxPrice(maxPrice)
+      }
+    }, [minPrice, maxPrice])
 
   useEffect(() => {
-    if (initialMinPrice !== undefined && initialMaxPrice !== undefined) {
-      setMinValue(
-        ((currentMinPrice - initialMinPrice) /
-          (initialMaxPrice - initialMinPrice)) *
-          100
-      )
-      setMaxValue(
-        ((currentMaxPrice - initialMinPrice) /
-          (initialMaxPrice - initialMinPrice)) *
-          100
-      )
-    }
-  }, [initialMinPrice, initialMaxPrice, currentMinPrice, currentMaxPrice])
+      if (initialMinPrice !== null && initialMaxPrice !== null && (initialMaxPrice - initialMinPrice) > 0) {
+        setMinValue(((currentMinPrice - initialMinPrice) / (initialMaxPrice - initialMinPrice)) * 100)
+        setMaxValue(((currentMaxPrice - initialMinPrice) / (initialMaxPrice - initialMinPrice)) * 100)
+      }
+    }, [initialMinPrice, initialMaxPrice, currentMinPrice, currentMaxPrice])
+
 
   const convertToPrice = (percentage) => {
     const min = initialMinPrice || minPrice
@@ -106,6 +99,11 @@ export default function FilterOffcanvas({
     const value = parseInt(e.target.value) || 0
     const min = initialMinPrice || minPrice
     const max = initialMaxPrice || maxPrice
+
+    if ((max - min) <= 0) {
+      console.error('價格範圍無效')
+      return
+    }
 
     if (type === 'min') {
       const newMinPrice = Math.max(value, min)
