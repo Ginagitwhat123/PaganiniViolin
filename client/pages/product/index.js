@@ -25,6 +25,7 @@ export default function List() {
   const [searchTerm, setSearchTerm] = useState('')
   const [searchInput, setSearchInput] = useState('')
   const [typingTimeout, setTypingTimeout] = useState(null)
+  const [isLoading, setIsLoading] = useState(true);
   
   const router = useRouter()
   // 點擊卡片後導向商品詳細頁
@@ -34,6 +35,9 @@ export default function List() {
   // 取得商品資料
   useEffect(() => {
     const fetchProducts = async () => {
+      if (initialMinPrice === null || initialMaxPrice === null) return
+      setIsLoading(true)
+
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/products?page=${currentPage}&limit=9&search=${searchTerm}&category=${selectedCategory}&brand=${selectedBrand}&sort=${selectedSortOption}&minPrice=${minPrice}&maxPrice=${maxPrice}`
@@ -47,6 +51,8 @@ export default function List() {
         }
       } catch (error) {
         console.error('無法取得資料:', error)
+      }finally {
+        setIsLoading(false); 
       }
     }
     fetchProducts()
@@ -280,34 +286,42 @@ export default function List() {
             </div>
 
             <div className="row row-cols-2 row-cols-sm-2 row-cols-md-3">
-              {products.map((product) => {
-                // 將圖片字串分割成陣列
-                const pictures = product.pictures
-                  ? product.pictures.split(',')
-                  : []
-                // 篩選包含 '-1.' 的圖片作為默認圖片
-                const defaultPic = pictures.find((pic) => pic.includes('-1.'))
-                // 篩選包含 '-2.' 的圖片作為 hover 時的圖片
-                const hoverPic = pictures.find((pic) => pic.includes('-2.'))
+              {isLoading ? (
+                <div className={styles.loading}>
+                  <h5 className='fontDarkBrown'>商品載入中...</h5>
+                  <hr />
+                </div>
+              ) : products.length > 0 ? (
+                products.map((product) => {
+                  const pictures = product.pictures
+                    ? product.pictures.split(',')
+                    : []
+                  const defaultPic = pictures.find((pic) =>
+                    pic.includes('-1.')
+                  )
+                  const hoverPic = pictures.find((pic) => pic.includes('-2.'))
 
-                return (
-                  <div className="col" key={product.id}>
-                    <ProductCard
-                      brand_name={product.brand_name}
-                      product_name={product.product_name}
-                      price={product.price}
-                      discount_price={product.discount_price}
-                      defaultPic={defaultPic} // 傳遞默認圖片
-                      hoverPic={hoverPic} // 傳遞 hover 圖片
-                      product_id={product.id} // 傳遞當前產品的 ID
-                      handleCardClick={() => handleCardClick(product.id)}
-                    />
-                  </div>
-                )
-              })}
+                  return (
+                    <div className="col" key={product.id}>
+                      <ProductCard
+                        brand_name={product.brand_name}
+                        product_name={product.product_name}
+                        price={product.price}
+                        discount_price={product.discount_price}
+                        defaultPic={defaultPic}
+                        hoverPic={hoverPic}
+                        product_id={product.id}
+                        handleCardClick={() => handleCardClick(product.id)}
+                      />
+                    </div>
+                  )
+                })
+              ) : ""}
             </div>
             <div className={styles.pageSelectorArea}>
-              {products.length > 0 ? (
+              {isLoading ? (
+                ''
+              ) : products.length > 0 ? (
                 <PageSelector
                   currentPage={currentPage}
                   totalPages={totalPages}

@@ -24,21 +24,19 @@ extendLog()
 // 建立 Express 應用程式
 const app = express()
 
-// cors設定，參數為必要，注意不要只寫`app.use(cors())`
+// cors設定
+const allowedOrigins =
+  process.env.NODE_ENV === 'production'
+    ? 'https://paganini-violin.vercel.app'
+    : ['http://localhost:3000', 'https://localhost:9000']
+
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://localhost:9000'],
+    origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   })
 )
-
-// 允許特定來源的CORS 如Vercel
-const corsOptions = {
-  origin: 'https://paganini-violin.vercel.app', 
-  optionsSuccessStatus: 200 
-};
-app.use(cors(corsOptions));
 
 
 // 視圖引擎設定
