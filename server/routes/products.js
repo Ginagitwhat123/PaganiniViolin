@@ -21,8 +21,8 @@ router.get('/', async function (req, res) {
     SELECT 
       product.id, 
       product.product_name, 
-      product.price, 
-      product.discount_price, 
+      product.price::NUMERIC, 
+      product.discount_price::NUMERIC, 
       product.description, 
       product_category.name AS category_name, 
       product_brand.name AS brand_name,
@@ -53,22 +53,22 @@ router.get('/', async function (req, res) {
 
   if (search) {
     conditions.push(`(
-      product.product_name LIKE :search OR 
-      product_brand.name LIKE :search OR 
-      product_category.name LIKE :search
+      product.product_name ILIKE :search OR 
+      product_brand.name ILIKE :search OR 
+      product_category.name ILIKE :search
     )`)
     replacements.search = `%${search}%`
   }
 
-   // 處理 minPrice 和 maxPrice
-  if (req.query.minPrice && !isNaN(parseInt(req.query.minPrice, 10))) {
-    conditions.push(`COALESCE(product.discount_price, product.price) >= :minPrice`)
-    replacements.minPrice = parseInt(req.query.minPrice, 10)
+  // 處理 minPrice 和 maxPrice，確保數值類型
+  if (req.query.minPrice && !isNaN(parseFloat(req.query.minPrice))) {
+    conditions.push(`COALESCE(product.discount_price::NUMERIC, product.price::NUMERIC) >= :minPrice`)
+    replacements.minPrice = parseFloat(req.query.minPrice)
   }
   
-  if (req.query.maxPrice && !isNaN(parseInt(req.query.maxPrice, 10))) {
-    conditions.push(`COALESCE(product.discount_price, product.price) <= :maxPrice`)
-    replacements.maxPrice = parseInt(req.query.maxPrice, 10)
+  if (req.query.maxPrice && !isNaN(parseFloat(req.query.maxPrice))) {
+    conditions.push(`COALESCE(product.discount_price::NUMERIC, product.price::NUMERIC) <= :maxPrice`)
+    replacements.maxPrice = parseFloat(req.query.maxPrice)
   }
 
   if (conditions.length > 0) {
@@ -84,8 +84,9 @@ router.get('/', async function (req, res) {
     product.description,
     product_category.name,
     product_brand.name`
-  if (sort === 'priceAsc') baseQuery += ` ORDER BY COALESCE(product.discount_price, product.price) ASC`
-  else if (sort === 'priceDesc') baseQuery += ` ORDER BY COALESCE(product.discount_price, product.price) DESC`
+    
+  if (sort === 'priceAsc') baseQuery += ` ORDER BY COALESCE(product.discount_price::NUMERIC, product.price::NUMERIC) ASC`
+  else if (sort === 'priceDesc') baseQuery += ` ORDER BY COALESCE(product.discount_price::NUMERIC, product.price::NUMERIC) DESC`
   else if (sort === 'newest') baseQuery += ` ORDER BY product.id DESC`
   else if (sort === 'oldest') baseQuery += ` ORDER BY product.id ASC`
 
@@ -100,6 +101,13 @@ router.get('/', async function (req, res) {
       replacements,
     })
 
+    // 確保價格為數字格式
+    const processedProducts = products.map(product => ({
+      ...product,
+      price: parseFloat(product.price) || 0,
+      discount_price: product.discount_price ? parseFloat(product.discount_price) : null
+    }))
+
     // 查詢符合條件的資料總數量
     const countQuery = `
       SELECT COUNT(DISTINCT product.id) as count 
@@ -112,7 +120,7 @@ router.get('/', async function (req, res) {
     `
 
     const [totalResult] = await sequelize.query(countQuery, { replacements })
-    const total = totalResult[0].count
+    const total = parseInt(totalResult[0].count, 10)
 
     // 查詢所有商品的總數量（不帶篩選條件）
     const overallCountQuery = `
@@ -120,12 +128,12 @@ router.get('/', async function (req, res) {
     FROM product
 `
     const [overallCountResult] = await sequelize.query(overallCountQuery)
-    const overallTotal = overallCountResult[0].count
+    const overallTotal = parseInt(overallCountResult[0].count, 10)
 
     return res.json({
       status: 'success',
       data: {
-        products,
+        products: processedProducts,
         total, // 當前篩選條件的總數量
         overallTotal, // 所有商品的總數量
       },
@@ -143,44 +151,62 @@ router.get('/categories-and-brands', async function (req, res) {
     const [categories] = await sequelize.query(`
       SELECT DISTINCT 
         product_category.name,
-        COUNT(product.id) as count
+        COUNT(product.id)::INTEGER as count
       FROM product_category
       LEFT JOIN product ON product.category_id = product_category.id
       GROUP BY product_category.name
+      ORDER BY product_category.name
     `)
 
     // 取得所有品牌
     const [brands] = await sequelize.query(`
       SELECT DISTINCT 
         product_brand.name,
-        COUNT(product.id) as count
+        COUNT(product.id)::INTEGER as count
       FROM product_brand
       LEFT JOIN product ON product.brand_id = product_brand.id
       GROUP BY product_brand.name
+      ORDER BY product_brand.name
     `)
 
+    // 取得價格範圍，確保返回正確的數字格式
     const [priceRange] = await sequelize.query(`
       SELECT 
         MIN(CASE 
           WHEN product.discount_price IS NOT NULL AND product.discount_price > 0 
-          THEN product.discount_price 
-          ELSE product.price 
-        END) as min_price,
+          THEN product.discount_price::NUMERIC 
+          ELSE product.price::NUMERIC 
+        END)::INTEGER as min_price,
         MAX(CASE 
           WHEN product.discount_price IS NOT NULL AND product.discount_price > 0 
-          THEN product.discount_price 
-          ELSE product.price 
-        END) as max_price
+          THEN product.discount_price::NUMERIC 
+          ELSE product.price::NUMERIC 
+        END)::INTEGER as max_price
       FROM product
       WHERE product.price > 0
     `)
 
+    // 確保價格範圍為有效數字
+    const processedPriceRange = priceRange[0] ? {
+      min_price: parseInt(priceRange[0].min_price, 10) || 0,
+      max_price: parseInt(priceRange[0].max_price, 10) || 1000000
+    } : {
+      min_price: 0,
+      max_price: 1000000
+    }
+
     return res.json({
       status: 'success',
       data: {
-        categories,
-        brands,
-        priceRange: priceRange[0]
+        categories: categories.map(cat => ({
+          ...cat,
+          count: parseInt(cat.count, 10) || 0
+        })),
+        brands: brands.map(brand => ({
+          ...brand,
+          count: parseInt(brand.count, 10) || 0
+        })),
+        priceRange: processedPriceRange
       },
     })
   } catch (error) {
@@ -200,8 +226,8 @@ router.get('/:id', async (req, res) => {
       `SELECT 
         product.id, 
         product.product_name, 
-        product.price, 
-        product.discount_price, 
+        product.price::NUMERIC, 
+        product.discount_price::NUMERIC, 
         product.description, 
         product_category.name AS category_name, 
         product_brand.name AS brand_name,
@@ -227,7 +253,14 @@ router.get('/:id', async (req, res) => {
     )
 
     if (product) {
-      return res.json({ status: 'success', data: product })
+      // 確保價格為數字格式
+      const processedProduct = {
+        ...product,
+        price: parseFloat(product.price) || 0,
+        discount_price: product.discount_price ? parseFloat(product.discount_price) : null
+      }
+      
+      return res.json({ status: 'success', data: processedProduct })
     } else {
       return res.status(404).json({ error: { message: 'Not Found' } })
     }
@@ -269,8 +302,8 @@ router.get('/recommend/:id', async (req, res) => {
         SELECT 
           product.id, 
           product.product_name, 
-          product.price, 
-          product.discount_price,
+          product.price::NUMERIC, 
+          product.discount_price::NUMERIC,
           product_brand.name AS brand_name,
           STRING_AGG(product_picture.picture_url::text, ',' ORDER BY product_picture.id) AS pictures
         FROM product
@@ -289,8 +322,8 @@ router.get('/recommend/:id', async (req, res) => {
         SELECT 
           product.id, 
           product.product_name, 
-          product.price, 
-          product.discount_price,
+          product.price::NUMERIC, 
+          product.discount_price::NUMERIC,
           product_brand.name AS brand_name,
           STRING_AGG(product_picture.picture_url::text, ',' ORDER BY product_picture.id) AS pictures
         FROM product
@@ -313,7 +346,14 @@ router.get('/recommend/:id', async (req, res) => {
       }
     )
 
-    return res.json({ status: 'success', data: recommendProducts })
+    // 確保價格為數字格式
+    const processedRecommendProducts = recommendProducts.map(product => ({
+      ...product,
+      price: parseFloat(product.price) || 0,
+      discount_price: product.discount_price ? parseFloat(product.discount_price) : null
+    }))
+
+    return res.json({ status: 'success', data: processedRecommendProducts })
   } catch (error) {
     console.error('無法取得推薦商品:', error)
     return res

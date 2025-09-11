@@ -28,10 +28,18 @@ export default function List() {
   const [isLoading, setIsLoading] = useState(true);
   
   const router = useRouter()
+  
+  // 數字安全轉換函數
+  const ensureNumber = (value) => {
+    const num = Number(value)
+    return isNaN(num) ? 0 : num
+  }
+
   // 點擊卡片後導向商品詳細頁
   const handleCardClick = (id) => {
     router.push(`/product/${id}`)
   }
+
   // 取得商品資料
   useEffect(() => {
     const fetchProducts = async () => {
@@ -39,12 +47,23 @@ export default function List() {
       setIsLoading(true)
 
       try {
+        // 確保價格參數為數字
+        const safeMinPrice = ensureNumber(minPrice)
+        const safeMaxPrice = ensureNumber(maxPrice)
+        
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/products?page=${currentPage}&limit=9&search=${searchTerm}&category=${selectedCategory}&brand=${selectedBrand}&sort=${selectedSortOption}&minPrice=${minPrice}&maxPrice=${maxPrice}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/products?page=${currentPage}&limit=9&search=${searchTerm}&category=${selectedCategory}&brand=${selectedBrand}&sort=${selectedSortOption}&minPrice=${safeMinPrice}&maxPrice=${safeMaxPrice}`
         )
         const result = await response.json()
         if (result.status === 'success') {
-          setProducts(result.data.products)
+          // 確保產品數據中的價格為數字格式
+          const processedProducts = result.data.products.map(product => ({
+            ...product,
+            price: ensureNumber(product.price),
+            discount_price: product.discount_price ? ensureNumber(product.discount_price) : null
+          }))
+          
+          setProducts(processedProducts)
           setTotalPages(Math.ceil(result.data.total / 9))
           setFilteredTotal(result.data.total) // 設定篩選後的商品總數
           setOverallTotal(result.data.overallTotal) // 設定所有商品的總數
@@ -78,14 +97,18 @@ export default function List() {
           setCategories(result.data.categories)
           setBrands(result.data.brands)
 
-        if (result.data.priceRange) {
-          const { min_price, max_price } = result.data.priceRange
-          setInitialMinPrice(min_price) // 儲存初始最小價格
-          setInitialMaxPrice(max_price) // 儲存初始最大價格
-          setMinPrice(min_price)
-          setMaxPrice(max_price)
+          if (result.data.priceRange) {
+            const { min_price, max_price } = result.data.priceRange
+            // 確保價格為數字格式
+            const safeMinPrice = ensureNumber(min_price)
+            const safeMaxPrice = ensureNumber(max_price)
+            
+            setInitialMinPrice(safeMinPrice) // 儲存初始最小價格
+            setInitialMaxPrice(safeMaxPrice) // 儲存初始最大價格
+            setMinPrice(safeMinPrice)
+            setMaxPrice(safeMaxPrice)
+          }
         }
-      }
       } catch (error) {
         console.error('無法取得類別和品牌資料:', error)
       }
@@ -116,14 +139,14 @@ export default function List() {
     let sorted = [...productsToSort]
     if (selectedSortOption === 'priceAsc') {
       sorted.sort((a, b) => {
-        const priceA = a.discount_price || a.price
-        const priceB = b.discount_price || b.price
+        const priceA = ensureNumber(a.discount_price || a.price)
+        const priceB = ensureNumber(b.discount_price || b.price)
         return priceA - priceB
       })
     } else if (selectedSortOption === 'priceDesc') {
       sorted.sort((a, b) => {
-        const priceA = a.discount_price || a.price
-        const priceB = b.discount_price || b.price
+        const priceA = ensureNumber(a.discount_price || a.price)
+        const priceB = ensureNumber(b.discount_price || b.price)
         return priceB - priceA
       })
     } else if (selectedSortOption === 'oldest') {
@@ -156,6 +179,16 @@ export default function List() {
   const handleShow = () => setShowOffcanvas(true)
   const handleClose = () => setShowOffcanvas(false)
 
+  // 安全的價格比較函數
+  const isPriceFiltered = () => {
+    const currentMin = ensureNumber(minPrice)
+    const currentMax = ensureNumber(maxPrice)
+    const initialMin = ensureNumber(initialMinPrice)
+    const initialMax = ensureNumber(initialMaxPrice)
+    
+    return currentMin !== initialMin || currentMax !== initialMax
+  }
+
   return (
     <>
       <div className="container">
@@ -186,10 +219,10 @@ export default function List() {
                   acc[c.name] = c.count
                   return acc
                 }, {})}
-                minPrice={minPrice || 0}
-                maxPrice={maxPrice || 1000000}
-                initialMinPrice={initialMinPrice || 0} // 新增傳遞初始最小價格
-                initialMaxPrice={initialMaxPrice || 1000000} // 新增傳遞初始最大價格
+                minPrice={ensureNumber(minPrice)}
+                maxPrice={ensureNumber(maxPrice)}
+                initialMinPrice={ensureNumber(initialMinPrice)} // 新增傳遞初始最小價格
+                initialMaxPrice={ensureNumber(initialMaxPrice)} // 新增傳遞初始最大價格
                 setMinPrice={setMinPrice}
                 setMaxPrice={setMaxPrice}
                 setSelectedCategory={setSelectedCategory}
@@ -224,10 +257,10 @@ export default function List() {
                   acc[c.name] = c.count
                   return acc
                 }, {})}
-                minPrice={minPrice || 0}
-                maxPrice={maxPrice || 1000000}
-                initialMinPrice={initialMinPrice || 0} 
-                initialMaxPrice={initialMaxPrice || 1000000} 
+                minPrice={ensureNumber(minPrice)}
+                maxPrice={ensureNumber(maxPrice)}
+                initialMinPrice={ensureNumber(initialMinPrice)} // 新增傳遞初始最小價格
+                initialMaxPrice={ensureNumber(initialMaxPrice)} // 新增傳遞初始最大價格
                 setMinPrice={setMinPrice}
                 setMaxPrice={setMaxPrice}
                 setSelectedCategory={setSelectedCategory}
@@ -254,8 +287,7 @@ export default function List() {
                 {selectedCategory ||
                 selectedBrand ||
                 searchTerm ||
-                minPrice !== initialMinPrice ||
-                maxPrice !== initialMaxPrice
+                isPriceFiltered()
                   ? filteredTotal
                   : overallTotal}
                 件商品
@@ -306,8 +338,8 @@ export default function List() {
                       <ProductCard
                         brand_name={product.brand_name}
                         product_name={product.product_name}
-                        price={product.price}
-                        discount_price={product.discount_price}
+                        price={ensureNumber(product.price)}
+                        discount_price={product.discount_price ? ensureNumber(product.discount_price) : null}
                         defaultPic={defaultPic}
                         hoverPic={hoverPic}
                         product_id={product.id}
