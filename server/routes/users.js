@@ -16,8 +16,8 @@ router.get('/', authenticate, async function (req, res) {
   const id = req.user.id
 
   // 檢查是否為授權會員，只有授權會員可以存取自己的資料
-  const [rows] = await sequelize.query('SELECT * FROM users WHERE id = $1', {
-    replacements: [id],
+  const rows = await sequelize.query('SELECT * FROM users WHERE id = :id', {
+    replacements: { id },
     type: sequelize.QueryTypes.SELECT,
   })
 
@@ -38,8 +38,8 @@ router.get('/:id', authenticate, async function (req, res) {
     return res.json({ status: 'error', message: '存取會員資料失敗' })
   }
 
-  const [rows] = await sequelize.query('SELECT * FROM users WHERE id = $1', {
-    replacements: [id],
+  const rows = await sequelize.query('SELECT * FROM users WHERE id = :id', {
+    replacements: { id },
     type: sequelize.QueryTypes.SELECT,
   })
 
@@ -65,10 +65,10 @@ router.post('/', async (req, res, next) => {
   const newUser = req.body
 
   // 檢查是否有重覆的 email 或 account
-  const [rows] = await sequelize.query(
-    'SELECT * FROM users WHERE email = $1 OR account = $2',
+  const rows = await sequelize.query(
+    'SELECT * FROM users WHERE email = :email OR account = :account',
     {
-      replacements: [newUser.email, newUser.account],
+      replacements: { email: newUser.email, account: newUser.account },
       type: sequelize.QueryTypes.SELECT,
     }
   )
@@ -78,25 +78,28 @@ router.post('/', async (req, res, next) => {
   }
 
   // 直接使用明文密碼
-  const [result] = await sequelize.query(
-    'INSERT INTO users(member_name, account, password, email, gender, phone, birthdate, address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+  const result = await sequelize.query(
+    `INSERT INTO users
+      (member_name, account, password, email, gender, phone, birthdate, address)
+     VALUES (:member_name, :account, :password, :email, :gender, :phone, :birthdate, :address)
+     RETURNING id`,
     {
-      replacements: [
-        newUser.member_name,
-        newUser.account,
-        newUser.password,
-        newUser.email,
-        newUser.gender,
-        newUser.phone,
-        newUser.birthdate,
-        newUser.address,
-      ],
-      type: sequelize.QueryTypes.INSERT,
+      replacements: {
+        member_name: newUser.member_name,
+        account: newUser.account,
+        password: newUser.password, 
+        email: newUser.email,
+        gender: newUser.gender,
+        phone: newUser.phone,
+        birthdate: newUser.birthdate,
+        address: newUser.address,
+      },
+      type: sequelize.QueryTypes.SELECT,
     }
   )
 
     // 註冊成功後自動分配兩張新會員優惠券(目前狀態一直呈現4，已過期)
-    const userId = result[0]?.id
+    const userId = result[0].id
     if (!userId) { 
       return res.json({ status: 'error', message: '新增到資料庫失敗' })
     }
@@ -106,9 +109,16 @@ router.post('/', async (req, res, next) => {
 
     for (const couponId of couponIds) {
       await sequelize.query(
-        'INSERT INTO member_coupon (user_id, coupon_id, status, claimed_at, expiration_date) VALUES ($1, $2, $3, $4, NOW() + INTERVAL \'90 days\')',
+        `INSERT INTO member_coupon
+          (user_id, coupon_id, status, claimed_at, expiration_date)
+         VALUES (:user_id, :coupon_id, :status, :claimed_at, NOW() + INTERVAL '90 days')`,
         {
-          replacements: [userId, couponId, 2, claimedAt],
+          replacements: {
+          user_id: userId,
+          coupon_id: couponId,
+          status: 2,
+          claimed_at: claimedAt,
+        },
           type: sequelize.QueryTypes.INSERT,
         }
       )
@@ -123,15 +133,13 @@ router.post('/', async (req, res, next) => {
 
 // 登入用
 router.post('/login', async (req, res, next) => {
-  console.log(req.body)
-
   const loginUser = req.body
 
   // 1. 先用 account 查詢該會員
-  const [rows] = await sequelize.query(
-    'SELECT * FROM users WHERE account = $1',
+  const rows = await sequelize.query(
+    'SELECT * FROM users WHERE account = :account',
     {
-      replacements: [loginUser.account],
+      replacements: { account: loginUser.account },
       type: sequelize.QueryTypes.SELECT,
     }
   )
@@ -176,95 +184,62 @@ router.post('/logout', authenticate, (req, res) => {
 
 // 更新會員資料
 router.put('/update-profile', authenticate, async (req, res, next) => {
-  const id = req.user.id // 獲取用戶 ID
-  const updateUser = req.body // 獲取前端傳遞的資料
+  const id = req.user.id
+  const updateUser = req.body
 
-  let result = null
-
-  if (updateUser.password) {
-    // 如果需要更新密碼
-    result = await sequelize.query(
-      'UPDATE users SET member_name = $1, password = $2, email = $3, gender = $4, phone = $5, birthdate = $6, address = $7 WHERE id = $8',
-      {
-        replacements: [
-          updateUser.member_name,
-          updateUser.password,
-          updateUser.email,
-          updateUser.gender,
-          updateUser.phone,
-          updateUser.birthdate,
-          updateUser.address,
-          id,
-        ],
-        type: sequelize.QueryTypes.UPDATE,
-      }
-    )
-  } else {
-    // 如果不需要更新密碼
-    result = await sequelize.query(
-      'UPDATE users SET member_name = $1, email = $2, gender = $3, phone = $4, birthdate = $5, address = $6 WHERE id = $7',
-      {
-        replacements: [
-          updateUser.member_name,
-          updateUser.email,
-          updateUser.gender,
-          updateUser.phone,
-          updateUser.birthdate,
-          updateUser.address,
-          id,
-        ],
-        type: sequelize.QueryTypes.UPDATE,
-      }
-    )
-  }
-
-  const [affectedRows] = result
-
-    if (affectedRows > 0) {
-    const [updatedRows] = await sequelize.query('SELECT * FROM users WHERE id = $1', {
-      replacements: [id],
+  const result = await sequelize.query(
+    `UPDATE users
+     SET member_name = :member_name,
+         password = :password,
+         email = :email,
+         gender = :gender,
+         phone = :phone,
+         birthdate = :birthdate,
+         address = :address
+     WHERE id = :id
+     RETURNING *`,
+    {
+      replacements: {
+        member_name: updateUser.member_name,
+        password: updateUser.password, // ⚠️ 建議未來改成 hash
+        email: updateUser.email,
+        gender: updateUser.gender,
+        phone: updateUser.phone,
+        birthdate: updateUser.birthdate,
+        address: updateUser.address,
+        id,
+      },
       type: sequelize.QueryTypes.SELECT,
-    })
-
-    if (updatedRows.length > 0) {
-      const updatedUser = updatedRows[0]
-      delete updatedUser.password // 不返回密碼
-
-      // 返回最新會員資料
-      return res.json({ status: 'success', data: updatedUser })
-    } else {
-      // 無法查詢到更新的資料
-      return res.json({
-        status: 'error',
-        message: '更新成功，但無法獲取最新資料',
-      })
     }
+  )
+
+  if (result.length > 0) {
+    const updatedUser = result[0]
+    delete updatedUser.password
+    return res.json({ status: 'success', data: updatedUser })
   } else {
-    // 更新失敗
-    return res.json({ status: 'error', message: '更新到資料庫失敗' })
+    return res.json({ status: 'error', message: '更新失敗' })
   }
 })
 
 router.post('/change-password', authenticate, async (req, res) => {
   try {
-    console.log('收到請求資料:', req.body); // 檢查請求資料
     const { origin, new: newPassword } = req.body;
 
-    const [rows] = await sequelize.query(
-      'SELECT password FROM users WHERE id = $1',
+    const rows = await sequelize.query(
+      'SELECT password FROM users WHERE id = :id',
       {
-        replacements: [req.user.id],
+        replacements: { id: req.user.id },
         type: sequelize.QueryTypes.SELECT,
       }
     )
-    console.log('查詢到的密碼:', rows);
 
     if (!rows.length || rows[0].password !== origin) {
       return res.status(400).json({ status: 'error', message: '原密碼錯誤' });
     }
 
-    await sequelize.query('UPDATE users SET password = $1 WHERE id = $2', {
-      replacements: [newPassword, req.user.id],
+    await sequelize.query('UPDATE users SET password = :newPassword WHERE id = :id', {
+      replacements: { newPassword, id: req.user.id },
       type: sequelize.QueryTypes.UPDATE,
     })
     console.log('密碼更新成功');
