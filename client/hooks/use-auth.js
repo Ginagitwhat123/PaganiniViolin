@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
   const [auth, setAuth] = useState({
     isAuth: false,
     userData: {
-      ID: 0,
+      id: 0,
       member_name: '',
       email: '',
       account: '',
@@ -186,7 +186,7 @@ export function AuthProvider({ children }) {
       setAuth({
         isAuth: true,
         userData: {
-          ID: member.ID,
+          id: member.id,
           account: member.account,
           member_name: member.member_name,
           email: member.email,
@@ -255,7 +255,7 @@ export function AuthProvider({ children }) {
           setAuth({
             isAuth: false,
             userData: {
-              ID: 0,
+              id: 0,
               member_name: '',
               email: '',
               account: '',
@@ -323,12 +323,12 @@ export function AuthProvider({ children }) {
   const checkState = async () => {
     try {
       const member = await getMember()
-      if (member && member.ID) {
+      if (member && member.id) {
         // 確認取得了完整資料
         setAuth({
           isAuth: true,
           userData: {
-            ID: member.ID,
+            id: member.id,
             account: member.account,
             member_name: member.member_name,
             email: member.email,
