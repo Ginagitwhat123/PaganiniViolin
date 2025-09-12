@@ -224,8 +224,9 @@ router.put('/update-profile', authenticate, async (req, res, next) => {
 
 router.post('/change-password', authenticate, async (req, res) => {
   try {
-    const { origin, new: newPassword } = req.body;
+    const { origin, newPassword } = req.body
 
+    // 1. 取得目前的密碼
     const rows = await sequelize.query(
       'SELECT password FROM users WHERE id = :id',
       {
@@ -235,20 +236,28 @@ router.post('/change-password', authenticate, async (req, res) => {
     )
 
     if (!rows.length || rows[0].password !== origin) {
-      return res.status(400).json({ status: 'error', message: '原密碼錯誤' });
+      return res.status(400).json({ status: 'error', message: '原密碼錯誤' })
     }
 
-    await sequelize.query('UPDATE users SET password = :newPassword WHERE id = :id', {
-      replacements: { newPassword, id: req.user.id },
-      type: sequelize.QueryTypes.UPDATE,
-    })
-    console.log('密碼更新成功');
-    res.json({ status: 'success', message: '密碼修改成功' });
+    // 2. 更新密碼
+    const [result] = await sequelize.query(
+      'UPDATE users SET password = :newPassword WHERE id = :id RETURNING id, account',
+      {
+        replacements: { newPassword, id: req.user.id },
+        type: sequelize.QueryTypes.SELECT, // ✅ 這樣會回傳更新後的資料列
+      }
+    )
+
+    if (!result) {
+      return res.status(500).json({ status: 'error', message: '密碼更新失敗' })
+    }
+
+    return res.json({ status: 'success', message: '密碼修改成功' })
   } catch (error) {
-    console.error('修改密碼時發生錯誤:', error);
-    res.status(500).json({ status: 'error', message: '伺服器錯誤' });
+    console.error('修改密碼時發生錯誤:', error)
+    res.status(500).json({ status: 'error', message: '伺服器錯誤' })
   }
-});
+})
 
 
 

@@ -27,7 +27,7 @@ export default function PasswordChangeForm() {
     setConfirmPasswordValid(value === newPassword);
   };
 
-  const handleSaveNewPassword = (e) => {
+  const handleSaveNewPassword = async (e) => {
     e.preventDefault();
 
     // 驗證輸入
@@ -75,27 +75,49 @@ export default function PasswordChangeForm() {
     }
 
     // 更新密碼
-    setStoredPassword(newPassword);
-
-    Swal.fire({
-      icon: 'success',
-      title: '密碼修改成功',
-      text: '您的密碼已成功更新。',
-      customClass: {
-        title: 'swal2-custom-title', // 自定義標題樣式
-        htmlContainer: 'swal2-custom-text',
-        confirmButton: 'swal2-custom-confirm-button', // 自定義按鈕樣式
-      },
-    });
-
-    // 清空輸入
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmPassword('');
-    setCurrentPasswordValid(null);
-    setNewPasswordValid(null);
-    setConfirmPasswordValid(null);
-  };
+    
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/change-password`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include', // ✅ 確保帶上 cookie (accessToken)
+          body: JSON.stringify({
+            origin: currentPassword,
+            newPassword: newPassword,
+          }),
+        })
+    
+        const data = await res.json()
+    
+        if (data.status === 'success') {
+          Swal.fire({
+            icon: 'success',
+            title: '修改成功',
+            text: '您的密碼已更新',
+          })
+          setCurrentPassword('')
+          setNewPassword('')
+          setConfirmPassword('')
+          setCurrentPasswordValid(null)
+          setNewPasswordValid(null)
+          setConfirmPasswordValid(null)
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: '修改失敗',
+            text: data.message || '請稍後再試',
+          })
+        }
+      } catch (err) {
+        Swal.fire({
+          icon: 'error',
+          title: '伺服器錯誤',
+          text: '請稍後再試',
+        })
+      }
+    }
 
   return (
     <div className="px-lg-5">
