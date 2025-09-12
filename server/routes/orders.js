@@ -36,7 +36,7 @@ router.get('/', authenticate, async (req, res) => {
     // 首先更新符合條件的訂單狀態
     await updateDeliveryStatus(user_id)
 
-    const [orders] = await sequelize.query(
+    const orders = await sequelize.query(
       `
       SELECT orders.*, 
        shop.shop_name, 
@@ -74,7 +74,7 @@ router.get('/', authenticate, async (req, res) => {
 router.get('/last', authenticate, async (req, res) => {
   const user_id = req.user.id
   try {
-    const [orders] = await sequelize.query(
+    const orders = await sequelize.query(
       `
       SELECT orders.*, 
         shop.shop_name, 
@@ -118,7 +118,7 @@ router.get('/ongoing', authenticate, async (req, res) => {
     // 首先更新符合條件的訂單狀態
     await updateDeliveryStatus(user_id)
 
-    const [orders] = await sequelize.query(
+    const orders = await sequelize.query(
       `
       SELECT orders.*, 
        shop.shop_name, 
@@ -160,7 +160,7 @@ router.get('/history', authenticate, async (req, res) => {
     // 首先更新符合條件的訂單狀態
     await updateDeliveryStatus(user_id)
 
-    const [orders] = await sequelize.query(
+    const orders = await sequelize.query(
       `
       SELECT orders.*, 
        shop.shop_name, 

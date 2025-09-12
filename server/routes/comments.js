@@ -13,39 +13,37 @@ router.get('/pending', authenticate, async (req, res) => {
     const pendingReviews = await sequelize.query(
       `
       SELECT
-    orders.order_date,
-    order_items.product_id,
-    order_items.quantity,
-    order_items.size,
-    order_items.price,
-    order_items.discount_price,
-    product.product_name,
-    product_brand.name AS product_brand_name,
-    product_category.name AS category_name,
-    (
-          SELECT
-          product_picture.picture_url
-      FROM
-          product_picture
-      WHERE
-          product_picture.product_id = product.id AND product_picture.picture_url LIKE '%-1.%'
-      ORDER BY product_picture.id -- 加入排序
-      LIMIT 1
-    ) AS picture_url
-FROM
-    order_items
-JOIN product ON order_items.product_id = product.id
-JOIN product_brand ON product.brand_id = product_brand.id
-JOIN product_category ON product.category_id = product_category.id
-LEFT JOIN member_comment ON order_items.product_id = member_comment.product_id 
-    AND order_items.user_id = member_comment.user_id 
-    AND order_items.size = member_comment.size -- 加入尺寸條件
-JOIN orders ON order_items.order_id = orders.order_id
-WHERE
-    order_items.user_id = :user_id
-    AND orders.delivery_status = 1 
-    AND orders.payment_status = 1 
-    AND member_comment.product_id IS NULL; -- 確保該商品及尺寸尚未評價
+        orders.order_date,
+        order_items.product_id,
+        order_items.quantity,
+        order_items.size,
+        order_items.price,
+        order_items.discount_price,
+        product.product_name,
+        product_brand.name AS product_brand_name,
+        product_category.name AS category_name,
+        pp.picture_url
+      FROM order_items
+      JOIN product ON order_items.product_id = product.id
+      JOIN product_brand ON product.brand_id = product_brand.id
+      JOIN product_category ON product.category_id = product_category.id
+      LEFT JOIN member_comment 
+        ON order_items.product_id = member_comment.product_id 
+        AND order_items.user_id = member_comment.user_id 
+        AND order_items.size = member_comment.size
+      JOIN orders ON order_items.order_id = orders.order_id
+      LEFT JOIN LATERAL (
+        SELECT picture_url
+        FROM product_picture
+        WHERE product_picture.product_id = product.id
+          AND product_picture.picture_url LIKE '%-1.%'
+        ORDER BY product_picture.id
+        LIMIT 1
+      ) AS pp ON true
+      WHERE order_items.user_id = :user_id
+        AND orders.delivery_status = 1
+        AND orders.payment_status = 1
+        AND member_comment.product_id IS NULL
 
       `,
       {
@@ -75,54 +73,38 @@ router.get('/list', authenticate, async (req, res) => {
     const comments = await sequelize.query(
       `
       SELECT
-          member_comment.id,
-          member_comment.product_id,
-          member_comment.rating,
-          member_comment.comment,
-          product.product_name,
-          product_brand.name AS product_brand_name,
-          product_category.name AS category_name,
-          order_items.size,
-          orders.order_date,
-          order_items.price,
-          order_items.discount_price,
-          (
-                SELECT
-              product_picture.picture_url
-          FROM
-              product_picture
-          WHERE
-              product_picture.product_id = product.id AND product_picture.picture_url LIKE '%-1.%'
-          ORDER BY product_picture.id -- 加入排序
-          LIMIT 1
-          ) AS picture_url
-      FROM
-          member_comment
+        member_comment.id,
+        member_comment.product_id,
+        member_comment.rating,
+        member_comment.comment,
+        product.product_name,
+        product_brand.name AS product_brand_name,
+        product_category.name AS category_name,
+        order_items.size,
+        orders.order_date,
+        order_items.price,
+        order_items.discount_price,
+        pp.picture_url
+      FROM member_comment
       JOIN product ON member_comment.product_id = product.id
       JOIN product_brand ON product.brand_id = product_brand.id
       JOIN product_category ON product.category_id = product_category.id
-      LEFT JOIN order_items ON member_comment.product_id = order_items.product_id        
-      AND member_comment.size = order_items.size -- 加入尺寸條件
+      LEFT JOIN order_items 
+        ON member_comment.product_id = order_items.product_id
+        AND member_comment.size = order_items.size
       JOIN orders ON order_items.order_id = orders.order_id
-      WHERE
-          member_comment.user_id = :user_id
-          AND orders.delivery_status = 1 
-      AND orders.payment_status = 1 
-      GROUP BY
-          member_comment.id,
-          member_comment.product_id,
-          member_comment.rating,
-          member_comment.comment,
-          product.product_name,
-          product_brand.name,
-          product_category.name,
-          order_items.size,
-          orders.order_date,
-          order_items.price,
-          order_items.discount_price
-      ORDER BY
-          member_comment.id DESC
-
+      LEFT JOIN LATERAL (
+        SELECT picture_url
+        FROM product_picture
+        WHERE product_picture.product_id = product.id
+          AND product_picture.picture_url LIKE '%-1.%'
+        ORDER BY product_picture.id
+        LIMIT 1
+      ) AS pp ON true
+      WHERE member_comment.user_id = :user_id
+        AND orders.delivery_status = 1
+        AND orders.payment_status = 1
+      ORDER BY member_comment.id DESC
       `,
       {
         replacements: { user_id },
