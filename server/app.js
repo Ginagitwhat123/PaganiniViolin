@@ -5,11 +5,6 @@ import createError from 'http-errors'
 import express from 'express'
 import logger from 'morgan'
 import path from 'path'
-import session from 'express-session'
-
-// 使用檔案的session store，存在sessions資料夾
-import sessionFileStore from 'session-file-store'
-const FileStore = sessionFileStore(session)
 
 // 修正 ESM 中的 __dirname 與 windows os 中的 ESM dynamic import
 import { fileURLToPath, pathToFileURL } from 'url'
@@ -30,20 +25,13 @@ const allowedOrigins =
     ? ['https://paganini-violin.vercel.app']
     : ['http://localhost:3000', 'https://localhost:9000']
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true)
-      } else {
-        callback(new Error('Not allowed by CORS'))
-      }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-  })
-)
-
+    app.use(
+      cors({
+        origin: allowedOrigins,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        credentials: true,
+      })
+    )
 
 // 視圖引擎設定
 app.set('views', path.join(__dirname, 'views'))

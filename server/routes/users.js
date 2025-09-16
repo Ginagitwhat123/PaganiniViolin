@@ -174,6 +174,7 @@ router.post('/login', async (req, res, next) => {
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 天
   })
+  return res.json({ status: 'success', message: '登入成功', data: returnUser })
 })
 
 // 登出用
