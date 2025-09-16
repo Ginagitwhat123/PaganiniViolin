@@ -168,7 +168,7 @@ router.post('/login', async (req, res, next) => {
   })
 
   // 使用 httpOnly cookie 來讓瀏覽器端儲存 access token
-  res.cookie('accessToken', token, {
+  res.cookie('accessToken', accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production', // 只有 production 才強制 https
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
