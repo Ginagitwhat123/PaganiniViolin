@@ -32,7 +32,13 @@ const allowedOrigins =
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   })
@@ -54,19 +60,6 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // fileStore的選項 session-cookie使用
-const fileStoreOptions = { logFn: function () {} }
-app.use(
-  session({
-    store: new FileStore(fileStoreOptions), // 使用檔案記錄session
-    name: 'SESSION_ID', // cookie名稱，儲存在瀏覽器裡
-    secret: '67f71af4602195de2450faeb6f8856c0', // 安全字串，應用一個高安全字串
-    cookie: {
-      maxAge: 30 * 86400000, // 30 * (24 * 60 * 60 * 1000) = 30 * 86400000 => session保存30天
-    },
-    resave: false,
-    saveUninitialized: false,
-  })
-)
 
 // 載入routes中的各路由檔案，並套用api路由 START
 const apiPath = '/api' // 預設路由
