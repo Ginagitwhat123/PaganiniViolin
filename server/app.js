@@ -27,7 +27,7 @@ const app = express()
 // cors設定
 const allowedOrigins =
   process.env.NODE_ENV === 'production'
-    ? 'https://paganini-violin.vercel.app'
+    ? ['https://paganini-violin.vercel.app']
     : ['http://localhost:3000', 'https://localhost:9000']
 
 app.use(
