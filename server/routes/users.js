@@ -168,11 +168,11 @@ router.post('/login', async (req, res, next) => {
   })
 
   // 使用 httpOnly cookie 來讓瀏覽器端儲存 access token
-  res.cookie('accessToken', accessToken, { httpOnly: true })
-
-  return res.json({
-    status: 'success',
-    data: { accessToken },
+  res.cookie('accessToken', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // 只有 production 才強制 https
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 天
   })
 })
 
