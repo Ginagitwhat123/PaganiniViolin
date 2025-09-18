@@ -184,7 +184,6 @@ const Course = () => {
             <div className={` ${styles['top-title']} `}>
               <h2 className="h2Bold ">{data.course_name}</h2>
               <div className="btn align-items-center align-self-center">
-                <CourseLike className={`${styles['heart']}`} />
               </div>
             </div>
           </div>

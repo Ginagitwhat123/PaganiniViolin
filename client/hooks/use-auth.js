@@ -25,22 +25,35 @@ export function AuthProvider({ children }) {
     },
   })
 
-  // 我的最愛清單使用
+  // 商品收藏
   const [favorites, setFavorites] = useState([])
 
-  // 得到商品我的最愛
-  const handleGetFavorites = async () => {
+  // 課程收藏
+  const [courseFavorites, setCourseFavorites] = useState([])
 
+  // 取得商品收藏
+  const handleGetFavorites = async () => {
     try {
       const res = await getFavs()
-      // 確保 favorites 是一個陣列
-      const favorites = Array.isArray(res.data.data?.favorites)
+      const favs = Array.isArray(res.data.data?.favorites)
         ? res.data.data.favorites
-        : [];
-
-      setFavorites(favorites);
+        : []
+      setFavorites(favs)
     } catch (error) {
-      console.error('取得收藏清單失敗:', error);
+      console.error('取得商品收藏失敗:', error)
+    }
+  }
+
+  // 取得課程收藏
+  const handleGetCourseFavorites = async () => {
+    try {
+      const res = await getCourseFavs()
+      const favs = Array.isArray(res.data.data?.favorites)
+        ? res.data.data.favorites
+        : []
+      setCourseFavorites(favs)
+    } catch (error) {
+      console.error('取得課程收藏失敗:', error)
     }
   }
 
@@ -73,10 +86,12 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (auth.isAuth) {
       // 成功登入後要執行一次向伺服器取得我的最愛清單
-      GetCourseFavorites()
+      handleGetFavorites()
+      handleGetCourseFavorites()
     } else {
       // 登出時要設回空陣列
       setFavorites([])
+      setCourseFavorites([])
     }
   }, [auth])
 
@@ -370,7 +385,9 @@ export function AuthProvider({ children }) {
         update,
         refreshSession,
         favorites,
-        setFavorites
+        setFavorites,
+        courseFavorites,
+       setCourseFavorites
       }}
     >
       {children}

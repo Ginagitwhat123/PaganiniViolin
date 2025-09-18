@@ -10,74 +10,69 @@ export default function ProductLikeIcon({ product_id, className}) {
     const { auth, favorites = [], setFavorites } = useAuth();
     const [isFavorite, setIsFavorite] = useState(false);
 
-    useEffect(() => {
-        if (Array.isArray(favorites)) {
-          const isFav = favorites.some((item) => item.product_id === product_id); 
-          setIsFavorite(isFav);
-        }
-      }, [favorites, product_id]);
-
-    const handleTriggerFav = (pid) => {
-      // 更新收藏狀態
-    const updatedFavorites = isFavorite
-    ? favorites.filter((item) => item.product_id !== pid)
-    : [...favorites, { product_id: pid }];
-
-  setFavorites(updatedFavorites);
-  setIsFavorite(!isFavorite);
-  };
+    // 當 favorites 或登入狀態變動時，檢查商品是否已收藏
+  useEffect(() => {
+    if (Array.isArray(favorites)) {
+      const isFav = favorites.some((item) => item.product_id === product_id);
+      setIsFavorite(isFav);
+    }
+  }, [favorites, product_id]);
 
   const showLoginAlert = async () => {
-      await Swal.fire({
-          title: '請先登入',
-          text: '請先登入會員後再點擊收藏。',
-          confirmButtonText: '確定',
-          customClass: {
-              title: 'swal2-custom-title',
-              htmlContainer: 'swal2-custom-text',
-              confirmButton: 'swal2-custom-confirm-button',
-          },
-      });
+    await Swal.fire({
+      title: '請先登入',
+      text: '請先登入會員後再點擊收藏。',
+      confirmButtonText: '確定',
+      customClass: {
+        title: 'swal2-custom-title',
+        htmlContainer: 'swal2-custom-text',
+        confirmButton: 'swal2-custom-confirm-button',
+      },
+    });
   };
-  
+
+  // 加入收藏
   const handleAddFav = async (pid) => {
-      if (!auth.isAuth) {
-          await showLoginAlert();
-          return;
-      }
+    if (!auth.isAuth) {
+      await showLoginAlert();
+      return;
+    }
 
-      try {
-          const res = await addFav(pid);
-          if (res.data.status === 'success') {
-              handleTriggerFav(pid);
-              toast.success('商品已加入收藏!');
-          } else {
-              toast.error(res.data.message || '加入收藏失敗');
-          }
-      } catch (error) {
-          console.error('加入收藏失敗:', error);
-          toast.error('系統錯誤，請稍後再試');
+    try {
+      const res = await addFav(pid);
+      if (res.data.status === 'success') {
+        setFavorites((prev) => [...prev, { product_id: pid }]); // 更新 favorites
+        setIsFavorite(true);
+        toast.success('商品已加入收藏!');
+      } else {
+        toast.error(res.data.message || '加入收藏失敗');
       }
+    } catch (error) {
+      console.error('加入收藏失敗:', error);
+      toast.error('系統錯誤，請稍後再試');
+    }
   };
-  
-  const handleRemoveFav = async (pid) => {
-      if (!auth.isAuth) {
-          await showLoginAlert();
-          return;
-      }
 
-      try {
-          const res = await removeFav(pid);
-          if (res.data.status === 'success') {
-              handleTriggerFav(pid);
-              toast.success('商品已取消收藏!');
-          } else {
-              toast.error(res.data.message || '取消收藏失敗');
-          }
-      } catch (error) {
-          console.error('取消收藏失敗:', error);
-          toast.error('系統錯誤，請稍後再試');
+  // 移除收藏
+  const handleRemoveFav = async (pid) => {
+    if (!auth.isAuth) {
+      await showLoginAlert();
+      return;
+    }
+
+    try {
+      const res = await removeFav(pid);
+      if (res.data.status === 'success') {
+        setFavorites((prev) => prev.filter((item) => item.product_id !== pid)); // 更新 favorites
+        setIsFavorite(false);
+        toast.success('商品已取消收藏!');
+      } else {
+        toast.error(res.data.message || '取消收藏失敗');
       }
+    } catch (error) {
+      console.error('取消收藏失敗:', error);
+      toast.error('系統錯誤，請稍後再試');
+    }
   };
 
 
