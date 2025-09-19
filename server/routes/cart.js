@@ -15,7 +15,7 @@ router.get('/', authenticate, async (req, res) => {
         cart.id AS cart_id,
         cart.user_id,
         cart.product_id,
-        cart.quantity,
+        cart.quantity::int AS quantity,
         cart.checked AS card_checked,
         product.product_name,
         product_brand.name AS product_brand_name,
@@ -66,9 +66,9 @@ router.post('/check', authenticate, async (req, res) => {
 
   try {
     const [cartItem] = await sequelize.query(
-      `SELECT quantity FROM cart WHERE user_id = $1 AND product_id = $2 AND size = $3`,
+      `SELECT quantity::int AS quantity FROM cart WHERE user_id = :user_id AND product_id = :product_id AND size = :size`,
       {
-        replacements: [user_id, product_id, size],
+        replacements: {user_id, product_id, size},
         type: sequelize.QueryTypes.SELECT,
       }
     )
@@ -88,7 +88,7 @@ router.get('/checkedCount', authenticate, async (req, res) => {
     const [result] = await sequelize.query(
       `
       SELECT
-          SUM(quantity) AS checkedCount
+          COALESCE(SUM(quantity), 0)::int AS checkedCount
       FROM
           cart
       WHERE
@@ -123,9 +123,9 @@ router.post('/add', authenticate, async (req, res) => {
   try {
     // 檢查購物車中是否已存在相同產品和尺寸
     const [existingItem] = await sequelize.query(
-      `SELECT * FROM cart WHERE user_id = $1 AND product_id = $2 AND size = $3`,
+      `SELECT * FROM cart WHERE user_id = :user_id AND product_id = :product_id AND size = :size`,
       {
-        replacements: [user_id, product_id, size], // size 代表尺寸名稱
+        replacements: { user_id, product_id, size }, // size 代表尺寸名稱
         type: sequelize.QueryTypes.SELECT,
       }
     )
@@ -133,9 +133,9 @@ router.post('/add', authenticate, async (req, res) => {
     if (existingItem) {
       // 如果該尺寸的產品已存在於購物車中，則增加數量
       await sequelize.query(
-        `UPDATE cart SET quantity = quantity + $1 WHERE user_id = $2 AND product_id = $3 AND size = $4`,
+        `UPDATE cart SET quantity = quantity + :quantity WHERE user_id = :user_id AND product_id = :product_id AND size = :size`,
         {
-          replacements: [quantity, user_id, product_id, size],
+          replacements: { quantity, user_id, product_id, size },
           type: sequelize.QueryTypes.UPDATE,
         }
       )
@@ -143,9 +143,9 @@ router.post('/add', authenticate, async (req, res) => {
     } else {
       // 若產品不存在於購物車中，則新增一筆資料
       await sequelize.query(
-        `INSERT INTO cart (user_id, product_id, quantity, size) VALUES ($1, $2, $3, $4);`,
+        `INSERT INTO cart (user_id, product_id, quantity, size) VALUES (:user_id, :product_id, :quantity, :size);`,
         {
-          replacements: [user_id, product_id, quantity, size],
+          replacements: { user_id, product_id, quantity, size },
           type: sequelize.QueryTypes.INSERT,
         }
       )
@@ -164,9 +164,9 @@ router.put('/updateChecked', authenticate, async (req, res) => {
 
   try {
     await sequelize.query(
-      `UPDATE cart SET checked = $1 WHERE user_id = $2 AND product_id = $3 AND size = $4`,
+      `UPDATE cart SET checked = :checked WHERE user_id = :user_id AND product_id = :product_id AND size = :size`,
       {
-        replacements: [checked, user_id, product_id, size],
+        replacements: { checked, user_id, product_id, size },
         type: sequelize.QueryTypes.UPDATE,
       }
     )
@@ -185,8 +185,8 @@ router.put('/updateAllChecked', authenticate, async (req, res) => {
   const { checked } = req.body
 
   try {
-    await sequelize.query(`UPDATE cart SET checked = $1 WHERE user_id = $2`, {
-      replacements: [checked, user_id],
+    await sequelize.query(`UPDATE cart SET checked = :checked WHERE user_id = :user_id`, {
+      replacements:  { checked, user_id },
       type: sequelize.QueryTypes.UPDATE,
     })
     return res.json({ status: 'success', message: '所有商品的勾選狀態已更新' })
@@ -206,9 +206,9 @@ router.put('/updateQuantity', authenticate, async (req, res) => {
   try {
     // 檢查該產品的庫存
     const [sizeInfo] = await sequelize.query(
-      `SELECT stock FROM product_size WHERE product_id = $1 AND size = $2`,
+      `SELECT stock::int AS stock FROM product_size WHERE product_id = :product_id AND size = :size`,
       {
-        replacements: [product_id, size],
+        replacements: { product_id, size },
         type: sequelize.QueryTypes.SELECT,
       }
     )
@@ -230,9 +230,9 @@ router.put('/updateQuantity', authenticate, async (req, res) => {
 
     // 檢查購物車中是否已存在該產品
     const [existingItem] = await sequelize.query(
-      `SELECT * FROM cart WHERE user_id = $1 AND product_id = $2 AND size = $3`,
+      `SELECT * FROM cart WHERE user_id = :user_id AND product_id = :product_id AND size = :size`,
       {
-        replacements: [user_id, product_id, size],
+        replacements: { user_id, product_id, size },
         type: sequelize.QueryTypes.SELECT,
       }
     )
@@ -240,9 +240,9 @@ router.put('/updateQuantity', authenticate, async (req, res) => {
     if (existingItem) {
       // 如果該產品存在於購物車中，更新數量
       await sequelize.query(
-        `UPDATE cart SET quantity = $1 WHERE user_id = $2 AND product_id = $3 AND size = $4`,
+        `UPDATE cart SET quantity = :quantity WHERE user_id = :user_id AND product_id = :product_id AND size = :size`,
         {
-          replacements: [quantity, user_id, product_id, size],
+          replacements: { quantity, user_id, product_id, size },
           type: sequelize.QueryTypes.UPDATE,
         }
       )
@@ -266,9 +266,9 @@ router.delete('/remove', authenticate, async (req, res) => {
   try {
     // 檢查該用戶的購物車中是否已存在該產品
     const [existingItem] = await sequelize.query(
-      `SELECT * FROM cart WHERE user_id = $1 AND product_id = $2 AND size = $3`,
+      `SELECT * FROM cart WHERE user_id = :user_id AND product_id = :product_id AND size = :size`,
       {
-        replacements: [user_id, product_id, size],
+        replacements: { user_id, product_id, size },
         type: sequelize.QueryTypes.SELECT,
       }
     )
@@ -276,9 +276,9 @@ router.delete('/remove', authenticate, async (req, res) => {
     if (existingItem) {
       // 若產品存在於購物車中，刪除指定的購物車項目
       await sequelize.query(
-        `DELETE FROM cart WHERE user_id = $1 AND product_id = $2 AND size = $3`,
+        `DELETE FROM cart WHERE user_id = :user_id AND product_id = :product_id AND size = :size`,
         {
-          replacements: [user_id, product_id, size],
+          replacements: {user_id, product_id, size},
           type: sequelize.QueryTypes.DELETE,
         }
       )

@@ -27,7 +27,21 @@ router.get('/', authenticate, async function (req, res) {
 
   const user = rows[0]
   delete user.password
-  return res.json({ status: 'success', data: { user } })
+  // 取得購物車數量
+  const [cartResult] = await sequelize.query(
+    `
+    SELECT COALESCE(SUM(quantity),0)::int AS cartcount
+    FROM cart
+    WHERE user_id = :user_id AND checked = 1
+    `,
+    {
+      replacements: { user_id: id },
+      type: sequelize.QueryTypes.SELECT,
+    }
+  )
+
+  const cartCount = cartResult?.cartcount ?? 0
+  return res.json({ status: 'success', data: { user, cartCount } })
 })
 
 router.get('/:id', authenticate, async function (req, res) {
@@ -162,6 +176,25 @@ router.post('/login', async (req, res, next) => {
     account: dbUser.account,
   }
 
+  const [cartResult] = await sequelize.query(
+    `
+    SELECT
+        COALESCE(SUM(quantity), 0)::int AS cartcount
+    FROM
+        cart
+    WHERE
+        user_id = :user_id AND checked = 1;
+    `,
+    {
+      replacements: { user_id: dbUser.id },
+      type: sequelize.QueryTypes.SELECT,
+    }
+  )
+  
+  // Postgres 回傳會是 { cartcount: 3 } 這樣
+  const cartCount = cartResult.cartcount ?? 0
+
+
   // 產生存取令牌 (access token)，其中包含會員資料
   const accessToken = jsonwebtoken.sign(returnUser, accessTokenSecret, {
     expiresIn: '3d',
@@ -174,7 +207,10 @@ router.post('/login', async (req, res, next) => {
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 天
   })
-  return res.json({ status: 'success', message: '登入成功', data: returnUser })
+  return res.json({ status: 'success', message: '登入成功', data: {
+      user: returnUser,
+      cartCount, 
+    } })
 })
 
 // 登出用

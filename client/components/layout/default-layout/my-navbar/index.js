@@ -35,6 +35,11 @@ export default function MyNavbar() {
 
   const { totalQuantity } = useOrderCoupon()
 
+  const displayCount =
+  auth.isAuth
+    ? totalQuantity ?? auth.cartCount ?? 0
+    : null
+
   // [會員中心登入檢查]
   const handleMemberCenterClick = (e) => {
     if (!auth.isAuth) {
@@ -131,9 +136,9 @@ export default function MyNavbar() {
                     // style={{ position: 'relative' }} // 使購物車數量基於圖標定位
                   >
                     <IoMdCart className="nav-cart fontLight" />
-                    {totalQuantity > 0 && ( // 只有數量大於 0 時才顯示數量
+                    {displayCount !== null && (
                       <div className="cartNumOutline">
-                        <span className="cartNum">{totalQuantity}</span>
+                        <span className="cartNum">{displayCount}</span>
                       </div>
                     )}
                   </Link>
@@ -173,9 +178,9 @@ export default function MyNavbar() {
               // style={{ position: 'relative' }} // 使購物車數量基於圖標定位
             >
               <IoMdCart className="nav-cart fontLight" />
-              {totalQuantity > 0 && ( // 只有數量大於 0 時才顯示數量
+              {displayCount !== null && (
                 <div className="cartNumOutline">
-                  <span className="cartNum">{totalQuantity}</span>
+                  <span className="cartNum">{displayCount}</span>
                 </div>
               )}
             </Link>

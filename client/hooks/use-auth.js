@@ -21,14 +21,12 @@ export function AuthProvider({ children }) {
       phone: '',
       birthdate: '',
       address: '',
-      gender:''
+      gender: ''
     },
+    cartCount: 0,
   })
 
-  // 商品收藏
   const [favorites, setFavorites] = useState([])
-
-  // 課程收藏
   const [courseFavorites, setCourseFavorites] = useState([])
 
   // 取得商品收藏
@@ -59,48 +57,20 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (auth.isAuth) {
-      // 成功登入後要執行一次向伺服器取得我的最愛清單
-      handleGetFavorites()
-    } else {
-      // 登出時要設回空陣列
-      setFavorites([])
-    }
-  }, [auth])
-
-  // 得到我的最愛的課程
-  const GetCourseFavorites = async () => {
-
-    try {
-      const res = await getCourseFavs()
-      // 確保 favorites 是一個陣列
-      const favorites = Array.isArray(res.data.data?.favorites)
-        ? res.data.data.favorites
-        : [];
-
-      setFavorites(favorites);
-    } catch (error) {
-      console.error('取得收藏清單失敗:', error);
-    }
-  }
-
-  useEffect(() => {
-    if (auth.isAuth) {
-      // 成功登入後要執行一次向伺服器取得我的最愛清單
       handleGetFavorites()
       handleGetCourseFavorites()
     } else {
-      // 登出時要設回空陣列
       setFavorites([])
       setCourseFavorites([])
     }
-  }, [auth])
+  }, [auth.isAuth])
 
   const notify = (
     icon = 'success',
     title,
     msg,
     btnTxt = 'OK',
-    callback = () => { }
+    callback = () => {}
   ) => {
     MySwal.fire({
       icon: icon,
@@ -127,13 +97,7 @@ export function AuthProvider({ children }) {
       method: 'GET',
     })
     const resData = await res.json()
-
-    if (resData.status === 'success') {
-      // 確保返回完整的使用者資料，包括 email、phone、birthdate 和 address 等欄位
-      return resData.data.user
-    } else {
-      return {}
-    }
+    return resData.status === 'success' ? resData.data : {}
   }
 
   const register = async (user) => {
@@ -145,18 +109,14 @@ export function AuthProvider({ children }) {
       method: 'POST',
       body: JSON.stringify(user),
     })
-
     const resData = await res.json()
-
     if (resData.status === 'success') {
       notify(
         'success',
         '歡迎',
         '你已註冊成功，現在要進行登入嗎？',
         '進行登入',
-        () => {
-          router.push('/member/login')
-        }
+        () => router.push('/member/login')
       )
     } else {
       notify('error', '失敗', resData.message)
@@ -173,9 +133,7 @@ export function AuthProvider({ children }) {
       method: 'PUT',
       body: JSON.stringify(user),
     })
-
     const resData = await res.json()
-
     if (resData.status === 'success') {
       notify('success', '更新完成', '已更新完成')
     } else {
@@ -193,52 +151,54 @@ export function AuthProvider({ children }) {
       method: 'POST',
       body: JSON.stringify({ account, password }),
     })
-
     const resData = await res.json()
 
     if (resData.status === 'success') {
+      const { cartCount } = resData.data
       const member = await getMember()
-      setAuth({
-        isAuth: true,
-        userData: {
-          id: member.id,
-          account: member.account,
-          member_name: member.member_name,
-          email: member.email,
-          phone: member.phone,
-          birthdate: member.birthdate,
-          address: member.address,
-          gender: member.gender, // 確保 gender 正確被設置
-        },
-      })
 
-      Swal.fire({
-        icon: 'success',
-        title: '登入成功',
-        text: '歡迎回來！',
-        confirmButtonText: '確定',
-        customClass: {
-          title: 'swal2-custom-title', // 自定義標題樣式
-          htmlContainer: 'swal2-custom-text',
-          confirmButton: 'swal2-custom-confirm-button', // 自定義按鈕樣式
-        },
-      }).then(() => {
-        router.push('/member-center')
-      })
+      if (member && member.user && member.user.id) {
+        setAuth({
+          isAuth: true,
+          userData: {
+            id: member.user.id,
+            account: member.user.account,
+            member_name: member.user.member_name,
+            email: member.user.email,
+            phone: member.user.phone,
+            birthdate: member.user.birthdate,
+            address: member.user.address,
+            gender: member.user.gender || '',
+          },
+          cartCount: Number(member.cartCount) || Number(cartCount) || 0,
+        })
 
-      startAutoRefresh()
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: '登入失敗',
-        text: '帳號或密碼錯誤',
-        confirmButtonText: '確定',
-        customClass: {
-          title: 'swal2-custom-title', // 自定義標題樣式
-          htmlContainer: 'swal2-custom-text',
-          confirmButton: 'swal2-custom-confirm-button', // 自定義按鈕樣式
-        },
-      })
+        Swal.fire({
+          icon: 'success',
+          title: '登入成功',
+          text: '歡迎回來！',
+          confirmButtonText: '確定',
+          customClass: {
+            title: 'swal2-custom-title',
+            htmlContainer: 'swal2-custom-text',
+            confirmButton: 'swal2-custom-confirm-button',
+          },
+        }).then(() => router.push('/member-center'))
+
+        startAutoRefresh()
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: '登入失敗',
+          text: '帳號或密碼錯誤',
+          confirmButtonText: '確定',
+          customClass: {
+            title: 'swal2-custom-title',
+            htmlContainer: 'swal2-custom-text',
+            confirmButton: 'swal2-custom-confirm-button',
+          },
+        })
+      }
     }
   }
 
@@ -251,50 +211,48 @@ export function AuthProvider({ children }) {
       },
       method: 'POST',
     })
-
     const resData = await res.json()
 
     if (resData.status === 'success') {
-      if (resData.status === 'success') {
-        Swal.fire({
-          icon: 'success',
-          title: '成功登出!',
-          text: '您已成功登出系統。',
-          confirmButtonText: '確定',
-          customClass: {
-            title: 'swal2-custom-title',
-            htmlContainer: 'swal2-custom-text',
-            confirmButton: 'swal2-custom-confirm-button',
+      Swal.fire({
+        icon: 'success',
+        title: '成功登出!',
+        text: '您已成功登出系統。',
+        confirmButtonText: '確定',
+        customClass: {
+          title: 'swal2-custom-title',
+          htmlContainer: 'swal2-custom-text',
+          confirmButton: 'swal2-custom-confirm-button',
+        },
+      }).then(() => {
+        setAuth({
+          isAuth: false,
+          userData: {
+            id: 0,
+            member_name: '',
+            email: '',
+            account: '',
+            phone: '',
+            birthdate: '',
+            address: '',
+            gender: ''
           },
-        }).then(() => {
-          setAuth({
-            isAuth: false,
-            userData: {
-              id: 0,
-              member_name: '',
-              email: '',
-              account: '',
-              phone: '',
-              birthdate: '',
-              address: '',
-              gender:''
-            },
-          })
-          stopAutoRefresh()
+          cartCount: 0,
         })
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: '登出失敗!',
-          text: '請稍後再試。',
-          confirmButtonText: '確定',
-          customClass: {
-            title: 'swal2-custom-title',
-            htmlContainer: 'swal2-custom-text',
-            confirmButton: 'swal2-custom-confirm-button',
-          },
-        })
-      }
+        stopAutoRefresh()
+      })
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: '登出失敗!',
+        text: '請稍後再試。',
+        confirmButtonText: '確定',
+        customClass: {
+          title: 'swal2-custom-title',
+          htmlContainer: 'swal2-custom-text',
+          confirmButton: 'swal2-custom-confirm-button',
+        },
+      })
     }
   }
 
@@ -309,9 +267,7 @@ export function AuthProvider({ children }) {
         method: 'POST',
       })
       const resData = await res.json()
-      if (resData.status !== 'success') {
-        console.warn('Token 刷新失敗')
-      }
+      if (resData.status !== 'success') console.warn('Token 刷新失敗')
     } catch (error) {
       console.error('刷新 Token 失敗:', error)
     }
@@ -323,13 +279,11 @@ export function AuthProvider({ children }) {
     stopAutoRefresh()
     refreshInterval = setInterval(() => {
       refreshSession()
-    }, 30 * 60 * 1000) // 每30分鐘刷新一次
+    }, 30 * 60 * 1000)
   }
 
   const stopAutoRefresh = () => {
-    if (refreshInterval) {
-      clearInterval(refreshInterval)
-    }
+    if (refreshInterval) clearInterval(refreshInterval)
   }
 
   const loginRoute = '/cs-1018/member/login-form'
@@ -337,23 +291,23 @@ export function AuthProvider({ children }) {
 
   const checkState = async () => {
     try {
-      const member = await getMember()
-      if (member && member.id) {
-        // 確認取得了完整資料
+      const memberData = await getMember()
+      if (memberData && memberData.user && memberData.user.id) {
         setAuth({
           isAuth: true,
           userData: {
-            id: member.id,
-            account: member.account,
-            member_name: member.member_name,
-            email: member.email,
-            phone: member.phone,
-            birthdate: member.birthdate,
-            address: member.address,
-            gender: member.gender, // 確保 gender 正確被設置
+            id: memberData.user.id,
+            account: memberData.user.account,
+            member_name: memberData.user.member_name,
+            email: memberData.user.email,
+            phone: memberData.user.phone,
+            birthdate: memberData.user.birthdate,
+            address: memberData.user.address,
+            gender: memberData.user.gender || '',
           },
+          cartCount: Number(memberData.cartCount) || 0,
         })
-        startAutoRefresh() // 啟動自動刷新
+        startAutoRefresh()
       } else if (protectedRoutes.includes(router.pathname)) {
         setTimeout(() => {
           alert('無進入權限，請先登入!')
@@ -366,9 +320,7 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    if (router.isReady) {
-      checkState()
-    }
+    if (router.isReady) checkState()
     return () => stopAutoRefresh()
   }, [router.isReady])
 
@@ -387,7 +339,7 @@ export function AuthProvider({ children }) {
         favorites,
         setFavorites,
         courseFavorites,
-       setCourseFavorites
+        setCourseFavorites,
       }}
     >
       {children}
