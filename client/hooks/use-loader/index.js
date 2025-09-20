@@ -26,7 +26,7 @@ export const LoaderProvider = ({
 
     const handleChangeStart = (url) => {
       if (global) {
-        console.log('Start loading');
+        // console.log('Start loading');
         setShow(true);
       }
     };
@@ -34,7 +34,7 @@ export const LoaderProvider = ({
     const handleChangeEnd = (url) => {
       if (global) {
         const loadingTime = router.pathname === '/homepage' ? 3 * 1000 : close * 1000;
-        console.log('End loading');
+        // console.log('End loading');
         timeout(loadingTime).then(() => setShow(false));
       }
     };

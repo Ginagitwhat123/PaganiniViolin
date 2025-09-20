@@ -240,7 +240,7 @@ export default function List() {
                 onClick={handleShow}
                 className={styles.filterButton}
               >
-                <i class="bi bi-funnel-fill"></i>
+                <i className="bi bi-funnel-fill"></i>
               </button>
               {/* 小尺寸時的 Offcanvas 篩選視窗 */}
               {initialMinPrice !== null && initialMaxPrice !== null && (
