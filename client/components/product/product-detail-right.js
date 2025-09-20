@@ -191,10 +191,7 @@ export default function ProductDetailRight({
           },
         })
 
-        setTotalQuantity(
-          (prevTotalQuantity) =>
-            Number(prevTotalQuantity) + Number(selectedQuantity)
-        )
+        setTotalQuantity((prev) => (Number(prev) || 0) + Number(selectedQuantity))
 
         return true
       } else {

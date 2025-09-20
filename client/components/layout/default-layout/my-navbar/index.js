@@ -37,7 +37,7 @@ export default function MyNavbar() {
 
   const displayCount =
   auth.isAuth
-    ? totalQuantity ?? auth.cartCount ?? 0
+    ? Number(totalQuantity ?? auth.cartCount ?? 0)
     : null
 
   // [會員中心登入檢查]
@@ -136,7 +136,7 @@ export default function MyNavbar() {
                     // style={{ position: 'relative' }} // 使購物車數量基於圖標定位
                   >
                     <IoMdCart className="nav-cart fontLight" />
-                    {displayCount !== null && (
+                    {displayCount > 0 && (
                       <div className="cartNumOutline">
                         <span className="cartNum">{displayCount}</span>
                       </div>
@@ -178,7 +178,7 @@ export default function MyNavbar() {
               // style={{ position: 'relative' }} // 使購物車數量基於圖標定位
             >
               <IoMdCart className="nav-cart fontLight" />
-              {displayCount !== null && (
+              {displayCount > 0 && (
                 <div className="cartNumOutline">
                   <span className="cartNum">{displayCount}</span>
                 </div>
