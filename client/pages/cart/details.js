@@ -23,6 +23,7 @@ function Details() {
     setTotalPrice,
     discountedPrice,
     setDiscountedPrice,
+    fetchCheckedCount,
   } = useOrderCoupon()
 
   // ----- 狀態管理 -----
@@ -155,6 +156,7 @@ function Details() {
       })
       const result = await response.json()
       if (result.status === 'success') {
+        await fetchCheckedCount()
         Swal.fire({
           icon: 'success',
           title: '訂單已建立！',

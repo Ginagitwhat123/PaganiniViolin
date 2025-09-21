@@ -81,6 +81,7 @@ export const OrderCouponProvider = ({ children }) => {
         setTotalPrice,
         discountedPrice,
         setDiscountedPrice,
+        fetchCheckedCount,
       }}
     >
       {children}

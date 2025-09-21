@@ -85,10 +85,10 @@ router.get('/checkedCount', authenticate, async (req, res) => {
   const user_id = req.user.id // 從 authenticate middleware 獲取用戶 ID
 
   try {
-    const [result] = await sequelize.query(
+    const result = await sequelize.query(
       `
       SELECT
-          COALESCE(SUM(quantity), 0)::int AS checkedCount
+          COALESCE(SUM(quantity), 0)::int AS "checkedCount"
       FROM
           cart
       WHERE
@@ -100,11 +100,11 @@ router.get('/checkedCount', authenticate, async (req, res) => {
         type: sequelize.QueryTypes.SELECT,
       }
     )
-
+    const checkedCount = result[0]?.checkedCount ?? 0
     return res.json({
       status: 'success',
       data: {
-        checkedCount: result.checkedCount,
+        checkedCount
       },
     })
   } catch (error) {
