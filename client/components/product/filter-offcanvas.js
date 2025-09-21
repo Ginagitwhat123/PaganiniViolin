@@ -216,7 +216,7 @@ export default function FilterOffcanvas({
             篩選條件
           </Offcanvas.Title>
         </Offcanvas.Header>
-        <Offcanvas.Body>
+        <Offcanvas.Body className="offcanvas-body-scroll">
           {/* 類別篩選 */}
 
           <div className={`${styles.filterCard} mb-0`}>

@@ -1,3 +1,8 @@
+.offcanvas-body-scroll{
+  max-height: calc(100vh - 80px); 
+  overflow-y: auto; 
+}
+
 .filterCard{
     border: none;
 }
