@@ -264,10 +264,10 @@ router.post('/add', authenticate, async (req, res) => {
        JOIN 
           product ON cart.product_id = product.id
        WHERE 
-          cart.user_id = $1 
+          cart.user_id = :user_id 
           AND cart.checked = 1;`,
       {
-        replacements: [user_id],
+        replacements: { user_id },
         type: sequelize.QueryTypes.SELECT,
       }
     )
@@ -336,11 +336,14 @@ router.post('/add', authenticate, async (req, res) => {
     const [orderInsertResult] = await sequelize.query(
       `INSERT INTO orders 
     (user_id, coupon_id, total_amount, shipping_person, shipping_phone, delivery_method, 
-    delivery_address, shop_id, come_date, payment_method, card_number, card_holder, 
-    expiry_date, security_code, payment_status) 
-  VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING order_id`,
+ delivery_address, shop_id, come_date, payment_method, card_number, card_holder, 
+ expiry_date, security_code, payment_status, order_code, order_date, delivery_status) 
+VALUES (:user_id, :coupon_id, :total_amount, :shipping_person, :shipping_phone, 
+:delivery_method, :delivery_address, :shopIdValue, :comeDate, :payment_method, 
+:card_number, :card_holder, :expiry_date, :security_code, :paymentStatus, 'TEMP', CURRENT_DATE, 0)
+RETURNING order_id`,
       {
-        replacements: [
+        replacements: {
           user_id,
           coupon_id,
           total_amount,
@@ -356,7 +359,7 @@ router.post('/add', authenticate, async (req, res) => {
           expiry_date,
           security_code,
           paymentStatus,
-        ],
+        },
         type: sequelize.QueryTypes.INSERT,
       }
     )
@@ -399,9 +402,9 @@ router.post('/add', authenticate, async (req, res) => {
   JOIN 
       product ON cart.product_id = product.id
   WHERE 
-      cart.user_id = $1 AND cart.checked = 1`,
+      cart.user_id = :user_id AND cart.checked = 1`,
       {
-        replacements: [user_id],
+        replacements: { user_id },
         type: sequelize.QueryTypes.SELECT,
       }
     )
@@ -436,10 +439,7 @@ router.post('/add', authenticate, async (req, res) => {
     // 批量插入到 order_items 表
     await sequelize.query(
       `INSERT INTO order_items (order_id, product_id, user_id, size, quantity, price, discount_price)
-       VALUES ${items.map((_, index) => {
-          const base = index * 7
-          return `($${base + 1}, $${base + 2}, $${base + 3}, $${base + 4}, $${base + 5}, $${base + 6}, $${base + 7})`
-       }).join(', ')}`,
+   VALUES ${items.map(() => '(?, ?, ?, ?, ?, ?, ?)').join(', ')}`,
       {
         replacements, // 使用手動展平的 replacements 陣列
         type: sequelize.QueryTypes.INSERT,
@@ -448,9 +448,9 @@ router.post('/add', authenticate, async (req, res) => {
 
     // Step 9: 清除購物車中該會員ID有勾選的項目
     await sequelize.query(
-      `DELETE FROM cart WHERE user_id = $1 AND checked = 1;`,
+      `DELETE FROM cart WHERE user_id = :user_id AND checked = 1;`,
       {
-        replacements: [user_id],
+        replacements: { user_id },
         type: sequelize.QueryTypes.DELETE,
       }
     )
