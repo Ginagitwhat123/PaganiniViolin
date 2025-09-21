@@ -4,7 +4,7 @@ import ProductCard from '@/components/product/product-card'
 import ProductFilter from '@/components/product/product-filter'
 import styles from '@/styles/product-styles/list.module.scss'
 import PageSelector from '@/components/common/page-selector/page-selector'
-import { IoSearch } from 'react-icons/io5'
+import { IoSearch, IoCloseCircleOutline } from 'react-icons/io5'
 import FilterOffcanvas from '@/components/product/filter-offcanvas'
 
 export default function List() {
@@ -25,10 +25,10 @@ export default function List() {
   const [searchTerm, setSearchTerm] = useState('')
   const [searchInput, setSearchInput] = useState('')
   const [typingTimeout, setTypingTimeout] = useState(null)
-  const [isLoading, setIsLoading] = useState(true);
-  
+  const [isLoading, setIsLoading] = useState(true)
+
   const router = useRouter()
-  
+
   // 數字安全轉換函數
   const ensureNumber = (value) => {
     const num = Number(value)
@@ -50,19 +50,21 @@ export default function List() {
         // 確保價格參數為數字
         const safeMinPrice = ensureNumber(minPrice)
         const safeMaxPrice = ensureNumber(maxPrice)
-        
+
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/products?page=${currentPage}&limit=9&search=${searchTerm}&category=${selectedCategory}&brand=${selectedBrand}&sort=${selectedSortOption}&minPrice=${safeMinPrice}&maxPrice=${safeMaxPrice}`
         )
         const result = await response.json()
         if (result.status === 'success') {
           // 確保產品數據中的價格為數字格式
-          const processedProducts = result.data.products.map(product => ({
+          const processedProducts = result.data.products.map((product) => ({
             ...product,
             price: ensureNumber(product.price),
-            discount_price: product.discount_price ? ensureNumber(product.discount_price) : null
+            discount_price: product.discount_price
+              ? ensureNumber(product.discount_price)
+              : null,
           }))
-          
+
           setProducts(processedProducts)
           setTotalPages(Math.ceil(result.data.total / 9))
           setFilteredTotal(result.data.total) // 設定篩選後的商品總數
@@ -70,8 +72,8 @@ export default function List() {
         }
       } catch (error) {
         console.error('無法取得資料:', error)
-      }finally {
-        setIsLoading(false); 
+      } finally {
+        setIsLoading(false)
       }
     }
     fetchProducts()
@@ -102,7 +104,7 @@ export default function List() {
             // 確保價格為數字格式
             const safeMinPrice = ensureNumber(min_price)
             const safeMaxPrice = ensureNumber(max_price)
-            
+
             setInitialMinPrice(safeMinPrice) // 儲存初始最小價格
             setInitialMaxPrice(safeMaxPrice) // 儲存初始最大價格
             setMinPrice(safeMinPrice)
@@ -133,6 +135,11 @@ export default function List() {
 
     return () => clearTimeout(timeout)
   }, [searchInput])
+
+  const handleClearSearch = () => {
+    setSearchTerm('')
+    setSearchInput('')
+  }
 
   // 排序函數
   const sortProducts = (productsToSort) => {
@@ -185,7 +192,7 @@ export default function List() {
     const currentMax = ensureNumber(maxPrice)
     const initialMin = ensureNumber(initialMinPrice)
     const initialMax = ensureNumber(initialMaxPrice)
-    
+
     return currentMin !== initialMin || currentMax !== initialMax
   }
 
@@ -198,38 +205,46 @@ export default function List() {
               <div className={styles.searchBarLg}>
                 <input
                   type="text"
-                  style={{ width: '100%' }}
+                  style={{ width: '100%' ,outline: 'none',}}
                   placeholder="搜尋"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                 />
+                {searchTerm && (
+                  <button
+                    className={styles.btnClear}
+                    onClick={handleClearSearch}
+                  >
+                    <IoCloseCircleOutline size={20} />
+                  </button>
+                )}
                 <button onClick={() => handleSearch(searchInput)}>
                   <IoSearch size={20} />
                 </button>
               </div>
               {initialMinPrice !== null && initialMaxPrice !== null && (
-              <ProductFilter
-                brandNames={brands.map((b) => b.name)}
-                brandCounts={brands.reduce((acc, b) => {
-                  acc[b.name] = b.count
-                  return acc
-                }, {})}
-                categoryNames={categories.map((c) => c.name)}
-                categoryCounts={categories.reduce((acc, c) => {
-                  acc[c.name] = c.count
-                  return acc
-                }, {})}
-                minPrice={ensureNumber(minPrice)}
-                maxPrice={ensureNumber(maxPrice)}
-                initialMinPrice={ensureNumber(initialMinPrice)} // 新增傳遞初始最小價格
-                initialMaxPrice={ensureNumber(initialMaxPrice)} // 新增傳遞初始最大價格
-                setMinPrice={setMinPrice}
-                setMaxPrice={setMaxPrice}
-                setSelectedCategory={setSelectedCategory}
-                setSelectedBrand={setSelectedBrand}
-                selectedCategory={selectedCategory}
-                selectedBrand={selectedBrand}
-              />
+                <ProductFilter
+                  brandNames={brands.map((b) => b.name)}
+                  brandCounts={brands.reduce((acc, b) => {
+                    acc[b.name] = b.count
+                    return acc
+                  }, {})}
+                  categoryNames={categories.map((c) => c.name)}
+                  categoryCounts={categories.reduce((acc, c) => {
+                    acc[c.name] = c.count
+                    return acc
+                  }, {})}
+                  minPrice={ensureNumber(minPrice)}
+                  maxPrice={ensureNumber(maxPrice)}
+                  initialMinPrice={ensureNumber(initialMinPrice)} // 新增傳遞初始最小價格
+                  initialMaxPrice={ensureNumber(initialMaxPrice)} // 新增傳遞初始最大價格
+                  setMinPrice={setMinPrice}
+                  setMaxPrice={setMaxPrice}
+                  setSelectedCategory={setSelectedCategory}
+                  setSelectedBrand={setSelectedBrand}
+                  selectedCategory={selectedCategory}
+                  selectedBrand={selectedBrand}
+                />
               )}
             </div>
           </div>
@@ -244,39 +259,47 @@ export default function List() {
               </button>
               {/* 小尺寸時的 Offcanvas 篩選視窗 */}
               {initialMinPrice !== null && initialMaxPrice !== null && (
-              <FilterOffcanvas
-                show={showOffcanvas}
-                handleClose={handleClose}
-                brandNames={brands.map((b) => b.name)}
-                brandCounts={brands.reduce((acc, b) => {
-                  acc[b.name] = b.count
-                  return acc
-                }, {})}
-                categoryNames={categories.map((c) => c.name)}
-                categoryCounts={categories.reduce((acc, c) => {
-                  acc[c.name] = c.count
-                  return acc
-                }, {})}
-                minPrice={ensureNumber(minPrice)}
-                maxPrice={ensureNumber(maxPrice)}
-                initialMinPrice={ensureNumber(initialMinPrice)} // 新增傳遞初始最小價格
-                initialMaxPrice={ensureNumber(initialMaxPrice)} // 新增傳遞初始最大價格
-                setMinPrice={setMinPrice}
-                setMaxPrice={setMaxPrice}
-                setSelectedCategory={setSelectedCategory}
-                setSelectedBrand={setSelectedBrand}
-                selectedCategory={selectedCategory}
-                selectedBrand={selectedBrand}
-              />
+                <FilterOffcanvas
+                  show={showOffcanvas}
+                  handleClose={handleClose}
+                  brandNames={brands.map((b) => b.name)}
+                  brandCounts={brands.reduce((acc, b) => {
+                    acc[b.name] = b.count
+                    return acc
+                  }, {})}
+                  categoryNames={categories.map((c) => c.name)}
+                  categoryCounts={categories.reduce((acc, c) => {
+                    acc[c.name] = c.count
+                    return acc
+                  }, {})}
+                  minPrice={ensureNumber(minPrice)}
+                  maxPrice={ensureNumber(maxPrice)}
+                  initialMinPrice={ensureNumber(initialMinPrice)} // 新增傳遞初始最小價格
+                  initialMaxPrice={ensureNumber(initialMaxPrice)} // 新增傳遞初始最大價格
+                  setMinPrice={setMinPrice}
+                  setMaxPrice={setMaxPrice}
+                  setSelectedCategory={setSelectedCategory}
+                  setSelectedBrand={setSelectedBrand}
+                  selectedCategory={selectedCategory}
+                  selectedBrand={selectedBrand}
+                />
               )}
               <div className={styles.searchBarSm}>
                 <input
                   type="text"
-                  style={{ width: '100%' }}
+                  style={{ width: '100%' ,outline: 'none',}}
                   placeholder="搜尋"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                 />
+                {searchTerm && (
+                  <button
+                    className={styles.btnClear}
+                    onClick={handleClearSearch}
+                  >
+                    <IoCloseCircleOutline size={20} />
+                  </button>
+                )}
                 <button onClick={() => handleSearch(searchInput)}>
                   <IoSearch size={20} />
                 </button>
@@ -320,7 +343,7 @@ export default function List() {
             <div className="row row-cols-2 row-cols-sm-2 row-cols-md-3">
               {isLoading ? (
                 <div className={styles.loading}>
-                  <h5 className='fontDarkBrown'>商品載入中...</h5>
+                  <h5 className="fontDarkBrown">商品載入中...</h5>
                   <hr />
                 </div>
               ) : products.length > 0 ? (
@@ -328,9 +351,7 @@ export default function List() {
                   const pictures = product.pictures
                     ? product.pictures.split(',')
                     : []
-                  const defaultPic = pictures.find((pic) =>
-                    pic.includes('-1.')
-                  )
+                  const defaultPic = pictures.find((pic) => pic.includes('-1.'))
                   const hoverPic = pictures.find((pic) => pic.includes('-2.'))
 
                   return (
@@ -339,7 +360,11 @@ export default function List() {
                         brand_name={product.brand_name}
                         product_name={product.product_name}
                         price={ensureNumber(product.price)}
-                        discount_price={product.discount_price ? ensureNumber(product.discount_price) : null}
+                        discount_price={
+                          product.discount_price
+                            ? ensureNumber(product.discount_price)
+                            : null
+                        }
                         defaultPic={defaultPic}
                         hoverPic={hoverPic}
                         product_id={product.id}
@@ -348,7 +373,9 @@ export default function List() {
                     </div>
                   )
                 })
-              ) : ""}
+              ) : (
+                ''
+              )}
             </div>
             <div className={styles.pageSelectorArea}>
               {isLoading ? (
