@@ -227,7 +227,6 @@ router.put('/update-profile', authenticate, async (req, res, next) => {
   const result = await sequelize.query(
     `UPDATE users
      SET member_name = :member_name,
-         password = :password,
          email = :email,
          gender = :gender,
          phone = :phone,
@@ -238,7 +237,6 @@ router.put('/update-profile', authenticate, async (req, res, next) => {
     {
       replacements: {
         member_name: updateUser.member_name,
-        password: updateUser.password, // ⚠️ 建議未來改成 hash
         email: updateUser.email,
         gender: updateUser.gender,
         phone: updateUser.phone,
@@ -252,7 +250,6 @@ router.put('/update-profile', authenticate, async (req, res, next) => {
 
   if (result.length > 0) {
     const updatedUser = result[0]
-    delete updatedUser.password
     return res.json({ status: 'success', data: updatedUser })
   } else {
     return res.json({ status: 'error', message: '更新失敗' })
