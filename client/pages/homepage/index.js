@@ -13,6 +13,7 @@ import { useLoader } from '@/hooks/use-loader'
 export default function Home({ title = 'Paganini' }) {
   const [isVisible, setIsVisible] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
+  const [isBigScreen, setIsBigScreen] = useState(false)
   const { loader } = useLoader()
 
   const page1Ref = useRef(null)
@@ -22,6 +23,7 @@ export default function Home({ title = 'Paganini' }) {
     // 檢查螢幕寬度是否小於等於 540px
     const updateScreenSize = () => {
       setIsSmallScreen(window.innerWidth <= 720)
+      setIsBigScreen(window.innerWidth >= 1550)
     }
 
     updateScreenSize()
@@ -103,7 +105,7 @@ export default function Home({ title = 'Paganini' }) {
         <Page3 />
       </div>
       {/* 動態調整 marginTop */}
-      <div style={{ marginTop: isSmallScreen ? '0' : '-670px' }}>
+      <div style={{ marginTop: isSmallScreen ? '0' : (isBigScreen ? '-710px' : '-670px') }}>
         <Page4 />
       </div>
       <StayInTouch />
