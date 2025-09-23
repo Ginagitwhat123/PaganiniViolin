@@ -185,8 +185,8 @@ export default function RegisterForm() {
                       onChange={handleFieldChange}
                     >
                       <option value="">選擇性別</option>
-                      <option value="男">男性</option>
-                      <option value="女">女性</option>
+                      <option value="男性">男性</option>
+                      <option value="女性">女性</option>
                     </select>
                     <span className="error mt-3 me-3">{errors.gender}</span>
                   </div>
