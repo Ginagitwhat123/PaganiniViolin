@@ -281,7 +281,7 @@ router.post('/change-password', authenticate, async (req, res) => {
       'UPDATE users SET password = :newPassword WHERE id = :id RETURNING id, account',
       {
         replacements: { newPassword, id: req.user.id },
-        type: sequelize.QueryTypes.SELECT, // ✅ 這樣會回傳更新後的資料列
+        type: sequelize.QueryTypes.SELECT, 
       }
     )
 

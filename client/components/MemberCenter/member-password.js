@@ -5,16 +5,8 @@ export default function PasswordChangeForm() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [storedPassword, setStoredPassword] = useState('123456'); // 模擬已存密碼
-
-  const [currentPasswordValid, setCurrentPasswordValid] = useState(null); // 當前密碼驗證狀態
   const [newPasswordValid, setNewPasswordValid] = useState(null); // 新密碼驗證狀態
   const [confirmPasswordValid, setConfirmPasswordValid] = useState(null); // 確認密碼驗證狀態
-
-  const handleCurrentPasswordChange = (value) => {
-    setCurrentPassword(value);
-    setCurrentPasswordValid(value === storedPassword);
-  };
 
   const handleNewPasswordChange = (value) => {
     setNewPassword(value);
@@ -29,22 +21,6 @@ export default function PasswordChangeForm() {
 
   const handleSaveNewPassword = async (e) => {
     e.preventDefault();
-
-    // 驗證輸入
-    if (!currentPasswordValid) {
-      Swal.fire({
-        icon: 'error',
-        title: '當前密碼錯誤',
-        text: '您輸入的當前密碼與原密碼不符，請重新輸入。',
-        customClass: {
-          title: 'swal2-custom-title', // 自定義標題樣式
-          htmlContainer: 'swal2-custom-text',
-          confirmButton: 'swal2-custom-confirm-button', // 自定義按鈕樣式
-        },
-
-      });
-      return;
-    }
 
     if (!newPasswordValid) {
       Swal.fire({
@@ -82,7 +58,7 @@ export default function PasswordChangeForm() {
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'include', // ✅ 確保帶上 cookie (accessToken)
+          credentials: 'include', 
           body: JSON.stringify({
             origin: currentPassword,
             newPassword: newPassword,
@@ -100,7 +76,6 @@ export default function PasswordChangeForm() {
           setCurrentPassword('')
           setNewPassword('')
           setConfirmPassword('')
-          setCurrentPasswordValid(null)
           setNewPasswordValid(null)
           setConfirmPasswordValid(null)
         } else {
@@ -131,17 +106,8 @@ export default function PasswordChangeForm() {
             className="form-control"
             placeholder="請輸入當前密碼"
             value={currentPassword}
-            onChange={(e) => handleCurrentPasswordChange(e.target.value)}
+            onChange={(e) => setCurrentPassword(e.target.value)}
           />
-          {currentPasswordValid !== null && (
-            <div className="mt-1">
-              {currentPasswordValid ? (
-                <span className="text-success">✔ 與原密碼相符</span>
-              ) : (
-                <span className="text-danger">✘ 與原密碼不相符</span>
-              )}
-            </div>
-          )}
         </div>
 
         {/* 新密碼 */}

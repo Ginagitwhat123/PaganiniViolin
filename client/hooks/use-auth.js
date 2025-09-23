@@ -21,7 +21,7 @@ export function AuthProvider({ children }) {
       phone: '',
       birthdate: '',
       address: '',
-      gender: ''
+      gender: '',
     },
     cartCount: 0,
   })
@@ -142,15 +142,18 @@ export function AuthProvider({ children }) {
   }
 
   const login = async (account, password) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/login`, {
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify({ account, password }),
-    })
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/users/login`,
+      {
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({ account, password }),
+      }
+    )
     const resData = await res.json()
 
     if (resData.status === 'success') {
@@ -186,21 +189,8 @@ export function AuthProvider({ children }) {
         }).then(() => router.push('/member-center'))
 
         startAutoRefresh()
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: '登入失敗',
-          text: '帳號或密碼錯誤',
-          confirmButtonText: '確定',
-          customClass: {
-            title: 'swal2-custom-title',
-            htmlContainer: 'swal2-custom-text',
-            confirmButton: 'swal2-custom-confirm-button',
-          },
-        })
       }
-    }else {
-      // 🚨 新增這段處理後端回傳錯誤訊息
+    } else {
       Swal.fire({
         icon: 'error',
         title: '登入失敗',
@@ -216,14 +206,17 @@ export function AuthProvider({ children }) {
   }
 
   const logout = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/logout`, {
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    })
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/users/logout`,
+      {
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      }
+    )
     const resData = await res.json()
 
     if (resData.status === 'success') {
@@ -248,7 +241,7 @@ export function AuthProvider({ children }) {
             phone: '',
             birthdate: '',
             address: '',
-            gender: ''
+            gender: '',
           },
           cartCount: 0,
         })
@@ -271,14 +264,17 @@ export function AuthProvider({ children }) {
 
   const refreshSession = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/refresh-token`, {
-        credentials: 'include',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      })
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/users/refresh-token`,
+        {
+          credentials: 'include',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+        }
+      )
       const resData = await res.json()
       if (resData.status !== 'success') console.warn('Token 刷新失敗')
     } catch (error) {
