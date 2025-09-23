@@ -159,7 +159,7 @@ router.post('/login', async (req, res, next) => {
   )
 
   if (rows.length === 0) {
-    return res.json({ status: 'error', message: '該會員不存在' })
+    return res.json({ status: 'error', message: '帳號不存在或大小寫錯誤' })
   }
 
   const dbUser = rows[0]
@@ -168,7 +168,7 @@ router.post('/login', async (req, res, next) => {
   const isValid = loginUser.password === dbUser.password
 
   if (!isValid) {
-    return res.json({ status: 'error', message: '密碼錯誤' })
+    return res.status(401).json({ status: 'error', message: '密碼錯誤' })
   }
 
   const returnUser = {

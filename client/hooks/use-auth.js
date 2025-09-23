@@ -199,6 +199,19 @@ export function AuthProvider({ children }) {
           },
         })
       }
+    }else {
+      // 🚨 新增這段處理後端回傳錯誤訊息
+      Swal.fire({
+        icon: 'error',
+        title: '登入失敗',
+        text: resData.message || '帳號或密碼錯誤',
+        confirmButtonText: '確定',
+        customClass: {
+          title: 'swal2-custom-title',
+          htmlContainer: 'swal2-custom-text',
+          confirmButton: 'swal2-custom-confirm-button',
+        },
+      })
     }
   }
 
