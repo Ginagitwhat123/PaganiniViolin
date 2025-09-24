@@ -215,7 +215,11 @@ router.post('/login', async (req, res, next) => {
 
 // 登出用
 router.post('/logout', authenticate, (req, res) => {
-  res.clearCookie('accessToken', { httpOnly: true })
+  res.clearCookie('accessToken', { 
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    path: '/', })
   res.json({ status: 'success', data: null })
 })
 
