@@ -71,7 +71,7 @@ export default function Home({ title = 'Paganini' }) {
     <>
       <Head>
         <title>{title}</title>
-        <meta name="viewport" content="width=device-width " />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       {loader()}
       <div id="page1" ref={page1Ref}>
@@ -105,7 +105,7 @@ export default function Home({ title = 'Paganini' }) {
         <Page3 />
       </div>
       {/* 動態調整 marginTop */}
-      <div style={{ marginTop: isSmallScreen ? '0' : (isBigScreen ? '-750px' : '-720px') }}>
+      <div style={{ marginTop: isSmallScreen ? '0' : (isBigScreen ? '-800px' : '-70px') }}>
         <Page4 />
       </div>
       <StayInTouch />
