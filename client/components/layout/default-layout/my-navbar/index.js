@@ -26,17 +26,13 @@ export default function MyNavbar() {
   const handleShow = () => setShow(true)
 
   // 定義顯示 HeaderWithImage 的路徑
-  const showHeader = [
-    '/product',
-    '/course',
-    '/coupon',
-    '/shop',
-  ].includes(router.pathname)
+  const showHeader = ['/product', '/course', '/coupon', '/shop'].includes(
+    router.pathname
+  )
 
   const { totalQuantity } = useOrderCoupon()
 
-  const displayCount =
-  auth.isAuth
+  const displayCount = auth.isAuth
     ? Number(totalQuantity ?? auth.cartCount ?? 0)
     : null
 
@@ -93,17 +89,19 @@ export default function MyNavbar() {
       <header className={`${style.posi}`}>
         <nav className="navbar navbar-expand-lg">
           <div className="container-fluid">
-            <Button
-              variant="link"
-              onClick={handleShow}
-              className="navbar-toggler"
-            >
-              <BsList className="hamburger fontLight" />
-            </Button>
-            <Link href="/homepage" className="navbar-brand logo">
-              <img src="/images/logo/logo-white.svg" alt="PAGANINI_LOGO" />
-              <p className="fontLight">PAGANINI</p>
-            </Link>
+            <div className="d-flex align-items-center">
+              <Button
+                variant="link"
+                onClick={handleShow}
+                className="navbar-toggler"
+              >
+                <BsList className="hamburger fontLight" />
+              </Button>
+              <Link href="/homepage" className="navbar-brand logo">
+                <img src="/images/logo/logo-white.svg" alt="PAGANINI_LOGO" />
+                <p className="fontLight">PAGANINI</p>
+              </Link>
+            </div>
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav navbar-function">
                 <li className="nav-item navItem">
@@ -259,7 +257,9 @@ export default function MyNavbar() {
             <p className="pt-2">10月3日 (二) 公休一日</p>
             <p>營業時間：10:00 AM - 17:00 PM</p>
             <Link href="/shop" passHref>
-              <Button className="w-50 my-4 loginBtn" onClick={handleClose}>門市資訊</Button>
+              <Button className="w-50 my-4 loginBtn" onClick={handleClose}>
+                門市資訊
+              </Button>
             </Link>
           </div>
         </Offcanvas.Body>
