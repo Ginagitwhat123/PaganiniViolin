@@ -37,8 +37,8 @@ export default function MemberProfile() {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
-        credentials: 'include',
         body: JSON.stringify(memberData),
       });
 

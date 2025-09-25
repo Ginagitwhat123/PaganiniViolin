@@ -72,11 +72,11 @@ function Details() {
   const fetchUserData = async () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users`, {
-        credentials: 'include',
         method: 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       })
       const result = await response.json()
@@ -133,10 +133,10 @@ function Details() {
   const addToOrders = async () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/add`, {
-        credentials: 'include',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
         body: JSON.stringify({
           shipping_person: formFields.name,

@@ -40,10 +40,10 @@ const Coupon = ({ coupons, onCouponClaimed }) => {
   }
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/mycoupons`, {
-        credentials: 'include',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
         body: JSON.stringify({ couponId }),
       })

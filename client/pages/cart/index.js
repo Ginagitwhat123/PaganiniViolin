@@ -79,11 +79,11 @@ export default function CartIndex() {
   const fetchData = async () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cart`, {
-        credentials: 'include', // 帶入會員id用
         method: 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       })
       const result = await response.json()
@@ -149,10 +149,10 @@ export default function CartIndex() {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/cart/updateAllChecked`,
         {
-          credentials: 'include',
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           },
           body: JSON.stringify({ checked: selectAll }),
         }
@@ -183,10 +183,10 @@ export default function CartIndex() {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/cart/updateChecked`,
         {
-          credentials: 'include',
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           },
           body: JSON.stringify({ product_id, size, checked: newChecked }),
         }
@@ -252,10 +252,10 @@ export default function CartIndex() {
         try {
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/mycoupons`, {
             method: 'GET',
-            credentials: 'include',
             headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             },
           })
           const result = await response.json()
@@ -311,9 +311,8 @@ export default function CartIndex() {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/mycoupons/search`,
         {
-          credentials: 'include',
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json' ,Authorization: `Bearer ${localStorage.getItem('accessToken')}`,},
           body: JSON.stringify({ code: couponCode }),
         }
       )

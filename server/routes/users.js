@@ -146,7 +146,7 @@ router.post('/', async (req, res, next) => {
   })
 
 // 登入用
-router.post('/login', async (req, res, next) => {
+router.post('/login', async (req, res) => {
   const loginUser = req.body
 
   // 1. 先用 account 查詢該會員
@@ -200,27 +200,11 @@ router.post('/login', async (req, res, next) => {
     expiresIn: '3d',
   })
 
-  // 使用 httpOnly cookie 來讓瀏覽器端儲存 access token
-  res.cookie('accessToken', accessToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // 只有 production 才強制 https
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 天
-  })
   return res.json({ status: 'success', message: '登入成功', data: {
       user: returnUser,
       cartCount, 
+      accessToken
     } })
-})
-
-// 登出用
-router.post('/logout', authenticate, (req, res) => {
-  res.clearCookie('accessToken', { 
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    path: '/', })
-  res.json({ status: 'success', data: null })
 })
 
 // 更新會員資料

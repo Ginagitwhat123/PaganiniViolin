@@ -17,10 +17,10 @@ export const OrderCouponProvider = ({ children }) => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cart/checkedCount`, {
         method: 'GET',
-        credentials: 'include',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       })
 

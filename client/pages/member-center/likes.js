@@ -19,7 +19,11 @@ function Products() {
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/product-favorites`,
-          { credentials: 'include' }
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+          }
         )
         const data = await response.json()
         if (data.status === 'success') {
@@ -191,7 +195,9 @@ function Courses() {
     const fetchFavorites = async () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/course-like`, {
-          credentials: 'include',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
         })
         const data = await response.json()
         if (data.status === 'success') {

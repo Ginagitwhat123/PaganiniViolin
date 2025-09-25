@@ -60,7 +60,9 @@ function ProductDetails({
           `${process.env.NEXT_PUBLIC_API_URL}/api/comments/check/${product_id}/${encodedSize}`,
           {
             method: 'GET',
-            credentials: 'include',
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
           }
         )
         const result = await response.json()
@@ -89,19 +91,22 @@ function ProductDetails({
       }
 
       // 發送評價至後端
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/comments/add`, {
-        credentials: 'include',
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          product_id,
-          size: size || null, // 處理無尺寸情況
-          rating,
-          comment: commentText,
-        }),
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/comments/add`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+          body: JSON.stringify({
+            product_id,
+            size: size || null, // 處理無尺寸情況
+            rating,
+            comment: commentText,
+          }),
+        }
+      )
 
       const result = await response.json()
       if (result.status === 'success') {
@@ -245,14 +250,17 @@ function TabContent1() {
   const [endDate, setEndDate] = useState('')
   const fetchOngoingOrders = async (start = '', end = '') => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/ongoing`, {
-        credentials: 'include',
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/orders/ongoing`,
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        }
+      )
       const result = await response.json()
       if (result.status === 'success') {
         const filteredData = result.data.filter((order) => {
@@ -278,11 +286,11 @@ function TabContent1() {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/orders/${orderId}/items`,
         {
-          credentials: 'include',
           method: 'GET',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           },
         }
       )
@@ -368,14 +376,17 @@ function TabContent2() {
   const [endDate, setEndDate] = useState('')
   const fetchHistoryOrders = async (start = '', end = '') => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/history`, {
-        credentials: 'include',
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/orders/history`,
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        }
+      )
       const result = await response.json()
       if (result.status === 'success') {
         const filteredData = result.data.filter((order) => {
@@ -401,11 +412,11 @@ function TabContent2() {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/orders/${orderId}/items`,
         {
-          credentials: 'include',
           method: 'GET',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           },
         }
       )

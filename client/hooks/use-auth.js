@@ -2,7 +2,8 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { checkAuth, getFavs, getCourseFavs } from '@/services/user'
+import axiosInstance from '@/services/axios-instance'
+import { getFavs, getCourseFavs } from '@/services/user'
 
 const AuthContext = createContext(null)
 AuthContext.displayName = 'AuthContext'
@@ -88,14 +89,21 @@ export function AuthProvider({ children }) {
   }
 
   const getMember = async () => {
+    const token = localStorage.getItem('accessToken')
+    if (!token) return {}
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users`, {
-      credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
-      method: 'GET',
+      cache: 'no-store',
     })
+    if (!res.ok) {
+      // token 過期或 401
+      localStorage.removeItem('accessToken')
+      return {}
+    }
     const resData = await res.json()
     return resData.status === 'success' ? resData.data : {}
   }
@@ -124,11 +132,12 @@ export function AuthProvider({ children }) {
   }
 
   const update = async (user) => {
+    const token = localStorage.getItem('accessToken')
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users`, {
-      credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       method: 'PUT',
       body: JSON.stringify(user),
@@ -145,19 +154,16 @@ export function AuthProvider({ children }) {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/users/login`,
       {
-        credentials: 'include',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ account, password }),
       }
     )
     const resData = await res.json()
 
     if (resData.status === 'success') {
-      const { cartCount } = resData.data
+      const { accessToken, cartCount } = resData.data
+      localStorage.setItem('accessToken', accessToken)
       const member = await getMember()
 
       if (member && member.user && member.user.id) {
@@ -187,8 +193,7 @@ export function AuthProvider({ children }) {
             confirmButton: 'swal2-custom-confirm-button',
           },
         }).then(() => router.push('/member-center'))
-
-        startAutoRefresh()
+        return true
       }
     } else {
       Swal.fire({
@@ -202,136 +207,78 @@ export function AuthProvider({ children }) {
           confirmButton: 'swal2-custom-confirm-button',
         },
       })
+      return false
     }
   }
 
   const logout = async () => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/users/logout`,
-      {
-        credentials: 'include',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      }
-    )
-    const resData = await res.json()
+    localStorage.removeItem('accessToken')
+    setAuth({
+      isAuth: false,
+      userData: {
+        id: 0,
+        member_name: '',
+        email: '',
+        account: '',
+        phone: '',
+        birthdate: '',
+        address: '',
+        gender: '',
+      },
+      cartCount: 0,
+    })
 
-    if (resData.status === 'success') {
-      Swal.fire({
-        icon: 'success',
-        title: '成功登出!',
-        text: '您已成功登出系統。',
-        confirmButtonText: '確定',
-        customClass: {
-          title: 'swal2-custom-title',
-          htmlContainer: 'swal2-custom-text',
-          confirmButton: 'swal2-custom-confirm-button',
-        },
-      }).then(() => {
-        setAuth({
-          isAuth: false,
-          userData: {
-            id: 0,
-            member_name: '',
-            email: '',
-            account: '',
-            phone: '',
-            birthdate: '',
-            address: '',
-            gender: '',
-          },
-          cartCount: 0,
-        })
-        stopAutoRefresh()
-      })
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: '登出失敗!',
-        text: '請稍後再試。',
-        confirmButtonText: '確定',
-        customClass: {
-          title: 'swal2-custom-title',
-          htmlContainer: 'swal2-custom-text',
-          confirmButton: 'swal2-custom-confirm-button',
-        },
-      })
-    }
-  }
-
-  const refreshSession = async () => {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/users/refresh-token`,
-        {
-          credentials: 'include',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          method: 'POST',
-        }
-      )
-      const resData = await res.json()
-      if (resData.status !== 'success') console.warn('Token 刷新失敗')
-    } catch (error) {
-      console.error('刷新 Token 失敗:', error)
-    }
-  }
-
-  let refreshInterval
-
-  const startAutoRefresh = () => {
-    stopAutoRefresh()
-    refreshInterval = setInterval(() => {
-      refreshSession()
-    }, 30 * 60 * 1000)
-  }
-
-  const stopAutoRefresh = () => {
-    if (refreshInterval) clearInterval(refreshInterval)
+    Swal.fire({
+      icon: 'success',
+      title: '成功登出!',
+      text: '您已成功登出系統。',
+      confirmButtonText: '確定',
+      customClass: {
+        title: 'swal2-custom-title',
+        htmlContainer: 'swal2-custom-text',
+        confirmButton: 'swal2-custom-confirm-button',
+      },
+    })
   }
 
   const loginRoute = '/cs-1018/member/login-form'
   const protectedRoutes = ['/cs-1018/member/profile', '/dashboard/order']
 
   const checkState = async () => {
-    try {
-      const memberData = await getMember()
-      if (memberData && memberData.user && memberData.user.id) {
-        setAuth({
-          isAuth: true,
-          userData: {
-            id: memberData.user.id,
-            account: memberData.user.account,
-            member_name: memberData.user.member_name,
-            email: memberData.user.email,
-            phone: memberData.user.phone,
-            birthdate: memberData.user.birthdate,
-            address: memberData.user.address,
-            gender: memberData.user.gender || '',
-          },
-          cartCount: Number(memberData.cartCount) || 0,
-        })
-        startAutoRefresh()
-      } else if (protectedRoutes.includes(router.pathname)) {
-        setTimeout(() => {
-          alert('無進入權限，請先登入!')
-          router.push(loginRoute)
-        }, 1500)
+    const token = localStorage.getItem('accessToken')
+    if (token) {
+      try {
+        const memberData = await getMember()
+        if (memberData && memberData.user && memberData.user.id) {
+          setAuth({
+            isAuth: true,
+            userData: {
+              id: memberData.user.id,
+              account: memberData.user.account,
+              member_name: memberData.user.member_name,
+              email: memberData.user.email,
+              phone: memberData.user.phone,
+              birthdate: memberData.user.birthdate,
+              address: memberData.user.address,
+              gender: memberData.user.gender || '',
+            },
+            cartCount: Number(memberData.cartCount) || 0,
+          })
+        } else if (protectedRoutes.includes(router.pathname)) {
+          setTimeout(() => {
+            alert('無進入權限，請先登入!')
+            router.push(loginRoute)
+          }, 1500)
+        }
+      } catch (e) {
+        console.error(e)
       }
-    } catch (e) {
-      console.error(e)
     }
   }
 
   useEffect(() => {
-    if (router.isReady) checkState()
-    return () => stopAutoRefresh()
-  }, [router.isReady])
+    checkState()
+  }, [])
 
   return (
     <AuthContext.Provider
@@ -344,7 +291,6 @@ export function AuthProvider({ children }) {
         notify,
         register,
         update,
-        refreshSession,
         favorites,
         setFavorites,
         courseFavorites,

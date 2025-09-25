@@ -36,10 +36,10 @@ function ProductDetails({
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/cart/updateQuantity`,
         {
-          credentials: 'include',
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           },
           body: JSON.stringify({ product_id, quantity: newQuantity, size }),
         }
@@ -73,7 +73,11 @@ function ProductDetails({
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/product-favorites`,
-          { credentials: 'include' }
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+          }
         )
         const data = await response.json()
         if (data.status === 'success') {
@@ -139,8 +143,7 @@ function ProductDetails({
               `${process.env.NEXT_PUBLIC_API_URL}/api/product-favorites/${product_id}`,
               {
                 method: 'PUT',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json',Authorization: `Bearer ${localStorage.getItem('accessToken')}`, },
               }
             )
             const resData = await response.json()
@@ -261,10 +264,10 @@ function ProductDetails({
       const response = await fetch(
        `${process.env.NEXT_PUBLIC_API_URL}/api/cart/remove`,
         {
-          credentials: 'include',
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           },
           body: JSON.stringify({ product_id, size }),
         }

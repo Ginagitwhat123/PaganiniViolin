@@ -11,27 +11,15 @@ import { useRouter } from 'next/router'
 export default function LoginForm() {
   const [account, setAccount] = useState('')
   const [password, setPassword] = useState('')
-  const { auth, login, logout, refreshSession } = useAuth()
+  const { auth, login, logout} = useAuth()
   const router = useRouter()
 
-  // 設置一個定時器來延長登入時間
-  useEffect(() => {
-    let interval
-    if (auth.isAuth) {
-      // 每30分鐘刷新一次Token
-      interval = setInterval(() => {
-        refreshSession()
-      }, 30 * 60 * 1000) // 30分鐘
-    }
-    return () => clearInterval(interval) // 清除定時器
-  }, [auth.isAuth])
 
   // 登入處理
   const handleLogin = async () => {
     const success = await login(account, password);
     
     if (success) {
-      alert('登入成功');
       router.push('/'); // 導向到首頁或其他頁面
     } else {
       // alert('登入失敗，請檢查帳號或密碼');

@@ -131,7 +131,9 @@ function PendingReviews({ openModal, refresh }) {
   const fetchPendingReviews = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/pending`, {
-        credentials: 'include',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
       })
       const result = await response.json()
       if (result.status === 'success') {
@@ -177,7 +179,9 @@ function CompletedReviews({ refresh, openModal }) {
   const fetchCompletedReviews = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/list`, {
-        credentials: 'include',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
       })
       const result = await response.json()
       if (result.status === 'success') {
@@ -253,10 +257,10 @@ function Tabs() {
         return
       }
       const response = await fetch(`${API_BASE_URL}/add`, {
-        credentials: 'include',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
         body: JSON.stringify({
           product_id: selectedReview.product_id,
