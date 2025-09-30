@@ -88,7 +88,7 @@ export default function Detail() {
               <div className="position-sticky" style={{ top: '2rem' }}>
                 {product.pictures && (
                   <Carousel
-                    pictures={product.pictures.split(',')}
+                    pictures={product.pictures}
                     brand_name={product.brand_name}
                   />
                 )}

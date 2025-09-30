@@ -349,7 +349,7 @@ export default function List() {
               ) : products.length > 0 ? (
                 products.map((product) => {
                   const pictures = product.pictures
-                    ? product.pictures.split(',')
+                    ? product.pictures
                     : []
                   const defaultPic = pictures.find((pic) => pic.includes('-1.'))
                   const hoverPic = pictures.find((pic) => pic.includes('-2.'))
