@@ -24,17 +24,17 @@ transport = {
 const transporter = nodemailer.createTransport(transport)
 
 // 驗証連線設定
-transporter.verify((error, success) => {
-  if (error) {
-    // 發生錯誤
-    console.error(
-      'WARN - 無法連線至SMTP伺服器 Unable to connect to the SMTP server.'
-        .bgYellow
-    )
-  } else {
-    // 代表成功
-    console.log('INFO - SMTP伺服器已連線 SMTP server connected.'.bgGreen)
-  }
-})
+// transporter.verify((error, success) => {
+//   if (error) {
+//     // 發生錯誤
+//     console.error(
+//       'WARN - 無法連線至SMTP伺服器 Unable to connect to the SMTP server.'
+//         .bgYellow
+//     )
+//   } else {
+//     // 代表成功
+//     console.log('INFO - SMTP伺服器已連線 SMTP server connected.'.bgGreen)
+//   }
+// })
 
 export default transporter

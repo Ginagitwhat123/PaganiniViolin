@@ -216,7 +216,6 @@ router.get('/categories-and-brands', async function (req, res) {
 // 新增取得推薦商品的路由
 router.get('/recommend/:id', async (req, res) => {
   const { id } = req.params
-  console.log('進入 recommend route, id =', id)
 
   try {
     // 先獲取當前商品的類別和品牌
@@ -347,7 +346,6 @@ router.get('/:id', async (req, res) => {
         type: sequelize.QueryTypes.SELECT,
       }
     )
-    console.log('查詢 id =', id, '回傳結果:', productRows)
     const product = productRows.length > 0 ? productRows[0] : null
 
     if (product) {
