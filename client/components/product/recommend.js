@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import styles from '@/styles/product-styles/recommend.module.scss'
 import { useRouter } from 'next/router'
-import ProductLikeIcon from '@/components/product-like/like-icon'
-import Link from 'next/link'
+import ProductCard from '@/components/product/product-card'
 
-export default function Recommend({ product_id }) {
+export default function Recommend() {
   const router = useRouter()
   const [recommendProducts, setRecommendProducts] = useState([])
-  const [hoveredProductId, setHoveredProductId] = useState(null);
+  
 
   useEffect(() => {
     const fetchRecommendProducts = async () => {
@@ -30,6 +29,10 @@ export default function Recommend({ product_id }) {
     }
   }, [router.isReady, router.query.pid]);
 
+  const handleCardClick = (id) => {
+    router.push(`/product/${id}`)
+  }
+
   return (
     <>
       <div className={`${styles.recommendTitle} fontDarkBrown web-16px-B`}>其他相似商品</div>
@@ -42,59 +45,20 @@ export default function Recommend({ product_id }) {
 
           return (
             <div key={product.id} className="col-6">
-              <div
-                className={`${styles.recommenCard} card`}
-                
-              >
-              <Link href={`/product/${product.id}`}>
-                <img
-                onMouseEnter={() => setHoveredProductId(product.id)}
-                onMouseLeave={() => setHoveredProductId(null)}
-                  src={
-                    hoveredProductId === product.id && hoverPic
-                      ? `/product-pics/${product.brand_name}/${hoverPic}`
-                      : `/product-pics/${product.brand_name}/${defaultPic}`
-                  }
-                className={`${styles.recommendCardImg} card-img-top`}
-                alt={product.product_name}
-                style={{
-                  cursor: 'pointer',
-                }}
+            <ProductCard
+                brand_name={product.brand_name}
+                product_name={product.product_name}
+                price={product.price}
+                discount_price={product.discount_price}
+                defaultPic={defaultPic}
+                hoverPic={hoverPic}
+                product_id={product.id}
+                handleCardClick={() => handleCardClick(product.id)}
+                cardPic = {styles.recommendCardImg}
+                priceArea = {styles.priceDiv}
+                CardPrice = {styles.recommendCardPrice}
+                discountPrice = {styles.recommendCardDiscountPrice}
               />
-              </Link>
-              <ProductLikeIcon product_id={product.id} className={styles.recommendFavoriteIconSm} />
-              <div className={`${styles.cardBody} card-body`}>
-                <div className={`${styles.cardText} card-text position-relative`}>
-                  <div className={styles.textArea}>
-                    <Link 
-                      href={`/product/${product.id}`}
-                      className={`${styles.productName} card-title`} 
-                      style={{
-                        cursor: 'pointer', textDecoration: 'none'
-                      }}>{product.product_name}</Link>
-                      <h6 className={`${styles.brandName} product-model`}>{product.brand_name}</h6>
-                      <ProductLikeIcon product_id={product.id} className={styles.recommendFavoriteIconLg} />
-                  </div>
-                </div>
-                <hr className="m-0" />
-                <div className={styles.priceDiv}>
-                  <p className={`${styles.recommendCardPrice} card-text`}>
-                    NT {product.price.toLocaleString()}
-                  </p>
-                  {product.discount_price && (
-                    <p className={`${styles.recommendCardDiscountPrice} card-text`}>
-                      NT {product.discount_price.toLocaleString()}
-                    </p>
-                  )}
-                </div>
-                <button
-                  className={`${styles.cartBtnSm} btn`}
-                  onClick={() => router.push(`/product/${product.id}`)}
-                >
-                  前往選購商品
-                </button>
-              </div>
-            </div>
           </div>
         )
       })}

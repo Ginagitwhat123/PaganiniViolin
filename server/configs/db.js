@@ -16,13 +16,16 @@ const sequelize = new Sequelize(
     max: 5, 
     min: 0, 
     idle: 10000, 
-    acquire: 5000, 
+    acquire: 20000, 
     },
     define: {
       freezeTableName: true,
       charset: 'utf8',
       collate: 'utf8_general_ci',
     },
+    retry: {
+    max: 3, // 如果查詢超時自動重試 3 次
+  },
   }
 )
 

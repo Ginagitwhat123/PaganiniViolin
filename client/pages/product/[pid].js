@@ -108,7 +108,7 @@ export default function Detail() {
                 <ProductDetailDown 
                 description={product.description}
                 product_id={product.id} />
-                <Recommend product_id={product.id} />
+                <Recommend/>
               </div>
             </div>
             {/* 在大尺寸時，ProductDetailRight 仍然顯示在右側 */}

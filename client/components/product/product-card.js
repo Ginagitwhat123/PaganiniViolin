@@ -12,6 +12,10 @@ export default function ProductCard({
   hoverPic,
   product_id,
   handleCardClick,
+  cardPic = styles.cardPic,
+  priceArea = styles.priceDiv,
+  CardPrice = styles.price,
+  discountPrice = styles.discountPrice,
 }) {
   const [isHovered, setIsHovered] = useState(false)
 
@@ -37,16 +41,12 @@ export default function ProductCard({
           }}
           alt="商品照片"
           onClick={handleCardClick}
-          className={styles.cardPic}
+          className={cardPic}
         />
 
         <ProductLikeIcon
           product_id={product_id}
           className={styles.FavoriteIconSm}
-        />
-        <ProductLikeIcon
-          product_id={product_id}
-          className={styles.FavoriteIconMd}
         />
         <div className={styles.cardBody}>
           <div className={`${styles.cardText} card-text position-relative`}>
@@ -68,18 +68,18 @@ export default function ProductCard({
           </div>
 
           <hr className="m-1" />
-          <div className={styles.priceDiv}>
+          <div className={priceArea}>
             {discount_price ? (
               <>
-                <p className={`${styles.price} card-text web-16px-md mb-0`}>
+                <p className={`${CardPrice} card-text web-16px-md mb-0`}>
                   NT ${discount_price.toLocaleString()}
                 </p>
-                <p className={`${styles.discountPrice} card-text mb-0`}>
+                <p className={`${discountPrice} card-text mb-0`}>
                   NT ${price.toLocaleString()}
                 </p>
               </>
             ) : (
-              <p className={`${styles.price} card-text web-16px-md mb-0`}>
+              <p className={`${CardPrice} card-text web-16px-md mb-0`}>
                 NT ${price.toLocaleString()}
               </p>
             )}
