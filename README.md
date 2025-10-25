@@ -1,5 +1,6 @@
 🔹線上展示Vercel網址<br>
 https://paganini-violin.vercel.app<br>
+(Vercel、Render、Supabase免費方案皆有休眠機制，初次載入頁面也可能需要一些喚醒時間，敬請見諒。如進入網站當下頁面內容為空白，可以等待1分鐘左右後嘗試重整頁面，謝謝。)<br>
 <br>
 🔹專案簡介<br>
 帕格尼尼小提琴電商網站是使用 Next.js 及 Express 建立的全端電商平台，<br>
