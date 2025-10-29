@@ -45,6 +45,7 @@ export default function List() {
     const fetchProducts = async () => {
       if (initialMinPrice === null || initialMaxPrice === null) return
       setIsLoading(true)
+      setProducts([]);
 
       try {
         // 確保價格參數為數字
@@ -141,44 +142,18 @@ export default function List() {
     setSearchInput('')
   }
 
-  // 排序函數
-  const sortProducts = (productsToSort) => {
-    let sorted = [...productsToSort]
-    if (selectedSortOption === 'priceAsc') {
-      sorted.sort((a, b) => {
-        const priceA = ensureNumber(a.discount_price || a.price)
-        const priceB = ensureNumber(b.discount_price || b.price)
-        return priceA - priceB
-      })
-    } else if (selectedSortOption === 'priceDesc') {
-      sorted.sort((a, b) => {
-        const priceA = ensureNumber(a.discount_price || a.price)
-        const priceB = ensureNumber(b.discount_price || b.price)
-        return priceB - priceA
-      })
-    } else if (selectedSortOption === 'oldest') {
-      // 上架時間較早 (id由小到大)
-      sorted.sort((a, b) => a.id - b.id)
-    } else if (selectedSortOption === 'newest') {
-      // 上架時間較晚 (id由大到小)
-      sorted.sort((a, b) => b.id - a.id)
-    }
-    setProducts(sorted)
-  }
-
+  // 變更頁數
   const handlePageChange = (page) => {
     setCurrentPage(page)
   }
 
-  // 監聽篩選條件的變化，當條件改變時重置頁數
-  useEffect(() => {
+  const setFirstPage = () => {
     setCurrentPage(1)
-  }, [selectedCategory, selectedBrand, searchTerm, selectedSortOption])
+  }
 
+  // 商品排序
   const handleSortChange = (option) => {
     setSelectedSortOption(option)
-    setCurrentPage(1)
-    // 重置頁數
   }
 
   //小尺寸時的篩選視窗開關控制
@@ -244,6 +219,7 @@ export default function List() {
                   setSelectedBrand={setSelectedBrand}
                   selectedCategory={selectedCategory}
                   selectedBrand={selectedBrand}
+                  setFirstPage = {setFirstPage}
                 />
               )}
             </div>

@@ -16,12 +16,23 @@ export default function ProductFilter({
   setSelectedBrand,
   selectedCategory,
   selectedBrand,
+  setFirstPage
 }) {
   const [minValue, setMinValue] = useState(0)
   const [maxValue, setMaxValue] = useState(100)
 
   const [currentMinPrice, setCurrentMinPrice] = useState(minPrice)
   const [currentMaxPrice, setCurrentMaxPrice] = useState(maxPrice)
+
+  const handleBrandChange = (brand) => {
+    setSelectedBrand(brand)
+    setFirstPage() 
+  }
+
+  const handleCategoryChange = (Category) => {
+    setSelectedCategory(Category)
+    setFirstPage() 
+  }
 
   // 確保數值為數字類型的輔助函數
   const ensureNumber = (value) => {
@@ -102,6 +113,7 @@ export default function ProductFilter({
     const finalMinPrice = Math.max(safeInitialMin, newMinPrice)
     const finalMaxPrice = Math.min(safeInitialMax, newMaxPrice)
 
+    setFirstPage() 
     setMinPrice(finalMinPrice)
     setMaxPrice(finalMaxPrice)
     setCurrentMinPrice(finalMinPrice)
@@ -128,7 +140,7 @@ export default function ProductFilter({
     if (type === 'min') {
       const newMinPrice = Math.max(value, safeInitialMin)
       const clampedMinPrice = Math.min(newMinPrice, ensureNumber(currentMaxPrice) - 1)
-      
+      setFirstPage() 
       setCurrentMinPrice(clampedMinPrice)
       setMinPrice(clampedMinPrice)
       
@@ -137,7 +149,7 @@ export default function ProductFilter({
     } else {
       const newMaxPrice = Math.min(value, safeInitialMax)
       const clampedMaxPrice = Math.max(newMaxPrice, ensureNumber(currentMinPrice) + 1)
-      
+      setFirstPage() 
       setCurrentMaxPrice(clampedMaxPrice)
       setMaxPrice(clampedMaxPrice)
       
@@ -158,6 +170,7 @@ export default function ProductFilter({
     setMaxPrice(safeInitialMax)
     setSelectedCategory('')
     setSelectedBrand('')
+    setFirstPage()
   }
 
   // 安全的價格顯示
@@ -186,7 +199,7 @@ export default function ProductFilter({
               className={`${styles.filterBtn} btn ${
                 selectedCategory === categoryName ? styles.active : ''
               }`}
-              onClick={() => setSelectedCategory(categoryName)}
+              onClick={() => handleCategoryChange(categoryName)}
             >
               <div className={styles.filterTextWrapper}>
                 <span>{categoryName}</span>
@@ -278,7 +291,7 @@ export default function ProductFilter({
               className={`${styles.filterBtn} btn ${
                 selectedBrand === brandName ? styles.active : ''
               }`}
-              onClick={() => setSelectedBrand(brandName)}
+              onClick={() => handleBrandChange(brandName)}
             >
               <div className={styles.filterTextWrapper}>
                 <span>{brandName}</span>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { faCircleChevronLeft } from '@fortawesome/free-solid-svg-icons'
@@ -14,43 +14,42 @@ export default function PageSelector({
     const maxDisplayedPages = 5
     const pages = []
     
-    // 將 currentPage 調整為從 0 開始計算，以符合 pagination.js 的邏輯
-    const zeroBasedPage = currentPage - 1
-    
     if (totalPages <= maxDisplayedPages) {
-      // 如果總頁數小於等於最大顯示頁數，顯示所有頁碼
-      for (let i = 0; i < totalPages; i++) {
-        pages.push(i)
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
       }
-    } else {
-      // 根據目前頁數的位置來決定要顯示哪些頁碼
-      if (zeroBasedPage <= 2) {
-        pages.push(0, 1, 2, 3, totalPages - 1)
-      } else if (zeroBasedPage >= totalPages - 3) {
-        pages.push(
-          0,
-          totalPages - 5,
-          totalPages - 4,
-          totalPages - 3,
-          totalPages - 2,
-          totalPages - 1
-        )
-      } else {
-        pages.push(0, zeroBasedPage - 1, zeroBasedPage, zeroBasedPage + 1, totalPages - 1)
+      return pages;
+    }
+
+    pages.push(1);
+    
+    // 根據目前頁數的位置來決定要顯示哪些頁碼
+    if (currentPage <= 3) {
+      for (let i = 2; i <= 4; i++) {
+        pages.push(i);
       }
+    } 
+    else if (currentPage >= totalPages - 2) {
+      for (let i = totalPages - 3; i <= totalPages - 1; i++) {
+        pages.push(i);
+      }
+    } 
+    else {
+      pages.push(currentPage - 1, currentPage, currentPage + 1);
     }
     
-    return [...new Set(pages)]
+    pages.push(totalPages); 
+
+    return [...new Set(pages)].sort((a, b) => a - b);
   }
 
-  // 切換到上一頁
+  // 切換到上一頁與下一頁
   const handlePrevious = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1)
     }
   }
 
-  // 切換到下一頁
   const handleNext = () => {
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1)
@@ -76,19 +75,19 @@ export default function PageSelector({
       </button>
 
       <div className={styles.pageNumbers}>
-        {pageNumbers.map((index, i) => (
-          <React.Fragment key={index}>
+        {pageNumbers.map((pageNumber, i) => (
+          <React.Fragment key={pageNumber}>
             {/* 如果頁碼不連續，顯示省略符號 */}
-            {i > 0 && pageNumbers[i] !== pageNumbers[i - 1] + 1 && (
+            {i > 0 && pageNumber !== pageNumbers[i - 1] + 1 && (
               <span className={styles.dots}>...</span>
             )}
             <button
               className={`${styles.pageButton} ${
-                currentPage === index + 1 ? styles.active : ''
+                currentPage === pageNumber  ? styles.active : ''
               }`}
-              onClick={() => onPageChange(index + 1)}
+              onClick={() => onPageChange(pageNumber)}
             >
-              {index + 1}
+              {pageNumber}
             </button>
           </React.Fragment>
         ))}

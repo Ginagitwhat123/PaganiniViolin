@@ -118,7 +118,7 @@ const DefaultFooter = () => (
       <hr />
       <div className="d-flex justify-content-between py-5">
         <p className="footerFont">
-          © 2024 帕格尼尼
+          © 帕格尼尼
           本網站為資展國際(資策會)_前端工程師57期第二組成果作品，僅供學習、展示
         </p>
       </div>
@@ -258,7 +258,7 @@ const PhoneFooter = () => (
     <hr />
     <div className="text-center py-3">
       <p className="footerFont px-3"  style={{ fontSize: '13px' }}>
-        © 2024 帕格尼尼 本網站為資展國際(資策會)_前端工程師57期第二組成果作品，僅供學習、展示
+        © 帕格尼尼 本網站為資展國際(資策會)_前端工程師57期第二組成果作品，僅供學習、展示
       </p>
     </div>
   </div>
