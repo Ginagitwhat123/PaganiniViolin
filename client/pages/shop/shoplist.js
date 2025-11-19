@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import styles from './shopList.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPhoneAlt,faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import { faPhone, faMapLocation } from '@fortawesome/free-solid-svg-icons'
+import { faPhoneAlt, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 
 function Tabs() {
   const [activeTab, setActiveTab] = useState('tab1')
   const [data, setData] = useState([])
   const [shopIdToScroll, setShopIdToScroll] = useState(null) // 新增狀態以存儲目標 shopId
-  const MAP_API_KEY = 'AIzaSyCEPlNiDsLe6hrZDYiL304WXoAk6ut9vY8' //  Map API 金鑰
 
   // 初始化時根據 URL 的 hash 設定 tab 和 shopId
   useEffect(() => {
@@ -26,7 +24,9 @@ function Tabs() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/shop`)
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/shop`
+        )
         const result = await response.json()
         if (result.status === 'success') {
           setData(result.data.shop)
@@ -72,12 +72,12 @@ function Tabs() {
               {/* 地圖 */}
               <div className="col-md-6">
                 <iframe
-                  src={`https://www.google.com/maps/embed/v1/place?key=${MAP_API_KEY}&q=${encodeURIComponent(
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(
                     item.shop_address
-                  )}`}
+                  )}&t=&z=16&ie=UTF8&iwloc=&output=embed`}
                   className="w-100 rounded shadow-sm"
                   height={400}
-                  style={{ border: "2px solid #A68E6F" }}
+                  style={{ border: '2px solid #A68E6F' }}
                   allowFullScreen
                   loading="lazy"
                   title={`${item.shop_name} 地圖`}
@@ -86,13 +86,20 @@ function Tabs() {
               {/* 商店資訊 */}
               <div className="col-md-6 d-flex flex-column justify-content-center">
                 <h5 className="text-primary fw-bold">{item.shop_name}</h5>
-                <div className="d-flex align-items-center my-2">                            <FontAwesomeIcon icon={faMapMarkerAlt} className="text-danger me-2" />
-
+                <div className="d-flex align-items-center my-2">
+                  {' '}
+                  <FontAwesomeIcon
+                    icon={faMapMarkerAlt}
+                    className="text-danger me-2"
+                  />
                   <span className="text-secondary">{item.shop_address}</span>
                 </div>
                 <div className="d-flex align-items-center my-2">
-                <FontAwesomeIcon icon={faPhoneAlt} className="text-success me-2" />
-                <span className="text-dark">{item.shop_phone}</span>
+                  <FontAwesomeIcon
+                    icon={faPhoneAlt}
+                    className="text-success me-2"
+                  />
+                  <span className="text-dark">{item.shop_phone}</span>
                 </div>
                 <hr />
                 <div>
@@ -106,8 +113,6 @@ function Tabs() {
             </div>
           ))}
         </div>
-
-        
       </>
     )
   }
