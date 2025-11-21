@@ -25,7 +25,7 @@ export default function Detail() {
     pictures: '',
   })
   const [notFound, setNotFound] = useState(false)
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false)
 
   const getProduct = async (id) => {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/api/products/${id}`
@@ -48,10 +48,11 @@ export default function Detail() {
 
   // 設定前往頁面
   useEffect(() => {
-    if (router.isReady && router.query.pid) {
-      getProduct(router.query.pid)
-    }
-  }, [router.isReady, router.query.pid])
+    if (!router.isReady) return
+    if (!pid) return
+
+    getProduct(pid)
+  }, [router.isReady, pid])
 
   // 設定麵包屑名稱
   useEffect(() => {
@@ -60,22 +61,18 @@ export default function Detail() {
     }
   }, [product.product_name])
 
-
-
-
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 767); // 偵測螢幕寬度
-    };
+      setIsMobile(window.innerWidth <= 767) // 偵測螢幕寬度
+    }
 
-    handleResize(); // 初始化
-    window.addEventListener('resize', handleResize);
+    handleResize() // 初始化
+    window.addEventListener('resize', handleResize)
 
     return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   return (
     <>
@@ -105,10 +102,11 @@ export default function Detail() {
                   />
                 )}
 
-                <ProductDetailDown 
-                description={product.description}
-                product_id={product.id} />
-                <Recommend/>
+                <ProductDetailDown
+                  description={product.description}
+                  product_id={product.id}
+                />
+                <Recommend />
               </div>
             </div>
             {/* 在大尺寸時，ProductDetailRight 仍然顯示在右側 */}
