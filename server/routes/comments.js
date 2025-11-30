@@ -327,13 +327,12 @@ router.get('/product/:product_id', async (req, res) => {
         type: sequelize.QueryTypes.SELECT,
       }
     )
-
     // 計算平均評分和評論總數
     const [summary] = await sequelize.query(
       `
       SELECT 
-        AVG(mc.rating) AS averageRating, 
-        COUNT(mc.id) AS totalReviews
+        AVG(mc.rating) AS "averageRating", 
+        COUNT(mc.id) AS "totalReviews"
       FROM member_comment mc
       WHERE mc.product_id = :product_id
       `,
